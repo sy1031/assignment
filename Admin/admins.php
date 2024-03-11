@@ -9,50 +9,53 @@
         </div>
         <div class="card-body">
             <?php alertMessage(); ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+            <?php
+            $staff = getAll('staff');
+            if(!$staff){
+                echo '<h4>Something Went Wrong!</h4>';
+                return false;
+            }
+            if (mysqli_num_rows($staff) > 0) {
 
-                    <tbody>
-                        <?php
-                        $staff = getAll('staff');
-                        if(mysqli_num_rows($staff)>0){
 
-                        
-                        ?>
-                        <?php foreach($staff as $staffItem) : ?>
-                        <tr>
-                            <td><?= $staffItem['id'] ?></td>
-                            <td><?= $staffItem['name'] ?></td>
-                            <td><?= $staffItem['email'] ?></td>
-                            <td>
-                                <a href="staff_edit.php" class="btn btn-danger btn-sm">Edit</a>
-                                <a href="staff_delete.php" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php
-                        }
-                        else{
-                            ?>
+            ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
                             <tr>
-                                <td colspan="4"> No Record found</td>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Action</th>
                             </tr>
-                            <?php
-                        } 
+                        </thead>
+
+                        <tbody>
+
+                            <?php foreach ($staff as $staffItem) : ?>
+                                <tr>
+                                    <td><?= $staffItem['id'] ?></td>
+                                    <td><?= $staffItem['name'] ?></td>
+                                    <td><?= $staffItem['email'] ?></td>
+                                    <td>
+                                        <a href="staff_edit.php" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="staff_delete.php" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php
+                    } else {
                         ?>
-                    </tbody>
-                </table>
-            </div>
+                            <h4 class="mb-0"> No Record found</td>
+                                </tr>
+                            <?php
+                        }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
         </div>
-    
+
     </div>
 </div>
 <?php include('Includes/footer.php'); ?>
