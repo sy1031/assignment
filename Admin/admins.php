@@ -38,8 +38,8 @@
                                     <td><?= $staffItem['name'] ?></td>
                                     <td><?= $staffItem['email'] ?></td>
                                     <td>
-                                        <a href="staff_edit.php" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="staff_delete.php" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="staff_edit.php?id=<?= $staffItem['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="staff_delete.php?id=<?= $staffItem['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

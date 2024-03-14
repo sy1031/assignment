@@ -34,3 +34,42 @@ if (isset($_POST['saveAdmin'])) {
         redirect('admins_create.php', 'Please fill required fields.');
     }
 }
+
+if (isset($_POST['updateStaff'])) {
+
+    $staffId = validate(($_POST['staffId']));
+
+    $staffData = getById('staff', $staffId);
+    if ($staffData['status'] != 200) {
+        redirect('staff_edit.php?id=' . $staffId, 'Please fill required fields.');
+    }
+
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $password = validate($_POST['password']);
+    $phone = validate($_POST['phone']);
+
+    if ($password != '') {
+        $hasedPassword = password_hash($password, PASSWORD_BCRYPT);
+    } else {
+        $hashedPassword = $staffData['data']['password'];
+    }
+
+    if ($name != '' && $email != '') {
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $hashedPassword,
+            'phone' => $phone
+        ];
+        $result = update('staff', $staffId, $data);
+        if ($result) {
+            redirect('staff_edit.php?id=' .$staffId, 'Staff Updated Successfully!');
+        } else {
+            redirect('admins_edit.php?id=' .$staffId, 'Something Went Wrong');
+        }
+    } else {
+        redirect('admins_create.php', 'Please fill required fields.');
+    }
+}
+?>
