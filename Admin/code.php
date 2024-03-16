@@ -28,7 +28,7 @@ if (isset($_POST['saveAdmin'])) {
         if ($result) {
             redirect('admins.php', 'Staff Created Successfully!');
         } else {
-            redirect('admins_create.php', 'Something Went Wrong');
+            redirect('admins_create.php', 'Something Went Wrong!');
         }
     } else {
         redirect('admins_create.php', 'Please fill required fields.');
@@ -66,7 +66,7 @@ if (isset($_POST['updateStaff'])) {
         if ($result) {
             redirect('staff_edit.php?id=' .$staffId, 'Staff Updated Successfully!');
         } else {
-            redirect('admins_edit.php?id=' .$staffId, 'Something Went Wrong');
+            redirect('admins_edit.php?id=' .$staffId, 'Something Went Wrong!');
         }
     } else {
         redirect('admins_create.php', 'Please fill required fields.');
@@ -89,7 +89,7 @@ if(isset($_POST['saveCategory']))
     if ($result) {
         redirect('categories.php', 'Category Created Successfully!');
     } else {
-        redirect('categories_create.php', 'Something Went Wrong');
+        redirect('categories_create.php', 'Something Went Wrong!');
     }
 }
 
@@ -109,7 +109,52 @@ if(isset($_POST['updateCategory']))
     if ($result) {
         redirect('categories_edit.php?id='.$categoryId, 'Category Updated Successfully!');
     } else {
-        redirect('categories_edit.php?id='.$categoryId, 'Something Went Wrong');
+        redirect('categories_edit.php?id='.$categoryId, 'Something Went Wrong!');
     }
 }
+
+if(isset($POST['saveProduct']))
+{
+    $category_id = validate($_POST['category_id']);
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+    $price = validate($_POST['price']);
+    $quantity = validate($_POST['quantity']);
+    $status = isset($_POST['status']) == true ? 1:0;
+
+    if($_FILES['image']['size'] > 0)
+    {
+        $path = "../assets/uploads/products";
+        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+        $filename = time().'.'.$image_ext;
+
+        move_uploaded_file($_FILES['image']['tmp_name'], $path."/".$filename);
+
+        $finalImage = "assets/uploads/products/".$filename;
+
+    } else {
+
+        $finalImage = '';
+
+    }
+
+    $data = [
+        'category_id' => $category_id,
+        'name' => $name,
+        'description' => $description,
+        'price' => $price,
+        'quantity' => $quantity,
+        'image' => $finalImage,
+        'status' => $status
+    ];
+    $result = insert('products', $data);
+
+    if ($result) {
+        redirect('products.php', 'Product Created Successfully!');
+    } else {
+        redirect('products_create.php', 'Something Went Wrong!');
+    }
+}
+
 ?>
