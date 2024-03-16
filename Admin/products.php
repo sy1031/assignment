@@ -51,24 +51,30 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="products_edit.php?id=<?= $staffItem['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="products_delete.php?id=<?= $staffItem['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="products_edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                        <a 
+                                            href="products_delete.php?id=<?= $item['id']; ?>" 
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this image?')"
+                                        >
+                                            Delete
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        <?php
-                    } else {
-                        ?>
-                            <h4 class="mb-0"> No Record found</td>
-                                </tr>
-                            <?php
-                        }
-                            ?>
-                        </tbody>
+                        <tbody>
                     </table>
                 </div>
+                <?php
+                } else {
+                    ?>
+                        <h4 class="mb-0"> No Record found</h4>
+                                
+                    <?php
+                }
+                ?>     
         </div>
-
     </div>
 </div>
+
 <?php include('Includes/footer.php'); ?>

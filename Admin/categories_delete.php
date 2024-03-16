@@ -15,7 +15,7 @@ if(is_numeric($paraResultId)){
         if($response){
             redirect('categories.php', 'Category Deleted Successfully.');
         }else{
-            redirect('categories.php', 'Something Went Wrong');
+            redirect('categories.php', 'Something Went Wrong!');
         }
     }
     else{
@@ -23,7 +23,7 @@ if(is_numeric($paraResultId)){
     } 
 }
 else{
-    redirect('categories.php', 'Something Went Wrong.');
+    redirect('categories.php', 'Something Went Wrong!');
 }
 
 ?>

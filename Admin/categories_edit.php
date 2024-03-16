@@ -11,12 +11,12 @@
 
             <?php alertMessage(); ?>
 
-            <form action="code.php" method="POST">
+            <form action="code.php" method="POST"  enctype="multipart/form-data">
 
             <?php
             $parmValue = checkParamId('id');
             if(!is_numeric($parmValue)){
-                echo '<h5'.$parmValue.'<h5>';
+                echo '<h5>'.$parmValue.'<h5>';
                 return false;
 
             }
