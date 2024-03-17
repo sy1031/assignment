@@ -1,0 +1,96 @@
+<?php
+include 'database.php';
+include 'auth.php';
+
+if(isset($_POST['add_to_cart'])){
+    $product_id = $_POST['product_id'];
+    $product_price = $_POST['product_price'];
+
+    $customer_id = $_SESSION['customer_id'];
+
+    // Check if the product already exists
+    $existing_item_query = mysqli_query($conn, "SELECT * FROM order_item WHERE customer_ID = '$customer_id' AND product_ID = '$product_id'");
+    if(mysqli_num_rows($existing_item_query) > 0) {
+        // Product already exists, update the quantity
+        $existing_item_row = mysqli_fetch_assoc($existing_item_query);
+        $existing_quantity = $existing_item_row['quantity'];
+        $new_quantity = $existing_quantity + 1;
+
+        $update_query = mysqli_query($conn, "UPDATE order_item SET quantity = '$new_quantity' WHERE customer_ID = '$customer_id' AND product_ID = '$product_id'");
+
+        if($update_query) {
+            $display_message = "Quantity updated successfully.";
+        } else {
+            $display_message = "Error updating quantity: " . mysqli_error($conn);
+        }
+    } else {
+        // Product does not exist, add a new entry
+        $insert_query = mysqli_query($conn, "INSERT INTO order_item (customer_ID, product_ID, quantity, price) VALUES ('$customer_id', '$product_id', 1, '$product_price')");
+
+        if($insert_query) {
+            $display_message = "Product added to cart successfully.";
+        } else {
+            $display_message = "Error adding product to cart: " . mysqli_error($conn);
+        }
+    }
+}
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Products=Project</title>
+
+    <!-- CSS file -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- font awesome link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <!-- include header -->
+    <?php include 'header.php'?>
+
+    <div class="container">
+        <?php
+        if(isset($display_message)){
+            echo "<div class='display_message'>
+            <span>$display_message</span>
+            <i class='fas fa-times' onClick='this.parentElement.style.display=`none`';></i>
+            </div>";
+        }
+        ?>
+            <section class="products">
+            <h1 class="heading">Lets Shop</h1>
+            <div class="product_container">
+                <?php
+                $select_products=mysqli_query($conn, "Select * from `product`");
+                if(mysqli_num_rows($select_products) > 0){
+                    while ($fetch_product=mysqli_fetch_assoc($select_products)){
+                    ?>
+                        <form method="post" action="shop_products.php">
+                        <div class="edit_form">
+                            <img src="images/<?php echo $fetch_product['productImage'] ?> " alt="" style="width: 200px; height: auto;">
+                            <h3><?php echo $fetch_product['productName'] ?></h3>
+                            <div class="price">Price: <?php echo $fetch_product['productPrice'] ?></div>
+                            <input type="hidden" name="product_id" value="<?php echo $fetch_product['product_ID'] ?>"> 
+                            <input type="hidden" name="product_price" value="<?php echo $fetch_product['productPrice'] ?>"> 
+                            <input type="hidden" name="product_image" value="images/<?php echo $fetch_product['productImage'] ?> "> 
+                            <input type="submit" class="submit_btn cart_btn" value="Add to Cart" name="add_to_cart">
+                        </div>
+                        </form>
+                <?php
+                    }
+                } else {
+                    echo "No Products Available";
+                }
+                ?>
+            </div>
+        </section> 
+    </div>
+</body>
+</html>
