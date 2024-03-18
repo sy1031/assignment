@@ -64,12 +64,145 @@ if (isset($_POST['updateStaff'])) {
         ];
         $result = update('staff', $staffId, $data);
         if ($result) {
-            redirect('staff_edit.php?id=' .$staffId, 'Staff Updated Successfully!');
+            redirect('staff_edit.php?id=' . $staffId, 'Staff Updated Successfully!');
         } else {
-            redirect('staff_edit.php?id=' .$staffId, 'Something Went Wrong');
+            redirect('staff_edit.php?id=' . $staffId, 'Something Went Wrong');
         }
     } else {
         redirect('staff_create.php', 'Please fill required fields.');
     }
 }
-?>
+
+
+if (isset($_POST['saveCategory'])) {
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1 : 0;
+
+    $data = [
+        'name' => $name,
+        'description' => $description,
+        'status' => $status
+    ];
+    $result = insert('categories', $data);
+    if ($result) {
+        redirect('categories.php', 'Category Created Successfully!');
+    } else {
+        redirect('categories_create.php', 'Something Went Wrong!');
+    }
+}
+
+if (isset($_POST['updateCategory'])) {
+    $categoryId = validate($_POST['categoryId']);
+
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+    $status = isset($_POST['status']) == true ? 1 : 0;
+    $data = [
+        'name' => $name,
+        'description' => $description,
+        'status' => $status
+    ];
+    $result = update('categories', $categoryId, $data);
+    if ($result) {
+        redirect('categories_edit.php?id=' . $categoryId, 'Category Updated Successfully!');
+    } else {
+        redirect('categories_edit.php?id=' . $categoryId, 'Something Went Wrong!');
+    }
+}
+
+if (isset($POST['saveProduct'])) {
+    $category_id = validate($_POST['category_id']);
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+    $price = validate($_POST['price']);
+    $quantity = validate($_POST['quantity']);
+    $status = isset($_POST['status']) == true ? 1 : 0;
+
+    if ($_FILES['image']['size'] > 0) {
+        $path = "../assets/uploads/products";
+        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+        $filename = time() . '.' . $image_ext;
+
+        move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
+
+        $finalImage = "assets/uploads/products/" . $filename;
+    } else {
+
+        $finalImage = '';
+    }
+
+    $data = [
+        'category_id' => $category_id,
+        'name' => $name,
+        'description' => $description,
+        'price' => $price,
+        'quantity' => $quantity,
+        'image' => $finalImage,
+        'status' => $status
+    ];
+    $result = insert('products', $data);
+
+    if ($result) {
+        redirect('products.php', 'Product Created Successfully!');
+    } else {
+        redirect('products_create.php', 'Something Went Wrong!');
+    }
+}
+
+if (isset($_POST['updateProduct'])) {
+    $product_id = validate($_POST['product_id']);
+
+    $productData = getById('products', $product_id);
+    if (!$productData) {
+        redirect('products.php', 'No such product found.');
+    }
+
+    $category_id = validate($_POST['category_id']);
+    $name = validate($_POST['name']);
+    $description = validate($_POST['description']);
+
+    $price = validate($_POST['price']);
+    $quantity = validate($_POST['quantity']);
+    $status = isset($_POST['status']) == true ? 1 : 0;
+
+    if ($_FILES['image']['size'] > 0) {
+        $path = "../assets/uploads/products";
+        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+        $filename = time() . '.' . $image_ext;
+
+        move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
+
+        $finalImage = "assets/uploads/products/" . $filename;
+        $deleteImage = "../" . $productData['data']['image'];
+        if (file_exists($deleteImage)) {
+            unlink($deleteImage);
+        }
+    } else {
+
+        $finalImage = $productData['data']['image'];
+    }
+
+    $data = [
+        'category_id' => $category_id,
+        'name' => $name,
+        'description' => $description,
+        'price' => $price,
+        'quantity' => $quantity,
+        'image' => $finalImage,
+        'status' => $status
+    ];
+
+    $result = insert('products', $product_id, $data);
+
+    if ($result) {
+        redirect('products_edit.php?id=' . $product_id, 'Product Updated Successfully!');
+    } else {
+        redirect('products_edit.php?id=' . $product_id, 'Something Went Wrong!');
+    }
+}
+
+if (isset($_POST['saveCustomer'])) {
+}
