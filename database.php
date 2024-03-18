@@ -1,6 +1,6 @@
 <?php
 
-    $conn = mysqli_connect('localhost','root','','cart');
+    $conn = mysqli_connect('localhost','root','','assignment');
 
     //check error - numerical value
     if (mysqli_connect_errno()) {
