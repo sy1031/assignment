@@ -3,20 +3,21 @@
 <div class="container-fluid px-4">
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Categories
-                <a href="categories_create.php" class="btn btn-primary float-end">Add Category</a>
+            <h4 class="mb-0">Customers
+                <a href="customers_create.php" class="btn btn-primary float-end">Add Customer</a>
             </h4>
         </div>
         <div class="card-body">
+
             <?php alertMessage(); ?>
 
             <?php
-            $staff = getAll('categories');
-            if(!$categories){
+            $customers = getAll('customers');
+            if(!$customers){
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;
             }
-            if (mysqli_num_rows($categories) > 0) {
+            if (mysqli_num_rows($customers) > 0) {
 
 
             ?>
@@ -33,11 +34,12 @@
 
                         <tbody>
 
-                            <?php foreach ($categories as $item) : ?>
+                            <?php foreach ($customers as $item) : ?>
                                 <tr>
                                     <td><?= $item['id'] ?></td>
                                     <td><?= $item['name'] ?></td>
                                     <td><?= $item['email'] ?></td>
+                                    <td><?= $item['phone'] ?></td>
                                     <td>
                                         <?php
                                             if($item['status'] == 1){
@@ -48,8 +50,8 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="categories_edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="categories_delete.php?id=<?= $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="customers_edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="customers_delete.php?id=<?= $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

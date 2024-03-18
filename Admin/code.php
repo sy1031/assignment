@@ -213,4 +213,9 @@ if(isset($_POST['updateProduct']))
         redirect('products_edit.php?id='.$product_id, 'Something Went Wrong!');
     }
 }
+
+if(isset($_POST['saveCustomer']))
+{
+    
+}
 ?>
