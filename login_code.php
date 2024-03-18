@@ -18,7 +18,7 @@ if (isset($_POST['loginBtn'])) {
                 if (!password_verify($password, $hashedPassword)) {
                     $_SESSION['loggedIn'] = true;
                     $_SESSION['loggedInUser'] = [
-                        'user_id' => $row['id'],
+                        'user_id' => $row['user_ID'],
                         'name' => $row['name'],
                         'email' => $row['email'],
                         'phone' => $row['phone'],
@@ -31,7 +31,7 @@ if (isset($_POST['loginBtn'])) {
                             redirect('admin/homepage.php', 'Logged In Successfully');
                             break;
                         case 'customer':
-                            redirect('homepage.php', 'Logged In Successfully');
+                            redirect('shop_products.php', 'Logged In Successfully');
                             break;
                         case 'staff':
                             redirect('staff/homepage.php', 'Logged In Successfully');

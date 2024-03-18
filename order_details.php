@@ -1,6 +1,5 @@
 <?php
-include 'database.php';
-include 'auth.php';
+include 'config/function.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +18,9 @@ include 'auth.php';
     <!-- include header -->
     <?php include 'header.php'?>
     
-    <h1>Order Details</h1>
+    <div class="container">
+        <h1 class="heading">Order Details</h1>
+    </div>
+    
 </body>
 </html>

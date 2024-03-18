@@ -1,11 +1,10 @@
 <?php
-include 'database.php';
-include 'auth.php';
+include 'config/function.php';
 
-$customer_id = $_SESSION['customer_id'];
+$user_id = $_SESSION['loggedInUser']['user_id'];
 
 // Fetch order details
-$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FROM `order` WHERE user_ID = $customer_id");
+$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FROM `order` WHERE user_ID = $user_id");
 $num = 1;
 ?>
 
@@ -26,38 +25,39 @@ $num = 1;
     <!-- include header -->
     <?php include 'header.php'?>
 
-    <h1>Order</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Order ID</th>
-                <th>Total Amount</th>
-                <th>Order Date</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-        while ($order_row = mysqli_fetch_assoc($order_query)) {
-            ?>
-            <tr>
-                <td><?php echo $num++; ?></td>
-                <td><?php echo $order_row['order_ID']; ?></td>
-                <td>RM<?php echo $order_row['total_amount']; ?></td>
-                <td><?php echo $order_row['order_date']; ?></td>
-                <td>
-                    <form action="order_details.php" method="get">
-                        <input type="hidden" name="order_id" value="<?php echo $order_row['order_ID']; ?>">
-                        <button type="submit">Details</button>
-                    </form>
-                </td>
-            </tr>
+    <div class="container">
+        <h1 class="heading">Orders Tracking</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Order ID</th>
+                    <th>Total Amount</th>
+                    <th>Order Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             <?php
-        }
-            ?>
-    </table>
+            while ($order_row = mysqli_fetch_assoc($order_query)) {
+                ?>
+                <tr>
+                    <td><?php echo $num++; ?></td>
+                    <td><?php echo $order_row['order_ID']; ?></td>
+                    <td>RM<?php echo $order_row['total_amount']; ?></td>
+                    <td><?php echo $order_row['order_date']; ?></td>
+                    <td>
+                        <form action="order_details.php" method="get">
+                            <input type="hidden" name="order_id" value="<?php echo $order_row['order_ID']; ?>">
+                            <button class="detail_btn" type="submit">Details</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php
+            }
+                ?>
+        </table>
+    </div>
 </tbody>
 </body>
 </html>
