@@ -28,7 +28,7 @@
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
 
-                <div class="sb-sidenav-menu-heading">Manage Users</div>
+                
 
 
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmins" aria-expanded="false" aria-controls="collapseAdmins">
@@ -39,8 +39,8 @@
                 </a>
                 <div class="collapse" id="collapseAdmins" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="staff_create.php">Add Staff</a>
-                        <a class="nav-link" href="staff.php">View Staff</a>
+                        <a class="nav-link" href="">Product List</a>
+                        <a class="nav-link" href="">Customer List</a>
                     </nav>
                 </div>
 

@@ -31,10 +31,10 @@ if (isset($_POST['loginBtn'])) {
                             redirect('admin/homepage.php', 'Logged In Successfully');
                             break;
                         case 'customer':
-                            redirect('Customer/index.php', 'Logged In Successfully');
+                            redirect('customer/homepage.php', 'Logged In Successfully');
                             break;
                         case 'staff':
-                            redirect('Staff/index.php', 'Logged In Successfully');
+                            redirect('staff/homepage.php', 'Logged In Successfully');
                             break;
                         default:
                             // Handle other roles or redirect to a default page
