@@ -4,7 +4,7 @@
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Add Staff
-                <a href="admins.php" class="btn btn-primary float-end">Back</a>
+                <a href="staff.php" class="btn btn-primary float-end">Back</a>
             </h4>
         </div>
         <div class="card-body">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="col-md-12 mb-3 text-end">
-                    <button type="submit" name="saveAdmin" class="btn btn-primary">Save</button>
+                    <button type="submit" name="saveStaff" class="btn btn-primary">Save</button>
                 </div>
             </div>
 

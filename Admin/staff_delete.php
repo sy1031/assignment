@@ -12,17 +12,17 @@ if(is_numeric($paraResultId)){
     {
         $staffDeleteRes = delete('staff', $staffId);
         if($staffDeleteRes){
-            redirect('admins.php', 'Admin Deleted Successfully.');
+            redirect('staff.php', 'Staff Deleted Successfully.');
         }else{
-            redirect('admins.php', 'Something Went Wrong');
+            redirect('staff.php', 'Something Went Wrong');
         }
     }
     else{
-        redirect('admins.php', $staff['message']);
+        redirect('staff.php', $staff['message']);
     } 
 }
 else{
-    redirect('admins.php', 'Something Went Wrong.');
+    redirect('staff.php', 'Something Went Wrong.');
 }
 
 ?>

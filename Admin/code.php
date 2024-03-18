@@ -2,7 +2,7 @@
 
 include('../config/function.php');
 
-if (isset($_POST['saveAdmin'])) {
+if (isset($_POST['saveStaff'])) {
     $name = validate($_POST['name']);
     $email = validate($_POST['email']);
     $password = validate($_POST['password']);
@@ -12,7 +12,7 @@ if (isset($_POST['saveAdmin'])) {
         $emailCheck = mysqli_query($conn, "SELECT * FROM staff WHERE email='$email'");
         if ($emailCheck) {
             if (mysqli_num_rows($emailCheck) > 0) {
-                redirect('admins_create.php', 'Email Already used by another user.');
+                redirect('staff_create.php', 'Email Already used by another user.');
             }
         }
 
@@ -26,12 +26,12 @@ if (isset($_POST['saveAdmin'])) {
         ];
         $result = insert('staff', $data);
         if ($result) {
-            redirect('admins.php', 'Staff Created Successfully!');
+            redirect('staff.php', 'Staff Created Successfully!');
         } else {
-            redirect('admins_create.php', 'Something Went Wrong!');
+            redirect('staff_create.php', 'Something Went Wrong');
         }
     } else {
-        redirect('admins_create.php', 'Please fill required fields.');
+        redirect('staff_create.php', 'Please fill required fields.');
     }
 }
 
@@ -64,21 +64,20 @@ if (isset($_POST['updateStaff'])) {
         ];
         $result = update('staff', $staffId, $data);
         if ($result) {
-            redirect('staff_edit.php?id=' .$staffId, 'Staff Updated Successfully!');
+            redirect('staff_edit.php?id=' . $staffId, 'Staff Updated Successfully!');
         } else {
-            redirect('admins_edit.php?id=' .$staffId, 'Something Went Wrong!');
+            redirect('staff_edit.php?id=' . $staffId, 'Something Went Wrong');
         }
     } else {
-        redirect('admins_create.php', 'Please fill required fields.');
+        redirect('staff_create.php', 'Please fill required fields.');
     }
 }
 
 
-if(isset($_POST['saveCategory']))
-{
+if (isset($_POST['saveCategory'])) {
     $name = validate($_POST['name']);
     $description = validate($_POST['description']);
-    $status = isset($_POST['status']) == true ? 1:0;
+    $status = isset($_POST['status']) == true ? 1 : 0;
 
     $data = [
         'name' => $name,
@@ -93,13 +92,12 @@ if(isset($_POST['saveCategory']))
     }
 }
 
-if(isset($_POST['updateCategory']))
-{
+if (isset($_POST['updateCategory'])) {
     $categoryId = validate($_POST['categoryId']);
 
     $name = validate($_POST['name']);
     $description = validate($_POST['description']);
-    $status = isset($_POST['status']) == true ? 1:0;
+    $status = isset($_POST['status']) == true ? 1 : 0;
     $data = [
         'name' => $name,
         'description' => $description,
@@ -107,36 +105,32 @@ if(isset($_POST['updateCategory']))
     ];
     $result = update('categories', $categoryId, $data);
     if ($result) {
-        redirect('categories_edit.php?id='.$categoryId, 'Category Updated Successfully!');
+        redirect('categories_edit.php?id=' . $categoryId, 'Category Updated Successfully!');
     } else {
-        redirect('categories_edit.php?id='.$categoryId, 'Something Went Wrong!');
+        redirect('categories_edit.php?id=' . $categoryId, 'Something Went Wrong!');
     }
 }
 
-if(isset($POST['saveProduct']))
-{
+if (isset($POST['saveProduct'])) {
     $category_id = validate($_POST['category_id']);
     $name = validate($_POST['name']);
     $description = validate($_POST['description']);
     $price = validate($_POST['price']);
     $quantity = validate($_POST['quantity']);
-    $status = isset($_POST['status']) == true ? 1:0;
+    $status = isset($_POST['status']) == true ? 1 : 0;
 
-    if($_FILES['image']['size'] > 0)
-    {
+    if ($_FILES['image']['size'] > 0) {
         $path = "../assets/uploads/products";
         $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 
-        $filename = time().'.'.$image_ext;
+        $filename = time() . '.' . $image_ext;
 
-        move_uploaded_file($_FILES['image']['tmp_name'], $path."/".$filename);
+        move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
 
-        $finalImage = "assets/uploads/products/".$filename;
-
+        $finalImage = "assets/uploads/products/" . $filename;
     } else {
 
         $finalImage = '';
-
     }
 
     $data = [
@@ -157,12 +151,11 @@ if(isset($POST['saveProduct']))
     }
 }
 
-if(isset($_POST['updateProduct']))
-{
+if (isset($_POST['updateProduct'])) {
     $product_id = validate($_POST['product_id']);
 
     $productData = getById('products', $product_id);
-    if(!$productData){
+    if (!$productData) {
         redirect('products.php', 'No such product found.');
     }
 
@@ -172,27 +165,24 @@ if(isset($_POST['updateProduct']))
 
     $price = validate($_POST['price']);
     $quantity = validate($_POST['quantity']);
-    $status = isset($_POST['status']) == true ? 1:0;
+    $status = isset($_POST['status']) == true ? 1 : 0;
 
-    if($_FILES['image']['size'] > 0)
-    {
+    if ($_FILES['image']['size'] > 0) {
         $path = "../assets/uploads/products";
         $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 
-        $filename = time().'.'.$image_ext;
+        $filename = time() . '.' . $image_ext;
 
-        move_uploaded_file($_FILES['image']['tmp_name'], $path."/".$filename);
+        move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
 
-        $finalImage = "assets/uploads/products/".$filename;
-        $deleteImage = "../".$productData['data']['image'];
-        if(file_exists($deleteImage)){
+        $finalImage = "assets/uploads/products/" . $filename;
+        $deleteImage = "../" . $productData['data']['image'];
+        if (file_exists($deleteImage)) {
             unlink($deleteImage);
         }
-
     } else {
 
         $finalImage = $productData['data']['image'];
-
     }
 
     $data = [
@@ -208,14 +198,11 @@ if(isset($_POST['updateProduct']))
     $result = insert('products', $product_id, $data);
 
     if ($result) {
-        redirect('products_edit.php?id='.$product_id, 'Product Updated Successfully!');
+        redirect('products_edit.php?id=' . $product_id, 'Product Updated Successfully!');
     } else {
-        redirect('products_edit.php?id='.$product_id, 'Something Went Wrong!');
+        redirect('products_edit.php?id=' . $product_id, 'Something Went Wrong!');
     }
 }
 
-if(isset($_POST['saveCustomer']))
-{
-    
+if (isset($_POST['saveCustomer'])) {
 }
-?>
