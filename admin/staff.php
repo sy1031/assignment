@@ -4,7 +4,7 @@
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Staff List
-                <a href="admins_create.php" class="btn btn-primary float-end">Add Staff</a>
+                <a href="staff_create.php" class="btn btn-primary float-end">Add Staff</a>
             </h4>
         </div>
         <div class="card-body">
