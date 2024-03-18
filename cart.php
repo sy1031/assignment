@@ -29,11 +29,11 @@ if(isset($_GET['remove'])){
 if(isset($_GET['delete_all'])){
     // Get the customer's order_ID from the order table
     $customer_id = $_SESSION['customer_id'];
-    $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE customer_ID = '$customer_id'");
+    $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE user_ID = '$customer_id'");
     $order_row = mysqli_fetch_assoc($get_order_id_query);
     $order_id = $order_row['order_ID'];
 
-    mysqli_query($conn, "DELETE FROM `order_item` WHERE customer_ID = '$customer_id'");
+    mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$customer_id'");
     header('location:cart.php');
 }
 
@@ -83,7 +83,7 @@ if(isset($_POST['checkout'])){
                 $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
                 FROM order_item oi 
                 JOIN product p ON oi.product_ID = p.product_ID 
-                WHERE oi.customer_ID = $customer_id");
+                WHERE oi.user_ID = $customer_id");
                 
                 $num = 1;
                 $grand_total = 0;

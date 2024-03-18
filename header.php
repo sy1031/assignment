@@ -12,11 +12,11 @@
         include 'auth.php';
         
         $customer_id = $_SESSION['customer_id'];
-        // $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE customer_ID = '$customer_id'");
+        // $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE user_ID = '$customer_id'");
         // $order_row = mysqli_fetch_assoc($get_order_id_query);
         // $order_id = $order_row['order_ID'];
 
-        $select_product=mysqli_query($conn, "SELECT * FROM `order_item` WHERE customer_ID = '$customer_id'") or die('query failed');
+        $select_product=mysqli_query($conn, "SELECT * FROM `order_item` WHERE user_ID = '$customer_id'") or die('query failed');
         $row_count=mysqli_num_rows($select_product);
         ?>
 

@@ -5,7 +5,7 @@ include 'auth.php';
 $customer_id = $_SESSION['customer_id'];
 
 // Fetch order details
-$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FROM `order` WHERE customer_ID = $customer_id");
+$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FROM `order` WHERE user_ID = $customer_id");
 $num = 1;
 ?>
 
