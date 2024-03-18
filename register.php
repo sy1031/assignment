@@ -1,61 +1,82 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-        <title>User Registration</title>
-    </head>
-    <body>
-        <?php
-        require('database.php');
+<?php
+include('includes/header.php');
 
-        if (isset($_REQUEST['username'])) {
-            $username = stripslashes($_REQUEST['username']);
-            $username = mysqli_real_escape_string($conn,$username); 
-            $email = stripslashes($_REQUEST['email']);
-            $email = mysqli_real_escape_string($conn,$email);
-            $password = stripslashes($_REQUEST['password']);
-            $password = mysqli_real_escape_string($conn,$password);
+if(isset($_POST['registerBtn'])) {
+    $username = validate($_POST['username']);
+    $phone = validate($_POST['phone']);
+    $email = validate($_POST['email']);
+    $password = validate($_POST['password']);
+    $usertype = 'customer';
 
-            $query = "INSERT into `customers` (username, password, email)
-            VALUES ('$username', '".md5($password)."', '$email')";
-            
-            $result = mysqli_query($conn,$query);
+    // Check if the email already exists in the database
+    $email_check_query = "SELECT * FROM user WHERE email='$email' LIMIT 1";
+    $result = mysqli_query($conn, $email_check_query);
+    $user = mysqli_fetch_assoc($result);
 
-            if ($result) {
-                // Retrieve the customer_ID
-                $customer_id = mysqli_insert_id($conn);
-    
-                // Insert a new order into the order table
-                $insert_order_query = "INSERT INTO `order` (customer_ID, order_date, total_amount) VALUES ('$customer_id', NOW(), 0)";
-                $insert_order_result = mysqli_query($conn, $insert_order_query);
-    
-                if ($insert_order_result) {
-                    echo "<div class='form'>
-                    <h3>You are registered successfully.</h3>
-                    <br/>Click here to <a href='login.php'>Login</a></div>";
-                } else {
-                    echo "Error: " . mysqli_error($conn);
-                }
-            } else {
-                echo "Error: " . mysqli_error($conn);
-            }
+    if ($user) {
+        redirect('register.php', 'Email already exists. Please use a different email.');
+    } else {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+        $query = "INSERT INTO user (username, phone, email, usertype, password) 
+                  VALUES ('$username', '$phone', '$email', '$usertype', '$hashedPassword')";
+        $result = mysqli_query($conn, $query);
+
+        if($result) {
+            redirect('login.php', 'Registration successful. Please login to continue.');
         } else {
-            ?>
-            <div class="form">
-            <h1>User Registration</h1>
+            redirect('register.php', 'Error registering user. Please try again.');
+        }
+    }
+}
+?>
 
-            <form name="registration" action="" method="post">
-                <input type="text" name="username" placeholder="Username" required /><br>
-                <input type="email" name="email" placeholder="Email" required /><br>
-                <input type="password" name="password" placeholder="Password" required /><br>
-                <input type="submit" name="submit" value="Register" />
-            </form>
+<div class="py-5 bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow rounded-4">
 
-            <p><a href="login.php">Login</a></p>
-            
+                    <?php alertMessage(); ?>
+                    
+                    <div class="p-5">
+                        <h4 class="text-dark mb-3">Register an Account</h4>
+                        <form action="register.php" method="POST">
+
+                            <div class="mb-3">
+                                <label>Username: </label>
+                                <input type="text" name="username" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Phone: </label>
+                                <input type="text" name="phone" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Email: </label>
+                                <input type="email" name="email" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Password: </label>
+                                <input type="password" name="password" class="form-control" required />
+                            </div>
+
+                            <div class="my-3">
+                                <button type="submit" name="registerBtn" class="btn btn-primary w-100 mt-2">Register</button>
+                            </div>
+                        </form>
+                        
+                        <!-- Link to login page -->
+                        <div class="text-center">
+                            <p>Already have an account? <a href="login.php">Sign in here</a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <?php   
-        } ?>
-    </body>
-</html>
+        </div>
+    </div>
+</div>
+
+<?php include('includes/footer.php'); ?>

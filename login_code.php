@@ -31,7 +31,7 @@ if (isset($_POST['loginBtn'])) {
                             redirect('admin/homepage.php', 'Logged In Successfully');
                             break;
                         case 'customer':
-                            redirect('customer/homepage.php', 'Logged In Successfully');
+                            redirect('homepage.php', 'Logged In Successfully');
                             break;
                         case 'staff':
                             redirect('staff/homepage.php', 'Logged In Successfully');
