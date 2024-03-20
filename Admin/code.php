@@ -291,6 +291,43 @@ if(isset($_POST['addCustomer']))
     }
 }
 
+if (isset($_POST['saveCustomer'])) {
+
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $phone = validate($_POST['phone']);
+    $status = isset($_POST['status']) ? 1:0;
+    
+    if($name != ' ')
+    {
+        $emailCheck = mysqli_query($conn, "SELECT * FROM customers WHERE email = '$email'");
+        if($emailCheck){
+            if(mysqli_num_rows($emailCheck) > 0){
+                redirect('customers.php', 'Please fill in required fields.');
+
+            }
+        }
+
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'status' => $status
+        ];
+
+        $result = insert('customers', $data); //help to insert record in customer table
+        if($result){
+            redirect('customers.php', 'Account Created Successfully!');
+        }else{
+            redirect('customers.php', 'Something Went Wrong!');
+        }
+    }
+    else
+    {
+        redirect('customers.php', 'Please fill required fields.');
+    }
+}
+
 if(isset($_POST['updateCustomer'])){
 
     $name = validate($_POST['name']);
@@ -327,5 +364,8 @@ if(isset($_POST['updateCustomer'])){
     {
         redirect('customers_edit.php?id='.$customerId, 'Please fill required fields.');
     }
-if (isset($_POST['saveCustomer'])) {
+
 }
+
+
+?>
