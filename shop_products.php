@@ -5,7 +5,7 @@ if(isset($_POST['add_to_cart'])){
     $product_id = $_POST['product_id'];
     $product_price = $_POST['product_price'];
 
-    $user_id = $_SESSION['loggedInUser']['user_id'];
+    $user_id = $_SESSION['loggedInUser']['user_ID'];
 
     // Check if the product already exists
     $existing_item_query = mysqli_query($conn, "SELECT * FROM order_item WHERE user_ID = '$user_id' AND product_ID = '$product_id'");

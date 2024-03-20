@@ -1,7 +1,7 @@
 <?php
 
-if(isset($_SESSION['loggedInUser']['user_id'])) {
-    $user_id = $_SESSION['loggedInUser']['user_id'];
+if(isset($_SESSION['loggedInUser']['user_ID'])) {
+    $user_id = $_SESSION['loggedInUser']['user_ID'];
 
     $select_product = mysqli_query($conn, "SELECT * FROM `order_item` WHERE user_ID = '$user_id'") or die('query failed');
     $row_count = mysqli_num_rows($select_product);

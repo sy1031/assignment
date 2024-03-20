@@ -96,8 +96,8 @@ if(isset($_POST['checkout'])){
                     echo "<thead>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Price (RM)</th>
                             <th>Image</th>
+                            <th>Price (RM)</th>
                             <th>Quantity</th>
                             <th>Total Price</th>
                             <th>Action</th>
@@ -108,8 +108,8 @@ if(isset($_POST['checkout'])){
                         <tr>
                             <td><?php echo $num ?></td>
                             <td><?php echo $fetch_cart_products['productName']?></td>
-                            <td><?php echo $fetch_cart_products['productPrice']?></td>
                             <td><img src="images/<?php echo $fetch_cart_products['productImage']?>" alt="<?php echo $fetch_cart_products['productName']?>" style="width: 200px; height: auto;"></td>                            
+                            <td><?php echo $fetch_cart_products['productPrice']?></td>
                             <td>
                                 <form action="" method="post">
                                     <input type="hidden" value="<?php echo $fetch_cart_products['order_item_ID']?>" name="update_quantity_id">

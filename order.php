@@ -1,7 +1,7 @@
 <?php
 include 'config/function.php';
 
-$user_id = $_SESSION['loggedInUser']['user_id'];
+$user_id = $_SESSION['loggedInUser']['user_ID'];
 
 // Fetch order details
 $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FROM `order` WHERE user_ID = $user_id");
