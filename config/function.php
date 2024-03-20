@@ -98,20 +98,16 @@ function update($tableName, $id, $data){
 
 
 
-function getAll($tableName, $status = NULL){
-
+function getAll($table) {
     global $conn;
-    $table = validate($tableName);
-    $status = validate($status);
-
-    if($status == 'status'){
-        $query = "SELECT * FROM $table WHERE status='0'";
+    $query = "SELECT * FROM `$table`";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
     }
-    else{
-        $query = "SELECT * FROM $table";
-    }
-    return mysqli_query($conn, $query);
+    return $result;
 }
+
 
 function getById($tableName, $id){
     global $conn;
