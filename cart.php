@@ -1,8 +1,7 @@
 <?php 
-include 'database.php';
-include 'auth.php';
+include 'config/function.php';
 
-$customer_id = $_SESSION['customer_id'];
+$user_id = $_SESSION['loggedInUser']['user_id'];
 
 //Update query
 if(isset($_POST['update_product_quantity'])){
@@ -28,12 +27,11 @@ if(isset($_GET['remove'])){
 //Remove all query
 if(isset($_GET['delete_all'])){
     // Get the customer's order_ID from the order table
-    $customer_id = $_SESSION['customer_id'];
-    $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE customer_ID = '$customer_id'");
+    $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE user_ID = '$user_id'");
     $order_row = mysqli_fetch_assoc($get_order_id_query);
     $order_id = $order_row['order_ID'];
 
-    mysqli_query($conn, "DELETE FROM `order_item` WHERE customer_ID = '$customer_id'");
+    mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
     header('location:cart.php');
 }
 
@@ -43,7 +41,7 @@ if(isset($_POST['checkout'])){
     $grand_total = $_POST['grand_total'];
 
     // Insert order into order table
-    $insert_order_query = mysqli_query($conn, "INSERT INTO `order` (customer_ID, order_date, total_amount) VALUES ('$customer_id', NOW(), '$grand_total')");
+    $insert_order_query = mysqli_query($conn, "INSERT INTO `order` (user_ID, order_date, total_amount) VALUES ('$user_id', NOW(), '$grand_total')");
     if($insert_order_query) {
         // Get the order ID of the inserted order
         $order_id = mysqli_insert_id($conn);
@@ -78,16 +76,23 @@ if(isset($_POST['checkout'])){
     <div class="container">
         <section class="shopping_cart">
             <h1 class="heading">My Cart</h1>
+
             <table>
                 <?php
                 $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
                 FROM order_item oi 
                 JOIN product p ON oi.product_ID = p.product_ID 
-                WHERE oi.customer_ID = $customer_id");
+                WHERE oi.user_ID = $user_id");
                 
                 $num = 1;
                 $grand_total = 0;
                 if(mysqli_num_rows($select_cart_products) > 0){
+                    ?>
+                    <a href="cart.php?delete_all" class="delete_all_btn" 
+                        onclick = "return confirm('Are you sure you want to delete all items?')">
+                        <i class="fas fa-trash"></i>Delete All
+                    </a>
+                    <?php
                     echo "<thead>
                             <th>No</th>
                             <th>Name</th>
@@ -119,7 +124,7 @@ if(isset($_POST['checkout'])){
                             <td>
                                 <a href="cart.php?remove=<?php echo $fetch_cart_products['order_item_ID']?>"
                                 onclick = "return confirm('Are you sure you want to delete?')">                           
-                                    <i class="fas fa-trash"></i>Remove
+                                    <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
@@ -127,30 +132,26 @@ if(isset($_POST['checkout'])){
                     $grand_total=$grand_total+($fetch_cart_products['price']*$fetch_cart_products['quantity']);
                     $num++;
                     }
-                } else {
-                    echo "<div class='empty_text'>Cart is Empty</div>";
-                }
-                ?>
+                    ?>
+                    
                 </tbody>
             </table>
 
             <!-- bottom area -->
             <form action="cart.php" method="post">
                 <div class="table_bottom">
-                    <a href="shop_products.php" class="bottom_btn">Continue Shopping</a>
-                    <h3 class="bottom_btn">Grand total: RM<span><?php echo $grand_total?></span></h3>
+                    <h3 class="bottom_txt">Grand total: RM<span><?php echo $grand_total?></span></h3>
+                    <div class="line"></div>
                     <input type="hidden" name="grand_total" value="<?php echo $grand_total; ?>">
                     <button type="submit" class="bottom_btn" name="checkout">Proceed to checkout</button>
                 </div>
             </form>
 
-
-            <a href="cart.php?delete_all" class="delete_all_btn" 
-            onclick = "return confirm('Are you sure you want to delete all items?')">
-                <i class="fas fa-trash"></i>Delete All
-            </a>
-
-            <p><a href="login.php" class="bottom_btn">Logout</a></p>
+            <?php
+            } else {
+                echo "<div class='empty_text'>Cart is Empty</div>";
+            }
+            ?>
         </section>
     </div>        
 </body>

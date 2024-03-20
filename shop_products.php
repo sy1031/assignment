@@ -1,22 +1,21 @@
 <?php
-include 'database.php';
-include 'auth.php';
+include 'config/function.php';
 
 if(isset($_POST['add_to_cart'])){
     $product_id = $_POST['product_id'];
     $product_price = $_POST['product_price'];
 
-    $customer_id = $_SESSION['customer_id'];
+    $user_id = $_SESSION['loggedInUser']['user_id'];
 
     // Check if the product already exists
-    $existing_item_query = mysqli_query($conn, "SELECT * FROM order_item WHERE customer_ID = '$customer_id' AND product_ID = '$product_id'");
+    $existing_item_query = mysqli_query($conn, "SELECT * FROM order_item WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
     if(mysqli_num_rows($existing_item_query) > 0) {
         // Product already exists, update the quantity
         $existing_item_row = mysqli_fetch_assoc($existing_item_query);
         $existing_quantity = $existing_item_row['quantity'];
         $new_quantity = $existing_quantity + 1;
 
-        $update_query = mysqli_query($conn, "UPDATE order_item SET quantity = '$new_quantity' WHERE customer_ID = '$customer_id' AND product_ID = '$product_id'");
+        $update_query = mysqli_query($conn, "UPDATE order_item SET quantity = '$new_quantity' WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
 
         if($update_query) {
             $display_message = "Quantity updated successfully.";
@@ -25,7 +24,7 @@ if(isset($_POST['add_to_cart'])){
         }
     } else {
         // Product does not exist, add a new entry
-        $insert_query = mysqli_query($conn, "INSERT INTO order_item (customer_ID, product_ID, quantity, price) VALUES ('$customer_id', '$product_id', 1, '$product_price')");
+        $insert_query = mysqli_query($conn, "INSERT INTO order_item (user_ID, product_ID, quantity, price) VALUES ('$user_id', '$product_id', 1, '$product_price')");
 
         if($insert_query) {
             $display_message = "Product added to cart successfully.";
@@ -43,7 +42,7 @@ if(isset($_POST['add_to_cart'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Products=Project</title>
+    <title>Shop Products</title>
 
     <!-- CSS file -->
     <link rel="stylesheet" href="css/style.css">
@@ -52,7 +51,6 @@ if(isset($_POST['add_to_cart'])){
 
 </head>
 <body>
-    <!-- include header -->
     <?php include 'header.php'?>
 
     <div class="container">
@@ -65,7 +63,6 @@ if(isset($_POST['add_to_cart'])){
         }
         ?>
             <section class="products">
-            <h1 class="heading">Lets Shop</h1>
             <div class="product_container">
                 <?php
                 $select_products=mysqli_query($conn, "Select * from `product`");
@@ -74,7 +71,7 @@ if(isset($_POST['add_to_cart'])){
                     ?>
                         <form method="post" action="shop_products.php">
                         <div class="edit_form">
-                            <img src="images/<?php echo $fetch_product['productImage'] ?> " alt="" style="width: 200px; height: auto;">
+                            <img src="images/<?php echo $fetch_product['productImage'] ?> " alt="" style="width: auto; height: 180px;">
                             <h3><?php echo $fetch_product['productName'] ?></h3>
                             <div class="price">Price: <?php echo $fetch_product['productPrice'] ?></div>
                             <input type="hidden" name="product_id" value="<?php echo $fetch_product['product_ID'] ?>"> 

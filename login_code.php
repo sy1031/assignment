@@ -17,7 +17,7 @@ if (isset($_POST['loginBtn'])) {
             if (password_verify($password, $hashedPassword)) {
                 // User found in the user table
                 $_SESSION['loggedIn'] = true;
-                
+
                 // Set user role (admin, staff, or customer) in the session
                 $_SESSION['loggedInUser'] = [
                     'user_ID' => $row['user_ID'],
@@ -56,4 +56,3 @@ if (isset($_POST['loginBtn'])) {
         redirect('login.php', 'All fields are mandatory!');
     }
 }
-?>

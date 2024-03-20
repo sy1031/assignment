@@ -1,28 +1,16 @@
-<header class="header">
-    <div class="header_body">
-        <a href="index.php" class="logo">TechnoBling</a>
-        <nav class="navbar">
-            <a href="order.php">Order Details</a>
-            <a href="view_products.php">View Product</a>
-            <a href="shop_products.php">Shop</a>
-        </nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Company Name</title>
 
-        <!-- select query -->
-        <?php
-        include 'auth.php';
-        
-        $customer_id = $_SESSION['customer_id'];
-        // $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE customer_ID = '$customer_id'");
-        // $order_row = mysqli_fetch_assoc($get_order_id_query);
-        // $order_id = $order_row['order_ID'];
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
 
-        $select_product=mysqli_query($conn, "SELECT * FROM `order_item` WHERE customer_ID = '$customer_id'") or die('query failed');
-        $row_count=mysqli_num_rows($select_product);
-        ?>
+<?php include('navbar-cus.php'); ?>
 
-        <!-- Shopping cart icon -->
-        <a href="cart.php" class="cart"><i class="fa-solid fa-cart-shopping"></i><span><sup><?php echo $row_count?></sup></span></a>
-        <!-- <div id="menu-btn" class="fas fa-bars"></div> -->
+</body>
+</html>
 
-    </div>
-</header>
