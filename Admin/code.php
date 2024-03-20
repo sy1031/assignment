@@ -3,12 +3,15 @@
 include('../config/function.php');
 
 if (isset($_POST['saveStaff'])) {
-    $name = validate($_POST['name']);
+    $first_name = validate($_POST['first_name']);
+    $last_name = validate($_POST['last_name']);
     $email = validate($_POST['email']);
     $password = validate($_POST['password']);
     $phone = validate($_POST['phone']);
+    $username = validate($_POST['username']);
+    $staff_ID = validate($_POST['staff_ID']); // Make sure you have the staff_id available
 
-    if ($name != '' && $email != '' && $password != '') {
+    if ($email != '' && $password != '') {
         $emailCheck = mysqli_query($conn, "SELECT * FROM staff WHERE email='$email'");
         if ($emailCheck) {
             if (mysqli_num_rows($emailCheck) > 0) {
@@ -18,60 +21,107 @@ if (isset($_POST['saveStaff'])) {
 
         $bcrypt_password = password_hash($password, PASSWORD_BCRYPT);
 
-        $data = [
-            'name' => $name,
+        // Insert into staff table
+        $staff_data = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'email' => $email,
             'password' => $bcrypt_password,
-            'phone' => $phone
+            'phone' => $phone,
+            'username' => $username
         ];
-        $result = insert('staff', $data);
-        if ($result) {
-            redirect('staff.php', 'Staff Created Successfully!');
+        $staff_result = insert('staff', $staff_data);
+
+        if ($staff_result) {
+            // Get the auto-generated staff_id from the inserted staff record
+            $new_staff_id = mysqli_insert_id($conn);
+
+            // Insert into user table with the retrieved staff_id
+            $user_data = [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'email' => $email,
+                'password' => $bcrypt_password,
+                'phone' => $phone,
+                'username' => $username,
+                'usertype' => 'staff', // Assuming 'staff' is the usertype for staff members
+                'staff_ID' => $new_staff_id // Assign the staff_id
+            ];
+            $user_result = insert('user', $user_data);
+
+            if ($user_result) {
+                redirect('staff.php', 'Staff Created Successfully!');
+            } else {
+                redirect('staff_create.php', 'Something Went Wrong while inserting into the user table');
+            }
         } else {
-            redirect('staff_create.php', 'Something Went Wrong');
+            redirect('staff_create.php', 'Something Went Wrong while inserting into the staff table');
         }
     } else {
         redirect('staff_create.php', 'Please fill required fields.');
     }
 }
 
+
 if (isset($_POST['updateStaff'])) {
 
-    $staffId = validate(($_POST['staffId']));
+    $staffId = validate($_POST['staff_ID']);
 
+    // Retrieve existing staff data
     $staffData = getById('staff', $staffId);
     if ($staffData['status'] != 200) {
-        redirect('staff_edit.php?id=' . $staffId, 'Please fill required fields.');
+        redirect('staff_edit.php?id=' . $staffId, 'Staff not found.');
     }
 
-    $name = validate($_POST['name']);
+    $first_name = validate($_POST['first_name']);
+    $last_name = validate($_POST['last_name']);
     $email = validate($_POST['email']);
     $password = validate($_POST['password']);
     $phone = validate($_POST['phone']);
+    $username = validate($_POST['username']);
 
     if ($password != '') {
-        $hasedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $bcrypt_password = password_hash($password, PASSWORD_BCRYPT);
     } else {
-        $hashedPassword = $staffData['data']['password'];
+        $bcrypt_password = $staffData['data']['password'];
     }
 
-    if ($name != '' && $email != '') {
-        $data = [
-            'name' => $name,
+    if ($username != '' && $email != '') {
+        // Prepare data for updating staff
+        $staff_data = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'email' => $email,
-            'password' => $hashedPassword,
-            'phone' => $phone
+            'phone' => $phone,
+            'username' => $username
         ];
-        $result = update('staff', $staffId, $data);
-        if ($result) {
+
+        // Update staff record
+        $result_staff = update('staff', $staffId, $staff_data);
+
+        // Prepare data for updating user
+        $user_data = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'phone' => $phone,
+            'username' => $username,
+            'usertype' => 'staff', // Assuming 'staff' is the usertype for staff members
+        ];
+
+        // Update user record using staff_id
+        $result_user = update('user', $staffId, $user_data);
+
+        if ($result_staff && $result_user) {
             redirect('staff_edit.php?id=' . $staffId, 'Staff Updated Successfully!');
         } else {
             redirect('staff_edit.php?id=' . $staffId, 'Something Went Wrong');
         }
     } else {
-        redirect('staff_create.php', 'Please fill required fields.');
+        redirect('staff_edit.php?id=' . $staffId, 'Please fill required fields.');
     }
 }
+
 
 
 if (isset($_POST['saveCategory'])) {

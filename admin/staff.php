@@ -24,8 +24,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Email</th>
+                                <th>Username</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -34,12 +36,14 @@
 
                             <?php foreach ($staff as $staffItem) : ?>
                                 <tr>
-                                    <td><?= $staffItem['id'] ?></td>
-                                    <td><?= $staffItem['name'] ?></td>
+                                    <td><?= $staffItem['staff_ID'] ?></td>
+                                    <td><?= $staffItem['first_name'] ?></td>
+                                    <td><?= $staffItem['last_name'] ?></td>
                                     <td><?= $staffItem['email'] ?></td>
+                                    <td><?= $staffItem['username'] ?></td>
                                     <td>
-                                        <a href="staff_edit.php?id=<?= $staffItem['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="staff_delete.php?id=<?= $staffItem['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="staff_edit.php?id=<?= $staffItem['staff_ID']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="staff_delete.php?id=<?= $staffItem['staff_ID']; ?>" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
