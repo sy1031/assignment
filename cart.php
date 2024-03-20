@@ -1,7 +1,7 @@
 <?php 
 include 'config/function.php';
 
-$user_id = $_SESSION['loggedInUser']['user_id'];
+$user_id = $_SESSION['loggedInUser']['user_ID'];
 
 //Update query
 if(isset($_POST['update_product_quantity'])){
