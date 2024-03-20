@@ -3,8 +3,8 @@
 <div class="container-fluid px-4">
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Customers
-                <a href="customers_create.php" class="btn btn-primary float-end">Add Customer</a>
+            <h4 class="mb-0">Users
+                <a href="customers_create.php" class="btn btn-primary float-end">Create Customer Account</a>
             </h4>
         </div>
         <div class="card-body">
@@ -27,6 +27,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -51,7 +53,12 @@
                                     </td>
                                     <td>
                                         <a href="customers_edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="customers_delete.php?id=<?= $item['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                        <a
+                                            href="customers_delete.php?id=<?= $item['id']; ?>" 
+                                            class="btn btn-danger btn-sm">
+                                            onclick="return confirm('Are you sure to delete this data?')"
+                                            Delete
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
