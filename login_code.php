@@ -1,5 +1,4 @@
 <?php
-
 require 'config/function.php';
 
 if (isset($_POST['loginBtn'])) {
@@ -7,34 +6,53 @@ if (isset($_POST['loginBtn'])) {
     $password = validate($_POST['password']);
 
     if ($email != '' && $password != '') {
-
-        $query = "SELECT * FROM staff WHERE email='$email' LIMIT 1";
+        // Check if the user exists in the user table
+        $query = "SELECT * FROM user WHERE email='$email' LIMIT 1";
         $result = mysqli_query($conn, $query);
-        
-        if ($result) {
-            if (mysqli_num_rows($result) == 1) {
 
-                $row = mysqli_fetch_assoc($result);
-                $hasedPassword = $row['password'];
+        if ($result && mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+            $hashedPassword = $row['password'];
 
-                if (!password_verify($password, $hasedPassword)) {
-                    redirect('login.php', 'Invalid Password');
-                }
-
+            if (password_verify($password, $hashedPassword)) {
+                // User found in the user table
                 $_SESSION['loggedIn'] = true;
+
+                // Set user role (admin, staff, or customer) in the session
                 $_SESSION['loggedInUser'] = [
-                    'user_id' => $row['id'],
-                    'name' => $row['name'],
+                    'user_ID' => $row['user_ID'],
+                    'first_name' => $row['first_name'],
+                    'last_name' => $row['last_name'],
+                    'username' => $row['username'],
                     'email' => $row['email'],
                     'phone' => $row['phone'],
+                    'usertype' => $row['usertype'] // Assuming 'usertype' column stores user role
                 ];
 
-                redirect('assignment/Admin/index.php', 'Logged in successfully');
+                // Redirect to appropriate homepage based on user role
+                switch ($_SESSION['loggedInUser']['usertype']) {
+                    case 'admin':
+                        redirect('admin/homepage.php', 'Logged In Successfully');
+                        break;
+                    case 'staff':
+                        redirect('staff/homepage.php', 'Logged In Successfully');
+                        break;
+                    case 'customer':
+                        redirect('shop_products.php', 'Logged In Successfully');
+                        break;
+                    default:
+                        redirect('login.php', 'Invalid User Role');
+                        break;
+                }
             } else {
-                redirect('login.php', 'Invalid Email Address');
+                // Invalid password
+                redirect('login.php', 'Invalid Password');
             }
         } else {
-            redirect('login.php', 'All fields are mandetory!');
+            // User not found
+            redirect('login.php', 'Invalid Email Address');
         }
+    } else {
+        redirect('login.php', 'All fields are mandatory!');
     }
 }

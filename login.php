@@ -26,6 +26,11 @@
                             <button type="submit" name="loginBtn" class="btn btn-primary w-100 mt-2">Sign In</button>
                         </div>
                         </form>
+
+                        <!-- Link to registration page -->
+                        <div class="text-center">
+                            <p>Don't have an account? <a href="register.php">Register here</a></p>
+                        </div>
                     </div>
                 </div>
 

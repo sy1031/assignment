@@ -97,8 +97,8 @@
                 </a>
                 <div class="collapse" id="collapseAdmins" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="admins_create.php">Add Staff</a>
-                        <a class="nav-link" href="admins.php">View Staff</a>
+                        <a class="nav-link" href="staff_create.php">Add Staff</a>
+                        <a class="nav-link" href="staff.php">View Staff</a>
                     </nav>
                 </div>
 
