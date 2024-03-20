@@ -38,7 +38,7 @@ if (isset($_POST['loginBtn'])) {
                         redirect('staff/homepage.php', 'Logged In Successfully');
                         break;
                     case 'customer':
-                        redirect('customer/homepage.php', 'Logged In Successfully');
+                        redirect('shop_products.php', 'Logged In Successfully');
                         break;
                     default:
                         redirect('login.php', 'Invalid User Role');

@@ -1,60 +1,55 @@
 <?php
+// Include necessary files and initialize session if not already done
 include('../config/function.php');
 
+// Check if the form is submitted
 if (isset($_POST['changePassword'])) {
-
-    $staffId = validate($_POST['staff_ID']);
-
-    // Retrieve staff ID from session
-    $staffId = $_SESSION['loggedInUser']['staff_ID'];
+    // Retrieve user ID from session
+    $user_ID = $_SESSION['loggedInUser']['user_ID'];
 
     // Validate and sanitize form inputs
-    $oldPassword = validate($_POST['old_password']);
-    $newPassword = validate($_POST['new_password']);
-    $confirmPassword = validate($_POST['cfm_password']);
+    $old_password = validate($_POST['old_password']);
+    $new_password = validate($_POST['new_password']);
+    $confirm_password = validate($_POST['cfm_password']);
 
     // Check if new password matches confirm password
-    if ($newPassword !== $confirmPassword) {
-        redirect('change_password.php', 'New password and confirm password do not match.');
+    if ($new_password !== $confirm_password) {
+        redirect('staff_change_password.php', 'New password and confirm password do not match.');
     }
 
-    // Retrieve existing staff data
-    $staffData = getById('staff', $staffId);
-    if ($staffData['status'] != 200) {
-        redirect('staff_change_password.php?id=' .$staffId, 'Staff not found.');
-    }
+    // Retrieve user information from the database
+    $user_info = getById('user', $user_ID);
 
-    // Hash the old password for comparison
-    $hashedOldPassword = $staffData['data']['password'];
+    // Check if user exists and old password matches
+    if ($user_info['status'] === 200) {
+        $user_data = $user_info['data'];
+        $hashed_password = $user_data['password'];
 
-    // Check if old password matches the stored password
-    if (password_verify($oldPassword, $hashedOldPassword)) {
-        // Hash the new password
-        $hashedNewPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+        // Verify the old password
+        if (password_verify($old_password, $hashed_password)) {
+            // Hash the new password
+            $new_hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-        // Prepare data for updating staff
-        $staff_data = [
-            'password' => $hashedNewPassword
-        ];
+            // Update the password in the user table
+            $update_user_query = "UPDATE user SET password='$new_hashed_password' WHERE user_ID='$user_ID'";
+            $update_user_result = mysqli_query($conn, $update_user_query);
 
-        // Update staff record
-        $result_staff = update('staff', $staffId, $staff_data);
+            // Update the password in the staff table using the staff_ID associated with the user
+            $staff_ID = $user_data['staff_ID'];
+            $update_staff_query = "UPDATE staff SET password='$new_hashed_password' WHERE staff_ID='$staff_ID'";
+            $update_staff_result = mysqli_query($conn, $update_staff_query);
 
-        // Prepare data for updating user
-        $user_data = [
-            'password' => $hashedNewPassword
-        ];
-
-        // Update user record using staff_id
-        $result_user = update('user', $staffId, $user_data);
-
-        if ($result_staff && $result_user) {
-            redirect('staff_change_password.php', 'Password changed successfully.');
+            // Check if both updates were successful
+            if ($update_user_result && $update_staff_result) {
+                redirect('staff_change_password.php', 'Password changed successfully.');
+            } else {
+                redirect('staff_change_password.php', 'Failed to update password. Please try again.');
+            }
         } else {
-            redirect('staff_change_password.php', 'Failed to update password. Please try again.');
+            redirect('staff_change_password.php', 'Incorrect old password.');
         }
     } else {
-        redirect('staff_change_password.php', 'Incorrect old password.');
+        redirect('staff_change_password.php', 'User not found.');
     }
 }
 ?>
