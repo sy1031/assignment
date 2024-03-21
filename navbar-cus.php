@@ -30,7 +30,7 @@ if(isset($_SESSION['loggedInUser']['user_ID'])) {
                         </li>
  
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">Logout</a>
+                            <a class="nav-link" href="logout.php">Logout</a>
                         </li>
                         <li class="nav-item">
                             <a href="cart.php" class="nav-link cart">
