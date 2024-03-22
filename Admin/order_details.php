@@ -7,14 +7,14 @@ include('Includes/header.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders - Admin</title>
+    <title>Order Details - Admin</title>
 </head>
 <body>
     <div class="container-fluid px-4">
         <div class="card mt-4 shadow-sm">
             <div class="card-header">
-                <h4 class="mb-0">Orders List
-                    <a href="javascript:history.back()" class="btn btn-primary float-end">Back</a>
+                <h4 class="mb-0">Order Details
+                    <a href="orders.php" class="btn btn-primary float-end">Back</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -24,13 +24,15 @@ include('Includes/header.php');
                 if(isset($_GET['order_id'])) {
                     $order_id = $_GET['order_id'];
 
-                    // Fetch order details based on the specific order_ID
                     $orders = mysqli_query($conn, "SELECT * FROM order_paid WHERE order_ID = $order_id");
 
                     if(!$orders){
                         echo '<h4>Something Went Wrong!</h4>';
                         return false;
                     }
+                    ?>
+                     <h6 style="margin:5px">Order ID: <?php echo $order_id; ?> </h6>
+                    <?php
 
                     if (mysqli_num_rows($orders) > 0) {
                 ?>
@@ -57,7 +59,7 @@ include('Includes/header.php');
                                         <td><?= $order['price'] ?></td>
                                     </tr>
                                 <?php 
-                                } // end while
+                                } 
                                 ?>
                             </tbody>
                         </table>
