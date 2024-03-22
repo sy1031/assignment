@@ -101,26 +101,47 @@ function update($tableName, $id, $data)
 
 
 
-
-
 function getAll($table)
 {
     global $conn;
     $sort_option = "";
+    $sort_criteria = ""; // Initialize sort_criteria variable
+
     if (isset($_GET['sort_alphabet'])) {
         if ($_GET['sort_alphabet'] == "a-z") {
             $sort_option = "ASC";
+            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
         } elseif ($_GET['sort_alphabet'] == "z-a") {
             $sort_option = "DESC";
+            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+        } elseif ($_GET['sort_alphabet'] == "number") {
+            $sort_option = "ASC";
+            $sort_criteria = "ORDER BY CAST(staff_id AS UNSIGNED) $sort_option"; // Sort numerically by staff_id
         }
+    } else {
+        $sort_option = "ASC"; // Default sorting option
+        $sort_criteria = "ORDER BY staff_id $sort_option"; // Sort numerically by default
     }
-    $query = "SELECT * FROM `$table` ORDER BY first_name $sort_option";
+
+    // Adding search functionality
+    if(isset($_GET['search']) && !empty($_GET['search'])){
+        $filtervalues = $_GET['search'];
+        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_id,username,email) LIKE '%$filtervalues%' ";
+    } else {
+        $query = "SELECT * FROM `$table` $sort_criteria";
+    }
+
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die("Query failed: " . mysqli_error($conn));
     }
     return $result;
 }
+
+
+
+
+
 
 
 function getById($tableName, $id)

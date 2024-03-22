@@ -8,10 +8,40 @@
             </h4>
         </div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <select name="sort_alphabet" class="form-control">
+                                <option value="">--Select Option--</option>
+                                <option value="a-z" <?php if (isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "a-z") {
+                                                        echo "selected";
+                                                    } ?>>Ascending Order</option>
+                                <option value="z-a" <?php if (isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "z-a") {
+                                                        echo "selected";
+                                                    } ?>>Descending Order</option>
+                            </select>
+
+                            <button type="submit" class="input-group-text btn btn-primary" id="basic-addon2">
+                                Sort
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="input-group mb-3">
+                            <input type="text" name="search" value="<?php if (isset($_GET['search'])) {
+                                                                        echo $_GET['search'];
+                                                                    } ?>" class="form_control" placeholder="Search data">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             <?php alertMessage(); ?>
             <?php
             $user = getAll('user');
-            if(!$user){
+            if (!$user) {
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;
             }
