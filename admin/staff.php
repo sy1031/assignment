@@ -8,6 +8,28 @@
             </h4>
         </div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <select name="sort_alphabet" class="form-control">
+                                <option value="">--Default</option>
+                                <option value="a-z" <?php if (isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "a-z") {
+                                                        echo "selected";
+                                                    } ?>>Ascending Order</option>
+                                <option value="z-a" <?php if (isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "z-a") {
+                                                        echo "selected";
+                                                    } ?>>Descending Order</option>
+                            </select>
+
+                            <button type="submit" class="input-group-text btn btn-primary" id="basic-addon2">
+                                Sort
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             <?php alertMessage(); ?>
             <?php
             $staff = getAll('staff');
@@ -33,7 +55,6 @@
                         </thead>
 
                         <tbody>
-
                             <?php foreach ($staff as $staffItem) : ?>
                                 <tr>
                                     <td><?= $staffItem['staff_ID'] ?></td>

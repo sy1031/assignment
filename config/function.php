@@ -4,7 +4,8 @@ session_start();
 require 'dbcon.php';
 
 // Input field validation
-function validate($inputData){
+function validate($inputData)
+{
 
     global $conn;
     $validatedData = mysqli_real_escape_string($conn, $inputData);
@@ -12,18 +13,20 @@ function validate($inputData){
 }
 
 // Redirect from 1 page to another page with the message (status)
-function redirect($url, $status){
+function redirect($url, $status)
+{
     $_SESSION['status'] = $status;
-    header('Location: '.$url);
+    header('Location: ' . $url);
     exit(0);
 }
 
 //Display message or status after any process.
-function alertMessage(){
+function alertMessage()
+{
 
-    if(isset($_SESSION['status'])){
+    if (isset($_SESSION['status'])) {
         echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-           <h6>'.$_SESSION['status'].'</h6>
+           <h6>' . $_SESSION['status'] . '</h6>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
         unset($_SESSION['status']);
@@ -31,7 +34,8 @@ function alertMessage(){
 }
 
 //Insert record using this function
-function insert($tableName, $data){
+function insert($tableName, $data)
+{
 
     global $conn;
 
@@ -41,7 +45,7 @@ function insert($tableName, $data){
     $values = array_values($data);
 
     $finalColumn = implode(',', $columns);
-    $finalValues = "'".implode("' , '", $values)."'";
+    $finalValues = "'" . implode("' , '", $values) . "'";
 
     $query = "INSERT INTO $table ($finalColumn) VALUES ($finalValues)";
     $result = mysqli_query($conn, $query);
@@ -50,7 +54,8 @@ function insert($tableName, $data){
 
 // Update data using this function
 // Update data in both user and staff tables
-function update($tableName, $id, $data){
+function update($tableName, $id, $data)
+{
     global $conn;
 
     $table = validate($tableName);
@@ -58,14 +63,14 @@ function update($tableName, $id, $data){
 
     $updateDataString = "";
 
-    foreach($data as $column => $value){
-        $updateDataString .= $column.'='."'$value',";
+    foreach ($data as $column => $value) {
+        $updateDataString .= $column . '=' . "'$value',";
     }
 
     $finalUpdateData = rtrim($updateDataString, ',');
 
     $query = "UPDATE $table SET $finalUpdateData WHERE ";
-    
+
     // Append condition based on the table name
     if ($table === 'user') {
         $query .= "staff_ID='$id'";
@@ -98,9 +103,18 @@ function update($tableName, $id, $data){
 
 
 
-function getAll($table) {
+function getAll($table)
+{
     global $conn;
-    $query = "SELECT * FROM `$table`";
+    $sort_option = "";
+    if (isset($_GET['sort_alphabet'])) {
+        if ($_GET['sort_alphabet'] == "a-z") {
+            $sort_option = "ASC";
+        } elseif ($_GET['sort_alphabet'] == "z-a") {
+            $sort_option = "DESC";
+        }
+    }
+    $query = "SELECT * FROM `$table` ORDER BY first_name $sort_option";
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die("Query failed: " . mysqli_error($conn));
@@ -109,7 +123,8 @@ function getAll($table) {
 }
 
 
-function getById($tableName, $id){
+function getById($tableName, $id)
+{
     global $conn;
 
     $table = validate($tableName);
@@ -130,7 +145,7 @@ function getById($tableName, $id){
     $result = mysqli_query($conn, $query);
 
     if ($result) {
-        if(mysqli_num_rows($result) == 1){
+        if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             return [
                 'status' => 200,
@@ -154,7 +169,8 @@ function getById($tableName, $id){
 
 
 //Delete data from database using id
-function delete($tableName, $id){
+function delete($tableName, $id)
+{
 
     global $conn;
 
@@ -166,23 +182,24 @@ function delete($tableName, $id){
     return $result;
 }
 
-function checkParamId($type){
+function checkParamId($type)
+{
 
-    if(isset($_GET[$type])){
-        if($_GET[$type] != ''){
+    if (isset($_GET[$type])) {
+        if ($_GET[$type] != '') {
 
             return $_GET[$type];
-        }else{
+        } else {
             return '<h5>No ID Found</h5>';
         }
-    }else{
+    } else {
         return '<h5>No ID Given</h5>';
     }
 }
 
-function logoutSession(){
+function logoutSession()
+{
 
     unset($_SESSION['loggedIn']);
     unset($_SESSION['loggedInUser']);
 }
-?>
