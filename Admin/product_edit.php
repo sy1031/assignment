@@ -3,8 +3,8 @@
 <div class="container-fluid px-4">
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Edit Products
-                <a href="products.php" class="btn btn-primary float-end">Back</a>
+            <h4 class="mb-0">Edit Product
+                <a href="product.php" class="btn btn-primary float-end">Back</a>
             </h4>
         </div>
         <div class="card-body">
@@ -14,24 +14,24 @@
             <form action="code.php" method="POST" enctype="multipart/form-data">
 
             <?php
-                $parmValue = checkParamId('id');
+                $parmValue = checkParamId('product_ID');
                 if(!is_numeric($parmValue)){
                     echo '<h5>Id is not an integer.<h5>';
                     return false;
                 }
 
-                $product = getById('products', $paramValue);
+                $product = getById('product', $paramValue);
                 if($product){
                     if($product['status'] == 200)
                     {
                    
                     ?>
-                    <input type="hidden" name="product_id" value="<?= $product['data']['id']; ?>" >
+                    <input type="hidden" name="product_ID" value="<?= $product['data']['category_ID']; ?>" >
 
                     <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label>Select Category</label>
-                                    <select name="category_id" class="form-select">
+                                    <select name="category_ID" class="form-select">
                                         <option value="">Select Category</option>
                                         <?php
                                         $categories=getAll('categories');
@@ -41,10 +41,10 @@
                                                     ?>
 
                                                         <option 
-                                                            value="<?= $cateItem['id']; ?>"
-                                                            <?= $product['data']['category_id'] == $cateItem['id']  ? 'selected':''; ?>
+                                                            value="<?= $cateItem['category_ID']; ?>"
+                                                            <?= $product['data']['category_ID'] == $cateItem['category_ID']  ? 'selected':''; ?>
                                                         >
-                                                            <?= $cateItem['name']; ?>
+                                                            <?= $cateItem['productName']; ?>
                                                         </option>
 
                                                     <?php
@@ -63,34 +63,34 @@
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="">Product Name</label>
-                                    <input type="text" name="name" required value = "<?= $product['data']['name']; ?>" class="form-control" />
+                                    <input type="text" name="productName" required value = "<?= $product['data']['name']; ?>" class="form-control" />
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label for="">Description</label>
-                                    <textarea name="description" class="form-control" rows="3" ><?= $product['data']['description']; ?></textarea>
+                                    <textarea name="productDescription" class="form-control" rows="3" ><?= $product['data']['productDescription']; ?></textarea>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="">Price</label>
-                                    <input type="text" name="price" required value ="<?= $product['data']['price']; ?>" class="form-control" />
+                                    <input type="text" name="productPrice" required value ="<?= $product['data']['productPrice']; ?>" class="form-control" />
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="">Quantity</label>
-                                    <input type="text" name="quantity" required value = "<?= $product['data']['quantity']; ?>" class="form-control" />
+                                    <input type="text" name="productQuantity" required value = "<?= $product['data']['productQuantity']; ?>" class="form-control" />
                                 </div>
 
                                 <div class="col-md-4 mb-3">
                                     <label for="">Image</label>
-                                    <input type="file" name="image" class="form-control" />
-                                    <img src="../<?= $product['data']['image']; ?>" style="width=40px;height=40px;" alt="Image">
+                                    <input type="file" name="productImage" class="form-control" />
+                                    <img src="../<?= $product['data']['productImage']; ?>" style="width=40px;height=40px;" alt="Image">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="">Status(UnChecked = Visible, Checked = Hidden)</label>
                                     <br/>
-                                    <input type="checkbox" name="status" <?= $product['data']['status'] == true ? 'checked':''; ?> style="width:30px;height:30px";>
+                                    <input type="checkbox" name="productAvailability" <?= $product['data']['productAvailability'] == true ? 'checked':''; ?> style="width:30px;height:30px";>
                                 </div>
 
                                 <div class="col-md-6 mb-3 text-end">

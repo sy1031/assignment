@@ -125,72 +125,74 @@ if (isset($_POST['updateStaff'])) {
 
 
 if (isset($_POST['saveCategory'])) {
-    $name = validate($_POST['name']);
-    $description = validate($_POST['description']);
-    $status = isset($_POST['status']) == true ? 1 : 0;
+    $name = validate($_POST['categoryName']);
+    $description = validate($_POST['categoryDescription']);
+    $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
 
     $data = [
-        'name' => $name,
-        'description' => $description,
-        'status' => $status
+        'categoryName' => $name,
+        'categoryDescription' => $description,
+        'categoryStatus' => $status
     ];
-    $result = insert('categories', $data);
+    $result = insert('category', $data);
     if ($result) {
-        redirect('categories.php', 'Category Created Successfully!');
+        redirect('category.php', 'Category Created Successfully!');
     } else {
-        redirect('categories_create.php', 'Something Went Wrong!');
+        redirect('category_create.php', 'Something Went Wrong!');
     }
 }
 
 if (isset($_POST['updateCategory'])) {
-    $categoryId = validate($_POST['categoryId']);
+    $categoryId = validate($_POST['category_ID']);
 
-    $name = validate($_POST['name']);
-    $description = validate($_POST['description']);
-    $status = isset($_POST['status']) == true ? 1 : 0;
+    $name = validate($_POST['categoryName']);
+    $description = validate($_POST['categoryDescription']);
+    $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
     $data = [
-        'name' => $name,
-        'description' => $description,
-        'status' => $status
+        'categoryName' => $name,
+        'categoryDescription' => $description,
+        'categoryStatus' => $status
     ];
-    $result = update('categories', $categoryId, $data);
+    $result = update('category', $categoryId, $data);
     if ($result) {
-        redirect('categories_edit.php?id=' . $categoryId, 'Category Updated Successfully!');
+        redirect('category_edit.php?id=' .$categoryId, 'Category Updated Successfully!');
     } else {
-        redirect('categories_edit.php?id=' . $categoryId, 'Something Went Wrong!');
+        redirect('category_edit.php?id=' .$categoryId, 'Something Went Wrong!');
     }
 }
 
 if (isset($POST['saveProduct'])) {
-    $category_id = validate($_POST['category_id']);
-    $name = validate($_POST['name']);
-    $description = validate($_POST['description']);
-    $price = validate($_POST['price']);
-    $quantity = validate($_POST['quantity']);
-    $status = isset($_POST['status']) == true ? 1 : 0;
+    $category_id = validate($_POST['category_ID']);
+    $name = validate($_POST['productName']);
+    $description = validate($_POST['productDescription']);
+    $brand = validate($_POST['productBrand']);
+    $price = validate($_POST['productPrice']);
+    $quantity = validate($_POST['productQuantity']);
+    $status = isset($_POST['productAvailability']) == true ? 1 : 0;
 
-    if ($_FILES['image']['size'] > 0) {
+    if ($_FILES['productImage']['size'] > 0) {
         $path = "../assets/uploads/products";
-        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
 
         $filename = time() . '.' . $image_ext;
 
-        move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
+        move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
 
-        $finalImage = "assets/uploads/products/" . $filename;
+        $finalImage = "assets/uploads/products/" . $filename; //save product images here 
     } else {
 
         $finalImage = '';
     }
 
     $data = [
-        'category_id' => $category_id,
-        'name' => $name,
-        'description' => $description,
-        'price' => $price,
-        'quantity' => $quantity,
-        'image' => $finalImage,
-        'status' => $status
+        'category_ID' => $category_id,
+        'productName' => $name,
+        'productDescription' => $description,
+        'productBrand' => $brand,
+        'productPrice' => $price,
+        'productQuantity' => $quantity,
+        'productImage' => $finalImage,
+        'productAvailability' => $status
     ];
     $result = insert('products', $data);
 
