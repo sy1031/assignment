@@ -89,6 +89,7 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,6 +120,7 @@ try {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="card">
@@ -126,7 +128,11 @@ try {
             <p>Your payment has been processed successfully.</p>
             <p>Thank you for your purchase!</p>
             <a href="cart.php" class="btn btn-primary btn-return">Return to Cart</a>
+            <a href="invoice.php?order_id=<?php echo $order_id; ?>" class="btn btn-success btn-download">Download
+                Invoice</a>
+
         </div>
     </div>
 </body>
+
 </html>
