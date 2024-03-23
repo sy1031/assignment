@@ -63,7 +63,7 @@ if (isset ($_SESSION['cart'])) {
         <div class="container">
             <div class="card">
                 <!-- Delivery Address Form -->
-                <div class="delivery-address mt-5">
+                <!-- <div class="delivery-address mt-5">
                     <h2>Delivery Address</h2>
                     <form action="checkout.php" method="post">
                         <div class="form-group">
@@ -73,7 +73,7 @@ if (isset ($_SESSION['cart'])) {
                         </div>
                         <button type="submit" class="btn btn-primary" name="submit_address">Save Address</button>
                     </form>
-                </div>
+                </div> -->
 
                 <br>
                 <h1 class="mb-4">Order Summary</h1>
