@@ -161,7 +161,7 @@ if (isset($_POST['updateCategory'])) {
     }
 }
 
-if (isset($POST['saveProduct'])) {
+if (isset($_POST['saveProduct'])) {
     $category_id = validate($_POST['category_ID']);
     $name = validate($_POST['productName']);
     $description = validate($_POST['productDescription']);
@@ -194,34 +194,34 @@ if (isset($POST['saveProduct'])) {
         'productImage' => $finalImage,
         'productAvailability' => $status
     ];
-    $result = insert('products', $data);
+    $result = insert('product', $data);
 
     if ($result) {
-        redirect('products.php', 'Product Created Successfully!');
+        redirect('product.php', 'Product Created Successfully!');
     } else {
-        redirect('products_create.php', 'Something Went Wrong!');
+        redirect('product_create.php', 'Something Went Wrong!');
     }
 }
 
 if (isset($_POST['updateProduct'])) {
-    $product_id = validate($_POST['product_id']);
+    $product_ID = validate($_POST['product_ID']);
 
-    $productData = getById('products', $product_id);
+    $productData = getById('product', $product_ID);
     if (!$productData) {
-        redirect('products.php', 'No such product found.');
+        redirect('product.php', 'No such product found.');
     }
 
-    $category_id = validate($_POST['category_id']);
-    $name = validate($_POST['name']);
-    $description = validate($_POST['description']);
+    $category_id = validate($_POST['category_ID']);
+    $name = validate($_POST['productName']);
+    $description = validate($_POST['productDescription']);
 
-    $price = validate($_POST['price']);
-    $quantity = validate($_POST['quantity']);
-    $status = isset($_POST['status']) == true ? 1 : 0;
+    $price = validate($_POST['productPrice']);
+    $quantity = validate($_POST['productQuantity']);
+    $status = isset($_POST['productStatus']) == true ? 1 : 0;
 
-    if ($_FILES['image']['size'] > 0) {
+    if ($_FILES['productImage']['size'] > 0) {
         $path = "../assets/uploads/products";
-        $image_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
 
         $filename = time() . '.' . $image_ext;
 
@@ -238,21 +238,21 @@ if (isset($_POST['updateProduct'])) {
     }
 
     $data = [
-        'category_id' => $category_id,
-        'name' => $name,
-        'description' => $description,
-        'price' => $price,
-        'quantity' => $quantity,
-        'image' => $finalImage,
-        'status' => $status
+        'category_ID' => $category_id,
+        'productName' => $name,
+        'productDescription' => $description,
+        'productPrice' => $price,
+        'productQuantity' => $quantity,
+        'productImage' => $finalImage,
+        'productStatus' => $status
     ];
 
-    $result = insert('products', $product_id, $data);
+    $result = insert('product', $product_id, $data);
 
     if ($result) {
-        redirect('products_edit.php?id=' . $product_id, 'Product Updated Successfully!');
+        redirect('product_edit.php?id=' . $product_id, 'Product Updated Successfully!');
     } else {
-        redirect('products_edit.php?id=' . $product_id, 'Something Went Wrong!');
+        redirect('product_edit.php?id=' . $product_id, 'Something Went Wrong!');
     }
 }
 
