@@ -116,17 +116,17 @@ function getAll($table)
             $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
         } elseif ($_GET['sort_alphabet'] == "number") {
             $sort_option = "ASC";
-            $sort_criteria = "ORDER BY CAST(staff_id AS UNSIGNED) $sort_option"; // Sort numerically by staff_id
+            $sort_criteria = "ORDER BY CAST(staff_ID AS UNSIGNED) $sort_option"; // Sort numerically by staff_id
         }
     } else {
         $sort_option = "ASC"; // Default sorting option
-        $sort_criteria = "ORDER BY staff_id $sort_option"; // Sort numerically by default
+        $sort_criteria = "ORDER BY staff_ID $sort_option"; // Sort numerically by default
     }
 
     // Adding search functionality
     if(isset($_GET['search']) && !empty($_GET['search'])){
         $filtervalues = $_GET['search'];
-        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_id,username,email) LIKE '%$filtervalues%' ";
+        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_ID,username,email) LIKE '%$filtervalues%' ";
     } else {
         $query = "SELECT * FROM `$table` $sort_criteria";
     }
