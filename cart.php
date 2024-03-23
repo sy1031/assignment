@@ -72,10 +72,7 @@ if(isset($_POST['checkout'])){
 
             mysqli_query($conn, "INSERT INTO `order_paid` (order_ID, product_ID, quantity, price) VALUES ('$order_id', '$product_ID', '$quantity', '$price')");
         }
-
-        // Clear cart after checkout
-        mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
-
+        
         // Redirect to checkout page with order ID
         header("Location: checkout.php?order_id=$order_id");
         exit();

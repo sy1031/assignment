@@ -72,7 +72,7 @@ try {
         // Commit the transaction
         $conn->commit();
 
-        echo "Payment information saved successfully and cart items deleted.";
+        //echo "Payment information saved successfully and cart items deleted.";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -80,8 +80,53 @@ try {
     // Close database connection
     $stmt->close();
     $conn->close();
+
 } catch (\Stripe\Exception\ApiErrorException $e) {
     // Handle Stripe API errors
     echo "Error: " . $e->getMessage();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 50px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .btn-return {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="mb-4">Payment Success</h1>
+            <p>Your payment has been processed successfully.</p>
+            <p>Thank you for your purchase!</p>
+            <a href="cart.php" class="btn btn-primary btn-return">Return to Cart</a>
+        </div>
+    </div>
+</body>
+</html>
