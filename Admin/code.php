@@ -161,7 +161,7 @@ if (isset($_POST['updateCategory'])) {
     }
 }
 
-if (isset($POST['saveProduct'])) {
+if (isset($_POST['saveProduct'])) {
     $category_id = validate($_POST['category_ID']);
     $name = validate($_POST['productName']);
     $description = validate($_POST['productDescription']);
