@@ -4,7 +4,8 @@ session_start();
 require 'dbcon.php';
 
 // Input field validation
-function validate($inputData){
+function validate($inputData)
+{
 
     global $conn;
     $validatedData = mysqli_real_escape_string($conn, $inputData);
@@ -12,18 +13,20 @@ function validate($inputData){
 }
 
 // Redirect from 1 page to another page with the message (status)
-function redirect($url, $status){
+function redirect($url, $status)
+{
     $_SESSION['status'] = $status;
-    header('Location: '.$url);
+    header('Location: ' . $url);
     exit(0);
 }
 
 //Display message or status after any process.
-function alertMessage(){
+function alertMessage()
+{
 
-    if(isset($_SESSION['status'])){
+    if (isset($_SESSION['status'])) {
         echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-           <h6>'.$_SESSION['status'].'</h6>
+           <h6>' . $_SESSION['status'] . '</h6>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
         unset($_SESSION['status']);
@@ -31,7 +34,8 @@ function alertMessage(){
 }
 
 //Insert record using this function
-function insert($tableName, $data){
+function insert($tableName, $data)
+{
 
     global $conn;
 
@@ -41,7 +45,7 @@ function insert($tableName, $data){
     $values = array_values($data);
 
     $finalColumn = implode(',', $columns);
-    $finalValues = "'".implode("' , '", $values)."'";
+    $finalValues = "'" . implode("' , '", $values) . "'";
 
     $query = "INSERT INTO $table ($finalColumn) VALUES ($finalValues)";
     $result = mysqli_query($conn, $query);
@@ -50,7 +54,8 @@ function insert($tableName, $data){
 
 // Update data using this function
 // Update data in both user and staff tables
-function update($tableName, $id, $data){
+function update($tableName, $id, $data)
+{
     global $conn;
 
     $table = validate($tableName);
@@ -58,14 +63,14 @@ function update($tableName, $id, $data){
 
     $updateDataString = "";
 
-    foreach($data as $column => $value){
-        $updateDataString .= $column.'='."'$value',";
+    foreach ($data as $column => $value) {
+        $updateDataString .= $column . '=' . "'$value',";
     }
 
     $finalUpdateData = rtrim($updateDataString, ',');
 
     $query = "UPDATE $table SET $finalUpdateData WHERE ";
-    
+
     // Append condition based on the table name
     if ($table === 'user') {
         $query .= "staff_ID='$id'";
@@ -96,24 +101,51 @@ function update($tableName, $id, $data){
 
 
 
-
-
-function getAll($tableName, $status = NULL){
-
+function getAll($table)
+{
     global $conn;
-    $table = validate($tableName);
-    $status = validate($status);
+    $sort_option = "";
+    $sort_criteria = ""; // Initialize sort_criteria variable
 
-    if($status == 'status'){
-        $query = "SELECT * FROM $table WHERE status='0'";
+    if (isset($_GET['sort_alphabet'])) {
+        if ($_GET['sort_alphabet'] == "a-z") {
+            $sort_option = "ASC";
+            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+        } elseif ($_GET['sort_alphabet'] == "z-a") {
+            $sort_option = "DESC";
+            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+        } elseif ($_GET['sort_alphabet'] == "number") {
+            $sort_option = "ASC";
+            $sort_criteria = "ORDER BY CAST(staff_id AS UNSIGNED) $sort_option"; // Sort numerically by staff_id
+        }
+    } else {
+        $sort_option = "ASC"; // Default sorting option
+        $sort_criteria = "ORDER BY staff_id $sort_option"; // Sort numerically by default
     }
-    else{
-        $query = "SELECT * FROM $table";
+
+    // Adding search functionality
+    if(isset($_GET['search']) && !empty($_GET['search'])){
+        $filtervalues = $_GET['search'];
+        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_id,username,email) LIKE '%$filtervalues%' ";
+    } else {
+        $query = "SELECT * FROM `$table` $sort_criteria";
     }
-    return mysqli_query($conn, $query);
+
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+    return $result;
 }
 
-function getById($tableName, $id){
+
+
+
+
+
+
+function getById($tableName, $id)
+{
     global $conn;
 
     $table = validate($tableName);
@@ -134,7 +166,7 @@ function getById($tableName, $id){
     $result = mysqli_query($conn, $query);
 
     if ($result) {
-        if(mysqli_num_rows($result) == 1){
+        if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             return [
                 'status' => 200,
@@ -155,10 +187,22 @@ function getById($tableName, $id){
     }
 }
 
+//delete order
+function deleteOrder($tableName, $id){
+    global $conn;
+
+    $table = validate($tableName);
+    $id = validate($id);
+
+    $query = "DELETE FROM $table WHERE order_ID='$id' LIMIT 1";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
 
 
 //Delete data from database using id
-function delete($tableName, $id){
+function delete($tableName, $id)
+{
 
     global $conn;
 
@@ -170,23 +214,24 @@ function delete($tableName, $id){
     return $result;
 }
 
-function checkParamId($type){
+function checkParamId($type)
+{
 
-    if(isset($_GET[$type])){
-        if($_GET[$type] != ''){
+    if (isset($_GET[$type])) {
+        if ($_GET[$type] != '') {
 
             return $_GET[$type];
-        }else{
+        } else {
             return '<h5>No ID Found</h5>';
         }
-    }else{
+    } else {
         return '<h5>No ID Given</h5>';
     }
 }
 
-function logoutSession(){
+function logoutSession()
+{
 
     unset($_SESSION['loggedIn']);
     unset($_SESSION['loggedInUser']);
 }
-?>

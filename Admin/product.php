@@ -4,19 +4,19 @@
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Products
-                <a href="products_create.php" class="btn btn-primary float-end">Add Product</a>
+                <a href="product_create.php" class="btn btn-primary float-end">Add Product</a>
             </h4>
         </div>
         <div class="card-body">
             <?php alertMessage(); ?>
 
             <?php
-            $staff = getAll('products');
-            if(!$products){
+            $product = getAll('product');
+            if(!$product){
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;
             }
-            if (mysqli_num_rows($products) > 0) {
+            if (mysqli_num_rows($product) > 0) {
 
 
             ?>
@@ -34,26 +34,26 @@
 
                         <tbody>
 
-                            <?php foreach ($products as $item) : ?>
+                            <?php foreach ($product as $item) : ?>
                                 <tr>
-                                    <td><?= $item['id'] ?></td>
+                                    <td><?= $item['product_ID'] ?></td>
                                     <td>
-                                        <img src="../<?= $item['image']; ?>" style="width:50px; height=50px" alt="Img">
+                                        <img src="../<?= $item['productImage']; ?>" style="width:50px; height=50px" alt="Img">
                                     </td>
-                                    <td><?= $item['email'] ?></td>
+                                    <td><?= $item['productName'] ?></td>
                                     <td>
                                         <?php
-                                            if($item['status'] == 1){
-                                                echo '<span class="badge bg-danger">Hidden</span>';
+                                            if($item['productAvailability'] == 1){
+                                                echo '<span class="badge bg-danger">Available</span>';
                                             }else{
-                                                echo '<span class="badge bg-primary">Visible</span>';
+                                                echo '<span class="badge bg-primary">Not Available</span>';
                                             }
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="products_edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="product_edit.php?id=<?= $item['product_ID']; ?>" class="btn btn-success btn-sm">Edit</a>
                                         <a 
-                                            href="products_delete.php?id=<?= $item['id']; ?>" 
+                                            href="product_delete.php?id=<?= $item['product_ID']; ?>" 
                                             class="btn btn-danger btn-sm"
                                             onclick="return confirm('Are you sure you want to delete this image?')"
                                         >

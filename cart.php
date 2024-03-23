@@ -63,6 +63,19 @@ if(isset($_POST['checkout'])){
         // Store the cart data in a session variable
         $_SESSION['cart'] = $cart_data;
 
+        // Insert order items into order_paid table
+        $select_cart_products = mysqli_query($conn, "SELECT * FROM `order_item` WHERE user_ID = $user_id");
+        while($fetch_cart_products=mysqli_fetch_assoc($select_cart_products)) {
+            $product_ID = $fetch_cart_products['product_ID'];
+            $quantity = $fetch_cart_products['quantity'];
+            $price = $fetch_cart_products['price'];
+
+            mysqli_query($conn, "INSERT INTO `order_paid` (order_ID, product_ID, quantity, price) VALUES ('$order_id', '$product_ID', '$quantity', '$price')");
+        }
+
+        // Clear cart after checkout
+        mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
+
         // Redirect to checkout page with order ID
         header("Location: checkout.php?order_id=$order_id");
         exit();
