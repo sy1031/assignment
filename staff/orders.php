@@ -30,7 +30,8 @@
                                     <th>Order ID</th>
                                     <th>User ID</th>
                                     <th>Order Date</th>
-                                    <th>Total Amount</th>
+                                    <th>Total Amount (RM)</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -41,6 +42,7 @@
                                         <td><?= $order['user_ID'] ?></td>
                                         <td><?= $order['order_date'] ?></td>
                                         <td><?= $order['total_amount'] ?></td>
+                                        <td><?= $order['order_status'] ?></td>
                                         <td>
                                             <a href="order_details.php?order_id=<?= $order['order_ID']; ?>" class="btn btn-success btn-sm">Details</a>
                                         </td>
