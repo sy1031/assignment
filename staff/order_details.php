@@ -43,7 +43,7 @@ include('Includes/header.php');
                                     <th>Product Name</th>
                                     <th>Product Image</th>
                                     <th>Quantity</th>
-                                    <th>Unit Price</th>
+                                    <th>Unit Price (RM)</th>
                                     <th>Total Price (RM)</th>
                                     <th>Action</th>
                                 </tr>

@@ -4,7 +4,7 @@ include 'config/function.php';
 $user_id = $_SESSION['loggedInUser']['user_ID'];
 
 // Fetch order details
-$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FROM `order` WHERE user_ID = $user_id");
+$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, order_status FROM `order` WHERE user_ID = $user_id");
 
 ?>
 
@@ -44,6 +44,8 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FR
                     <?php
                     $num = 1;
                     while ($order_row = mysqli_fetch_assoc($order_query)) {
+                        // Check if the order status is "success"
+                        if ($order_row['order_status'] === 'success') {
                     ?>
                         <tr>
                             <td><?php echo $num++; ?></td>
@@ -58,6 +60,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date FR
                             </td>
                         </tr>
                     <?php
+                        }
                     }
                     ?>
                 </tbody>

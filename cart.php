@@ -41,7 +41,7 @@ if(isset($_POST['checkout'])){
     $grand_total = $_POST['grand_total'];
 
     // Insert order into order table
-    $insert_order_query = mysqli_query($conn, "INSERT INTO `order` (user_ID, order_date, total_amount) VALUES ('$user_id', NOW(), '$grand_total')");
+    $insert_order_query = mysqli_query($conn, "INSERT INTO `order` (user_ID, order_date, total_amount, order_status) VALUES ('$user_id', NOW(), '$grand_total', 'pending')");
     if($insert_order_query) {
         // Get the order ID of the inserted order
         $order_id = mysqli_insert_id($conn);
