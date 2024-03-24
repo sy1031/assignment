@@ -128,8 +128,6 @@ try {
             <p>Your payment has been processed successfully.</p>
             <p>Thank you for your purchase!</p>
             <a href="cart.php" class="btn btn-primary btn-return">Return to Cart</a>
-            <a href="invoice.php?order_id=<?php echo $order_id; ?>" class="btn btn-success btn-download">Download
-                Invoice</a>
 
         </div>
     </div>
