@@ -41,8 +41,10 @@ include('Includes/header.php');
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
+                                    <th>Product Image</th>
                                     <th>Quantity</th>
                                     <th>Unit Price</th>
+                                    <th>Total Price (RM)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -56,9 +58,11 @@ include('Includes/header.php');
                                 ?>
                                     <tr>
                                         <td><?= $product['productName'] ?></td>
+                                        <td><img style="width:100px" src="../images/<?php echo $product['productImage']; ?>" /></td>
                                         <td><?= $order['quantity'] ?></td>
                                         <td><?= $order['price'] ?></td>
-                                        <td style="width: 500px">
+                                        <td><?= $order['price']*$order['quantity'] ?></td>
+                                        <td style="width: 300px">
                                             <form class="d-inline" method="post" action="order_delete.php" onsubmit="return confirm('Are you sure you want to delete?')">
                                                 <input type="hidden" name="order_paid_id" value="<?= $order['order_paid_ID'] ?>">
                                                 <input type="hidden" name="order_id" value="<?= $order_id ?>">
@@ -70,7 +74,7 @@ include('Includes/header.php');
                                                 <input type="hidden" name="order_paid_id" value="<?= $order['order_paid_ID'] ?>">
                                                 <label for="quantity">Quantity:</label>
                                                 <input type="number" id="quantity" name="quantity" value="<?= $order['quantity'] ?>" min="1" style="margin-top:20px; width: 100px;">
-                                                <button class="btn btn-success btn-sm edit-btn" type="submit">Update Quantity</button>
+                                                <button class="btn btn-success btn-sm edit-btn" type="submit">Update</button>
                                             </form>                                     
                                         </td>
                                     </tr>

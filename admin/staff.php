@@ -40,7 +40,7 @@
 
             <?php alertMessage(); ?>
             <?php
-            $staff = getAll('staff');
+            $staff = getStaffAll('staff');
             if (!$staff) {
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;

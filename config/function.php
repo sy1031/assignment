@@ -99,21 +99,46 @@ function update($tableName, $id, $data)
     return $result;
 }
 
+function getAll($tableName, $status = NULL)
+{
+    global $conn;
 
+    $table = validate($tableName);
+    $status = validate($status);
 
-function getAll($table)
+    if($status == 'status'){
+        $query = "SELECT * FROM $table WHERE status='0'";
+    }
+    else{
+        $query = "SELECT * FROM $table";
+    }
+    return mysqli_query($conn, $query);
+}
+
+function getOrderAll($table)
+{
+    global $conn;
+    $query = "SELECT * FROM `$table`";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+    return $result;
+}
+
+function getStaffAll($table)
 {
     global $conn;
     $sort_option = "";
-    $sort_criteria = ""; // Initialize sort_criteria variable
+    $sort_criteria = ""; 
 
     if (isset($_GET['sort_alphabet'])) {
         if ($_GET['sort_alphabet'] == "a-z") {
             $sort_option = "ASC";
-            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+            $sort_criteria = "ORDER BY username $sort_option"; 
         } elseif ($_GET['sort_alphabet'] == "z-a") {
             $sort_option = "DESC";
-            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+            $sort_criteria = "ORDER BY username $sort_option"; 
         } elseif ($_GET['sort_alphabet'] == "number") {
             $sort_option = "ASC";
             $sort_criteria = "ORDER BY CAST(staff_id AS UNSIGNED) $sort_option"; // Sort numerically by staff_id
@@ -126,7 +151,7 @@ function getAll($table)
     // Adding search functionality
     if(isset($_GET['search']) && !empty($_GET['search'])){
         $filtervalues = $_GET['search'];
-        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_id,username,email) LIKE '%$filtervalues%' ";
+        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_ID,username,email) LIKE '%$filtervalues%' ";
     } else {
         $query = "SELECT * FROM `$table` $sort_criteria";
     }
@@ -137,11 +162,6 @@ function getAll($table)
     }
     return $result;
 }
-
-
-
-
-
 
 
 function getById($tableName, $id)
