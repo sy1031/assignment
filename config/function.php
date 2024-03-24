@@ -121,15 +121,15 @@ function getStaffAll($table)
 {
     global $conn;
     $sort_option = "";
-    $sort_criteria = ""; // Initialize sort_criteria variable
+    $sort_criteria = ""; 
 
     if (isset($_GET['sort_alphabet'])) {
         if ($_GET['sort_alphabet'] == "a-z") {
             $sort_option = "ASC";
-            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+            $sort_criteria = "ORDER BY username $sort_option"; 
         } elseif ($_GET['sort_alphabet'] == "z-a") {
             $sort_option = "DESC";
-            $sort_criteria = "ORDER BY username $sort_option"; // Sort alphabetically by username
+            $sort_criteria = "ORDER BY username $sort_option"; 
         } elseif ($_GET['sort_alphabet'] == "number") {
             $sort_option = "ASC";
             $sort_criteria = "ORDER BY CAST(staff_id AS UNSIGNED) $sort_option"; // Sort numerically by staff_id
