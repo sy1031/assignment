@@ -45,6 +45,23 @@ if(isset($_POST['checkout'])){
     if($insert_order_query) {
         // Get the order ID of the inserted order
         $order_id = mysqli_insert_id($conn);
+        
+        // Fetch cart data from the database or any other source
+        $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
+        FROM order_item oi 
+        JOIN product p ON oi.product_ID = p.product_ID 
+        WHERE oi.user_ID = $user_id");
+        
+        // Initialize an empty array to store cart data
+        $cart_data = array();
+        
+        // Fetch each row of cart data and store it in the array
+        while($fetch_cart_products = mysqli_fetch_assoc($select_cart_products)) {
+            $cart_data[] = $fetch_cart_products;
+        }
+        
+        // Store the cart data in a session variable
+        $_SESSION['cart'] = $cart_data;
 
         // Insert order items into order_paid table
         $select_cart_products = mysqli_query($conn, "SELECT * FROM `order_item` WHERE user_ID = $user_id");
@@ -55,10 +72,7 @@ if(isset($_POST['checkout'])){
 
             mysqli_query($conn, "INSERT INTO `order_paid` (order_ID, product_ID, quantity, price) VALUES ('$order_id', '$product_ID', '$quantity', '$price')");
         }
-
-        // Clear cart after checkout
-        mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
-
+        
         // Redirect to checkout page with order ID
         header("Location: checkout.php?order_id=$order_id");
         exit();
@@ -66,6 +80,7 @@ if(isset($_POST['checkout'])){
         echo "Error creating order: " . mysqli_error($conn);
     }
 }
+
 
 ?>
 
