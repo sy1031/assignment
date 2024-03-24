@@ -1,82 +1,83 @@
 <div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <nav class="sb-sidenav accordion sb-sidenav-dark bg-warning" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="homepage.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-                    HomePage <!--changed from About Us to Dashboard--->
+                <div class="sb-sidenav-menu-heading text-dark">Core</div>
+                <a class="nav-link text-dark" href="homepage.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-home text-dark"></i></div>
+                    HomePage
                 </a>
 
-                <div class="sb-sidenav-menu-heading">Interface</div>
+                <div class="sb-sidenav-menu-heading text-dark">Interface</div>
 
                 <!--Categories--->
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">
-                    <div class="sb-nav-link-icon"><i class="fas fa-shopping-basket"></i></div>
+                <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">
+                    <div class="sb-nav-link-icon"><i class="fas fa-shopping-basket text-dark"></i></div>
                     Categories
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
                 </a>
                 <div class="collapse" id="collapseCategory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="category_create.php">Create Category</a>
-                        <a class="nav-link" href="category.php">View Category</a>
+                        <a class="nav-link text-dark" href="category_create.php">Create Category</a>
+                        <a class="nav-link text-dark" href="category.php">View Category</a>
                     </nav>
                 </div>
 
 
                 <!--Products--->
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProduct" aria-expanded="false" aria-controls="collapseProduct">
-                    <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProduct" aria-expanded="false" aria-controls="collapseProduct">
+                    <div class="sb-nav-link-icon"><i class="fas fa-box text-dark"></i></div>
                     Products
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
                 </a>
                 <div class="collapse" id="collapseProduct" data-bs-target="#collapseProduct" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="product_create.php">Create Product</a>
-                        <a class="nav-link" href="product.php">View Products</a>
+                        <a class="nav-link text-dark" href="product_create.php">Create Product</a>
+                        <a class="nav-link text-dark" href="product.php">View Products</a>
                     </nav>
                 </div>
 
-                 <!--Orders--->
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOrders" aria-expanded="false" aria-controls="collapseOrders">
-                    <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                <!--Orders--->
+                <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOrders" aria-expanded="false" aria-controls="collapseOrders">
+                    <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart text-dark"></i></div>
                     Orders
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
                 </a>
                 <div class="collapse" id="collapseOrders" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="orders.php">Orders List</a>
+                        <a class="nav-link text-dark" href="orders.php">Orders List</a>
                         <!-- <a class="nav-link" href="cus_orders.php">Customer's Orders</a> -->
                     </nav>
                 </div>
-                
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
+
+                <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                    <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave text-dark"></i></div>
                     Payment
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
                 </a>
 
-                <div class="sb-sidenav-menu-heading">Manage Users</div>
+                <div class="sb-sidenav-menu-heading text-dark">Manage Users</div>
 
                 <!---Staffs--->
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmins" aria-expanded="false" aria-controls="collapseAdmins">
-                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmins" aria-expanded="false" aria-controls="collapseAdmins">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users text-dark"></i></div>
                     Staff Only
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
                 </a>
                 <div class="collapse" id="collapseAdmins" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="staff.php">Employee List</a>
-                        <a class="nav-link" href="user.php">User List</a>
-                        <a class="nav-link" href="customers.php">Customer List</a>
+                        <a class="nav-link text-dark" href="staff.php">Employee List</a>
+                        <a class="nav-link text-dark" href="user.php">User List</a>
+                        <a class="nav-link text-dark" href="customers.php">Customer List</a>
                     </nav>
                 </div>
 
             </div>
         </div>
-        <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Start Bootstrap
+        <div class="sb-sidenav-footer bg-warning">
+            <div class="small text-dark">Logged in as:</div>
+            <div class="text-dark">Start Bootstrap</div>
         </div>
+
     </nav>
 </div>
