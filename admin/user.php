@@ -3,9 +3,7 @@
 <div class="container-fluid px-4">
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">User List
-                <a href="user_create.php" class="btn btn-primary float-end">Add User</a>
-            </h4>
+            <h4 class="mb-0">User List</h4>
         </div>
         <div class="card-body">
             <form action="" method="GET">
@@ -31,7 +29,7 @@
                         <div class="input-group mb-3">
                             <input type="text" name="search" value="<?php if (isset($_GET['search'])) {
                                                                         echo $_GET['search'];
-                                                                    } ?>" class="form_control" placeholder="Search data">
+                                                                    } ?>" class="form_control" placeholder=" Search data">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </div>
@@ -68,7 +66,7 @@
                                     <td><?= $userItem['email'] ?></td>
                                     <td><?= $userItem['password'] ?></td>
                                     <td>
-                                        <a href="staff_edit.php?id=<?= $userItem['user_ID']; ?>" class="btn btn-success btn-sm">Update</a>
+                                        <a href="user_edit.php?id=<?= $userItem['user_ID']; ?>" class="btn btn-success btn-sm">Update</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
