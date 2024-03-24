@@ -18,6 +18,23 @@ if (!is_numeric($order_id) || intval($order_id) <= 0) {
     exit;
 }
 
+// Retrieve the original total amount from the session
+$total_amount = $_SESSION['total_amount'] ?? 0;
+
+// Ensure that the original total amount is provided and valid
+if (!is_numeric($total_amount) || floatval($total_amount) <= 0) {
+    // Handle the case where the original total amount is missing or invalid
+    echo "Error: Invalid original total amount.";
+    exit;
+}
+
+// Retrieve the discounted total amount from the session
+$discounted_total_amount = $_SESSION['discounted_total_amount'] ?? null;
+
+// Calculate the payment amount (unit amount * quantity)
+$payment_amount = $discounted_total_amount !== null ? $discounted_total_amount : $total_amount;
+
+
 // Set your Stripe secret key
 \Stripe\Stripe::setApiKey("sk_test_51KA3yrDKdTwGg1g3k6jPrfkpvZ7P4QdfLoLQQrKbaHptXbr1mDIyTwt3eb9yHHPt6laaweaIQwTxrkTk3Mqex8al000djCqimv");
 
@@ -25,13 +42,6 @@ if (!is_numeric($order_id) || intval($order_id) <= 0) {
 if (isset ($_SESSION['cart']) && !empty ($_SESSION['cart'])) {
     // Retrieve the cart data
     $cart_data = $_SESSION['cart'];
-
-    // Calculate total amount
-    $total_amount = 0;
-    foreach ($cart_data as $item) {
-        $total = $item['productPrice'] * $item['quantity'];
-        $total_amount += $total;
-    }
 
     try {
         // Create a Stripe Checkout Session
@@ -41,7 +51,7 @@ if (isset ($_SESSION['cart']) && !empty ($_SESSION['cart'])) {
                 [
                     "price_data" => [
                         "currency" => "MYR",
-                        "unit_amount" => $total_amount * 100, // Stripe requires the amount in cents
+                        "unit_amount" => $payment_amount * 100, // Use payment amount based on discount
                         "product_data" => [
                             "name" => "Order Summary", // Change this to dynamically fetch product name
                         ],
