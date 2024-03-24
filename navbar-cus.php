@@ -14,8 +14,8 @@ if(isset($_SESSION['loggedInUser']['user_ID'])) {
 <nav class="navbar navbar-expand-lg bg-white shadow">
   <div class="container">
 
-    <a class="navbar-brand" href="homepage.php">
-        Company Name
+    <a class="navbar-brand" href="shop_products.php">
+        LLBC
     </a>
 
     <div class="row">
