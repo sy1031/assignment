@@ -99,9 +99,25 @@ function update($tableName, $id, $data)
     return $result;
 }
 
+function getAll($tableName, $status = NULL)
+{
+    global $conn;
+
+    $table = validate($tableName);
+    $status = validate($status);
+
+    if($status == 'status'){
+        $query = "SELECT * FROM $table WHERE status='0'";
+    }
+    else{
+        $query = "SELECT * FROM $table";
+    }
+    return mysqli_query($conn, $query);
+}
 
 
-function getAll($table)
+
+function getStaffAll($table)
 {
     global $conn;
     $sort_option = "";
@@ -126,7 +142,7 @@ function getAll($table)
     // Adding search functionality
     if(isset($_GET['search']) && !empty($_GET['search'])){
         $filtervalues = $_GET['search'];
-        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_id,username,email) LIKE '%$filtervalues%' ";
+        $query = "SELECT * FROM $table WHERE CONCAT(first_name,last_name,staff_ID,username,email) LIKE '%$filtervalues%' ";
     } else {
         $query = "SELECT * FROM `$table` $sort_criteria";
     }
@@ -137,11 +153,6 @@ function getAll($table)
     }
     return $result;
 }
-
-
-
-
-
 
 
 function getById($tableName, $id)

@@ -38,7 +38,7 @@
 
             <?php alertMessage(); ?>
             <?php
-            $user = getAll('user');
+            $user = getStaffAll('user');
             if (!$user) {
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;
