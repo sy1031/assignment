@@ -16,7 +16,7 @@
             <div class="card-body">
                 <?php alertMessage(); ?>
                 <?php
-                $orders = getAll('order'); // Fetch orders from the 'order' table
+                $orders = getOrderAll('order'); // Fetch orders from the 'order' table
                 if(!$orders){
                     echo '<h4>Something Went Wrong!</h4>';
                     return false;

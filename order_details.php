@@ -10,7 +10,7 @@ if (!isset($_SESSION['loggedInUser'])) {
 if(isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
-    $order_query = mysqli_query($conn, "SELECT op.product_ID, op.quantity, op.price, p.productName 
+    $order_query = mysqli_query($conn, "SELECT op.product_ID, op.quantity, op.price, p.productName, p.productImage 
                                         FROM order_paid op 
                                         INNER JOIN product p ON op.product_ID = p.product_ID
                                         WHERE op.order_ID = $order_id");
@@ -42,8 +42,10 @@ if(isset($_GET['order_id'])) {
                         <tr>
                             <th>No</th>
                             <th>Product Name</th>
+                            <th>Product Image</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>Total Price (RM)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,8 +56,10 @@ if(isset($_GET['order_id'])) {
                             <tr>
                                 <td><?php echo $num++; ?></td>
                                 <td><?php echo $order_row['productName']; ?></td>
+                                <td><img style="width:100px" src="images/<?php echo $order_row['productImage']; ?>" /></td>
                                 <td><?php echo $order_row['quantity']; ?></td>
                                 <td><?php echo $order_row['price']; ?></td>
+                                <td><?= $order_row['price']*$order_row['quantity'] ?></td>
                             </tr>
                         <?php
                         }

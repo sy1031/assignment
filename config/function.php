@@ -115,7 +115,16 @@ function getAll($tableName, $status = NULL)
     return mysqli_query($conn, $query);
 }
 
-
+function getOrderAll($table)
+{
+    global $conn;
+    $query = "SELECT * FROM `$table`";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+    return $result;
+}
 
 function getStaffAll($table)
 {
