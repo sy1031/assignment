@@ -60,7 +60,7 @@ if (isset ($_SESSION['cart']) && !empty ($_SESSION['cart'])) {
                 ],
             ],
             "mode" => "payment",
-            "success_url" => "http://localhost:8080/Assignment_server-side/assignment/success.php?order_id={$order_id}",
+            "success_url" => "http://localhost:8080/Assignment_server-side/assignment/success.php?order_id={$order_id}&payment_amount={$payment_amount}",
             "cancel_url" => "http://localhost:8080/Assignment_server-side/assignment/index.php",
         ]);
 
@@ -95,6 +95,9 @@ if (isset ($_GET['payment_intent'])) {
             // Payment succeeded, update your database and fulfill the order
             echo "Payment succeeded. Order ID: $order_id";
             // Perform database update and order fulfillment
+
+            // Reset the discounted total amount session variable
+            unset($_SESSION['discounted_total_amount']);
         } else {
             // Payment failed or has a different status, handle accordingly
             echo "Payment failed or has a different status: $payment_status";

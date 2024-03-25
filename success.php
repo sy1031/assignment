@@ -4,13 +4,24 @@ require_once __DIR__ . "/vendor/autoload.php";
 
 // Retrieve order ID from URL parameter
 $order_id = $_GET['order_id'] ?? null;
+$payment_amount = $_GET['payment_amount'] ?? null;
 
-// Check if the order ID is provided
-if (!$order_id) {
-    // Handle the case where order ID is not provided
-    echo "Error: Order ID is missing.";
+// Check if the order ID and payment amount are provided
+if (!$order_id || !$payment_amount) {
+    // Handle the case where order ID or payment amount is missing
+    echo "Error: Order ID or payment amount is missing.";
     exit;
 }
+
+// Ensure that the necessary session variables are set
+if (!isset ($_SESSION['total_amount']) || !isset ($_SESSION['discounted_total_amount'])) {
+    echo "Error: Total amount information is missing.";
+    exit;
+}
+
+// Retrieve total amount and discounted total amount from session
+$total_amount = $_SESSION['total_amount'];
+$discounted_total_amount = $_SESSION['discounted_total_amount'];
 
 // Check if the cart data is available in the session
 if (!isset ($_SESSION['cart']) || empty ($_SESSION['cart'])) {
@@ -19,8 +30,6 @@ if (!isset ($_SESSION['cart']) || empty ($_SESSION['cart'])) {
     exit;
 }
 
-// Initialize total amount
-$total_amount = 0;
 
 // Iterate through each item in the cart to calculate the total amount
 foreach ($_SESSION['cart'] as $item) {
@@ -37,6 +46,9 @@ foreach ($_SESSION['cart'] as $item) {
 // Set your Stripe secret key
 \Stripe\Stripe::setApiKey("sk_test_51KA3yrDKdTwGg1g3k6jPrfkpvZ7P4QdfLoLQQrKbaHptXbr1mDIyTwt3eb9yHHPt6laaweaIQwTxrkTk3Mqex8al000djCqimv");
 
+// Calculate the payment amount (unit amount * quantity)
+$payment_amount = $discounted_total_amount !== null ? $discounted_total_amount : $total_amount;
+
 try {
     // Connect to your MySQL database
     $conn = new mysqli('localhost', 'root', '', 'assignment');
@@ -52,7 +64,7 @@ try {
     // Prepare SQL statement to insert payment data
     $sql = "INSERT INTO payment (payment_Date, payment_Amount, payment_Status, order_ID) VALUES (NOW(), ?, 'success', ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("di", $total_amount, $order_id);
+    $stmt->bind_param("di", $payment_amount, $order_id);
 
     // Execute SQL statement
     if ($stmt->execute()) {
@@ -135,6 +147,7 @@ try {
             <p>Your payment has been processed successfully.</p>
             <p>Thank you for your purchase!</p>
             <a href="cart.php" class="btn btn-primary btn-return">Return to Cart</a>
+            <a href="payment_history.php?user_id=<?php echo $_SESSION['loggedInUser']['user_ID']; ?>" class="btn btn-primary btn-return">View Your Payment History</a>
 
         </div>
     </div>
