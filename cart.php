@@ -24,16 +24,16 @@ if(isset($_GET['remove'])){
     header('location: cart.php');
 }
 
-//Remove all query
-if(isset($_GET['delete_all'])){
-    // Get the customer's order_ID from the order table
-    $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE user_ID = '$user_id'");
-    $order_row = mysqli_fetch_assoc($get_order_id_query);
-    $order_id = $order_row['order_ID'];
+// //Remove all query
+// if(isset($_GET['delete_all'])){
+//     // Get the customer's order_ID from the order table
+//     $get_order_id_query = mysqli_query($conn, "SELECT order_ID FROM `order` WHERE user_ID = '$user_id'");
+//     $order_row = mysqli_fetch_assoc($get_order_id_query);
+//     $order_id = $order_row['order_ID'];
 
-    mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
-    header('location:cart.php');
-}
+//     mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
+//     header('location:cart.php');
+// }
 
 // Checkout
 if(isset($_POST['checkout'])){
@@ -81,7 +81,6 @@ if(isset($_POST['checkout'])){
     }
 }
 
-
 ?>
 
 <!DOCTYPE html>
@@ -89,12 +88,14 @@ if(isset($_POST['checkout'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart Page</title>
+    <title>Shopping Cart</title>
 
     <!-- CSS file -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 
 <body>
@@ -102,85 +103,95 @@ if(isset($_POST['checkout'])){
     <?php include 'header.php'?>
 
     <div class="container">
-        <section class="shopping_cart">
-            <h1 class="heading">My Cart</h1>
+        <section class="shopping-cart">
+            <h1 class="block-heading">Shopping Cart</h1>
 
-            <table>
-                <?php
-                $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
-                FROM order_item oi 
-                JOIN product p ON oi.product_ID = p.product_ID 
-                WHERE oi.user_ID = $user_id");
-                
-                $num = 1;
-                $grand_total = 0;
-                if(mysqli_num_rows($select_cart_products) > 0){
-                    ?>
-                    <a href="cart.php?delete_all" class="delete_all_btn" 
-                        onclick = "return confirm('Are you sure you want to delete all items?')">
-                        <i class="fas fa-trash"></i>Delete All
-                    </a>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12 col-lg-8">
                     <?php
-                    echo "<thead>
-                            <th>No</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price (RM)</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Action</th>
-                          </thead>
-                          <tbody>";
-                    while($fetch_cart_products=mysqli_fetch_assoc($select_cart_products)) {
-                        ?>
-                        <tr>
-                            <td><?php echo $num ?></td>
-                            <td><?php echo $fetch_cart_products['productName']?></td>
-                            <td><img src="images/<?php echo $fetch_cart_products['productImage']?>" alt="<?php echo $fetch_cart_products['productName']?>" style="width: 200px; height: auto;"></td>                            
-                            <td><?php echo $fetch_cart_products['productPrice']?></td>
-                            <td>
-                                <form action="" method="post">
-                                    <input type="hidden" value="<?php echo $fetch_cart_products['order_item_ID']?>" name="update_quantity_id">
-                                <div class="quantity_box">
-                                <input type="number" min="1" value="<?php echo $fetch_cart_products['quantity'] ?>" name="update_quantity">                                
-                                <input type="submit" class="update_quantity" value="Update" name="update_product_quantity">
+                        $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
+                        FROM order_item oi 
+                        JOIN product p ON oi.product_ID = p.product_ID 
+                        WHERE oi.user_ID = $user_id");
+                        
+                        $num = 1;
+                        $grand_total = 0;
+                        if(mysqli_num_rows($select_cart_products) > 0){
+                            while($fetch_cart_products=mysqli_fetch_assoc($select_cart_products)) {
+
+                    ?>
+                        <div class="items">
+                            <div class="product">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="images/<?php echo $fetch_cart_products['productImage']?>" alt="<?php echo $fetch_cart_products['productName']?>" style="width: 180px; height: auto;">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="info">
+                                            <div class="row">
+                                                <div class="col-md-5 product-name">
+                                                    <div class="product-name">
+                                                        <a href="#"><?php echo $fetch_cart_products['productName']?></a>
+                                                        <div class="product-info">
+                                                            <div>Category: <span class="value">Laptop</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 quantity">
+                                                    <form action="cart.php" method="post">
+                                                        <label for="quantity" class="input-group-prepend">Quantity:</label>
+                                                        <div class="input-group">
+                                                            <input id="quantity" type="number" name="update_quantity" value="<?php echo $fetch_cart_products['quantity'] ?>" class="form-control quantity-input">
+                                                            <input type="hidden" name="update_quantity_id" value="<?php echo $fetch_cart_products['order_item_ID'] ?>"> <!-- Hidden field to store order_item_ID -->
+                                                            <div class="input-group-append">
+                                                                <button type="submit" name="update_product_quantity" class="btn">
+                                                                    <i class="fas fa-check"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="col-md-3 price">
+                                                    <span>RM<?php echo $fetch_cart_products['productPrice']?></span>
+                                                </div>
+                                                <div class="col-md-3 remove">
+                                                    <a href="cart.php?remove=<?php echo $fetch_cart_products['order_item_ID']?>"
+                                                    onclick = "return confirm('Are you sure you want to delete?')">                           
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                </form>
-                            </td>
-                            <td>RM<?php echo $subtotal=($fetch_cart_products['productPrice']
-                            * $fetch_cart_products['quantity'])?></td>
-                            <td>
-                                <a href="cart.php?remove=<?php echo $fetch_cart_products['order_item_ID']?>"
-                                onclick = "return confirm('Are you sure you want to delete?')">                           
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     <?php
-                    $grand_total=$grand_total+($fetch_cart_products['price']*$fetch_cart_products['quantity']);
-                    $num++;
-                    }
+                            $grand_total=$grand_total+($fetch_cart_products['price']*$fetch_cart_products['quantity']);
+                            $num++;
+                            }
+                        }
                     ?>
-                    
-                </tbody>
-            </table>
-
-            <!-- bottom area -->
-            <form action="cart.php" method="post">
-                <div class="table_bottom">
-                    <h3 class="bottom_txt">Grand total: RM<span><?php echo $grand_total?></span></h3>
-                    <div class="line"></div>
-                    <input type="hidden" name="grand_total" value="<?php echo $grand_total; ?>">
-                    <button type="submit" class="bottom_btn" name="checkout">Proceed to checkout</button>
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="summary">
+                            <h3>Summary</h3>
+                            <div class="summary-item"><span class="text">Grand total</span><span class="price">RM<?php echo $grand_total?></span></div>
+                            <div class="summary-item"><span class="text">Shipping</span><span class="price">RM0</span></div>
+                            <div class="summary-item"><span class="text">Total</span><span class="price" style="font-weight:bold">RM<?php echo $grand_total?></span></div>
+                            <form action="cart.php" method="post">
+                                <input type="hidden" name="grand_total" value="<?php echo $grand_total; ?>">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" name="checkout">Proceed to checkout</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
-
-            <?php
-            } else {
-                echo "<div class='empty_text'>Cart is Empty</div>";
-            }
-            ?>
+            </div>
         </section>
-    </div>        
+    </div>
+
+    <?php include 'footer.php'?>
 </body>
+
 </html>
