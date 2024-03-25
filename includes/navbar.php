@@ -20,7 +20,7 @@
             <a class="nav-link" href="#"><?=$_SESSION['loggedInUser']['username']; ?></a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-danger" href="../logout.php">Logout</a>
+            <a class="btn btn-danger" href="logout.php">Logout</a>
           </li>
 
           <?php else: ?>
