@@ -6,6 +6,7 @@ require_once __DIR__ . "/vendor/autoload.php";
 $order_id = $_GET['order_id'] ?? null;
 $payment_amount = $_GET['payment_amount'] ?? null;
 
+
 // Check if the order ID and payment amount are provided
 if (!$order_id || !$payment_amount) {
     // Handle the case where order ID or payment amount is missing
@@ -14,14 +15,14 @@ if (!$order_id || !$payment_amount) {
 }
 
 // Ensure that the necessary session variables are set
-if (!isset ($_SESSION['total_amount']) || !isset ($_SESSION['discounted_total_amount'])) {
-    echo "Error: Total amount information is missing.";
-    exit;
-}
+// if (!isset ($_SESSION['total_amount']) || !isset ($_SESSION['discounted_total_amount'])) {
+//     echo "Error: Total amount information is missing.";
+//     exit;
+// }
 
 // Retrieve total amount and discounted total amount from session
-$total_amount = $_SESSION['total_amount'];
-$discounted_total_amount = $_SESSION['discounted_total_amount'];
+// $total_amount = $_SESSION['total_amount'];
+// $discounted_total_amount = $_SESSION['discounted_total_amount'];
 
 // Check if the cart data is available in the session
 if (!isset ($_SESSION['cart']) || empty ($_SESSION['cart'])) {
@@ -32,22 +33,22 @@ if (!isset ($_SESSION['cart']) || empty ($_SESSION['cart'])) {
 
 
 // Iterate through each item in the cart to calculate the total amount
-foreach ($_SESSION['cart'] as $item) {
-    // Ensure that productPrice and quantity keys are set for each item
-    if (isset ($item['productPrice'], $item['quantity'])) {
-        $total_amount += $item['productPrice'] * $item['quantity'];
-    } else {
-        // Handle the case where productPrice or quantity keys are missing
-        echo "Error: Missing product price or quantity.";
-        exit;
-    }
-}
+// foreach ($_SESSION['cart'] as $item) {
+//     // Ensure that productPrice and quantity keys are set for each item
+//     if (isset ($item['productPrice'], $item['quantity'])) {
+//         $total_amount += $item['productPrice'] * $item['quantity'];
+//     } else {
+//         // Handle the case where productPrice or quantity keys are missing
+//         echo "Error: Missing product price or quantity.";
+//         exit;
+//     }
+// }
 
 // Set your Stripe secret key
 \Stripe\Stripe::setApiKey("sk_test_51KA3yrDKdTwGg1g3k6jPrfkpvZ7P4QdfLoLQQrKbaHptXbr1mDIyTwt3eb9yHHPt6laaweaIQwTxrkTk3Mqex8al000djCqimv");
 
 // Calculate the payment amount (unit amount * quantity)
-$payment_amount = $discounted_total_amount !== null ? $discounted_total_amount : $total_amount;
+//$payment_amount = $discounted_total_amount !== null ? $discounted_total_amount : $total_amount;
 
 try {
     // Connect to your MySQL database
@@ -153,4 +154,8 @@ try {
     </div>
 </body>
 
+
+<style>
+    
+</style>
 </html>

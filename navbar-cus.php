@@ -26,6 +26,9 @@ if(isset($_SESSION['loggedInUser']['user_ID'])) {
                     <li class="nav-item">
                         <a class="nav-link" href="shop_products.php">Shop</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payment_history.php">Payment</a> 
+                    </li>
                     <li class="nav-item logout">
                         <a class="nav-link" href="logout.php">Logout</a>
                     </li>
