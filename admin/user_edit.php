@@ -4,7 +4,7 @@
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Edit User
-                <a href="staff.php" class="btn btn-danger float-end">Back</a>
+                <a href="user.php" class="btn btn-danger float-end">Back</a>
             </h4>
         </div>
         <div class="card-body">
@@ -30,7 +30,7 @@
                 if ($userData) {
                     if ($userData['status'] == 200) {
                 ?>
-                        <input type="hidden" name="staff_ID" value="<?= $userData['data']['staff_ID']; ?>">
+                        <input type="hidden" name="user_ID" value="<?= $userData['data']['user_ID']; ?>">
 
                         <div class="row">
 

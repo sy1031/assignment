@@ -18,17 +18,27 @@ if(isset($_POST['registerBtn'])) {
     } else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+        // Insert data into the user table
         $query = "INSERT INTO user (username, phone, email, usertype, password) 
                   VALUES ('$username', '$phone', '$email', '$usertype', '$hashedPassword')";
         $result = mysqli_query($conn, $query);
 
-        if($result) {
+        // Get the user ID of the newly inserted user
+        $userId = mysqli_insert_id($conn);
+
+        // Insert data into the customer table
+        $customerQuery = "INSERT INTO customer (username, phone, email, password, user_ID) 
+                        VALUES ('$username', '$phone', '$email', '$hashedPassword', '$userId')";
+        $customerResult = mysqli_query($conn, $customerQuery);
+
+        if($result && $customerResult) {
             redirect('login.php', 'Registration successful. Please login to continue.');
         } else {
             redirect('register.php', 'Error registering user. Please try again.');
         }
     }
 }
+
 ?>
 
 <div class="py-5 bg-light">

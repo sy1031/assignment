@@ -122,6 +122,109 @@ if (isset($_POST['updateStaff'])) {
     }
 }
 
+if (isset($_POST['updateUser'])) {
+    $userId = validate($_POST['user_ID']);
+
+    // Retrieve existing user data
+    $userData = getById('user', $userId);
+    if ($userData['status'] != 200) {
+        redirect('user_edit.php?id=' . $userId, 'User not found.');
+    }
+
+    $username = validate($_POST['username']);
+    $password = validate($_POST['password']);
+
+    // Prepare data for updating user
+    $user_data = [
+        'username' => $username,
+        'password' => password_hash($password, PASSWORD_DEFAULT) // Hash the new password
+    ];
+
+    // Update user record using user_id
+    $result_user = update_user_pass('user', $userId, $user_data);
+
+    if ($result_user) {
+        // Update customer record with the same username
+        $customer_data = [
+            'username' => $username
+        ];
+        $result_customer = update_user_pass('customer', $userData['data']['user_ID'], $customer_data);
+
+        // Update staff record with the same username (assuming you have a staff_ID available)
+        $staff_data = [
+            'username' => $username
+        ];
+        $result_staff = update_user_pass('staff', $userData['data']['staff_ID'], $staff_data);
+
+        // Check if all updates were successful
+        if ($result_customer && $result_staff) {
+            redirect('user_edit.php?id=' . $userId, 'Username and Password Updated Successfully!');
+        } else {
+            redirect('user_edit.php?id=' . $userId, 'Something Went Wrong');
+        }
+    } else {
+        redirect('user_edit.php?id=' . $userId, 'Error updating username and password.');
+    }
+}
+
+
+
+
+if (isset($_POST['updateCustomer'])) {
+
+    $customerId = validate($_POST['customer_ID']);
+
+    // Retrieve existing customer data
+    $customerData = getById('customer', $customerId);
+    if ($customerData['status'] != 200) {
+        redirect('customer_edit.php?id=' . $customerId, 'Customer not found.');
+    }
+
+    // Retrieve user ID associated with the customer ID
+    $userId = $customerData['data']['user_ID'];
+
+    $first_name = validate($_POST['first_name']);
+    $last_name = validate($_POST['last_name']);
+    $email = validate($_POST['email']);
+    $phone = validate($_POST['phone']);
+    $username = validate($_POST['username']);
+
+    if ($username != '' && $email != '') {
+        // Prepare data for updating customer
+        $customer_data = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'phone' => $phone,
+            'username' => $username
+        ];
+
+        // Update customer record
+        $result_customer = update('customer', $customerId, $customer_data);
+
+        // Prepare data for updating user
+        $user_data = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'phone' => $phone,
+            'username' => $username,
+        ];
+
+        // Update user record using user_id
+        $result_user = update('user', $userId, $user_data);
+
+        if ($result_customer && $result_user) {
+            redirect('customer_edit.php?id=' . $customerId, 'Customer Updated Successfully!');
+        } else {
+            redirect('customer_edit.php?id=' . $customerId, 'Something Went Wrong');
+        }
+    } else {
+        redirect('customer_edit.php?id=' . $customerId, 'Please fill required fields.');
+    }
+}
+
+
 
 
 if (isset($_POST['saveCategory'])) {

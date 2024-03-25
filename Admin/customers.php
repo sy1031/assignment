@@ -3,21 +3,47 @@
 <div class="container-fluid px-4">
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Customers
-                <a href="customers_create.php" class="btn btn-primary float-end">Create Customer Account</a>
-            </h4>
+            <h4 class="mb-0">Customer List</h4>
         </div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <select name="sort_alphabet" class="form-control">
+                                <option value="">--Select Option--</option>
+                                <option value="a-z" <?php if (isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "a-z") {
+                                                        echo "selected";
+                                                    } ?>>Ascending Order</option>
+                                <option value="z-a" <?php if (isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "z-a") {
+                                                        echo "selected";
+                                                    } ?>>Descending Order</option>
+                            </select>
+
+                            <button type="submit" class="input-group-text btn btn-primary" id="basic-addon2">
+                                Sort
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="input-group mb-3">
+                            <input type="text" name="search" value="<?php if (isset($_GET['search'])) {
+                                                                        echo $_GET['search'];
+                                                                    } ?>" class="form_control" placeholder=" Search data">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
             <?php alertMessage(); ?>
-
             <?php
-            $customers = getAll('customers');
-            if(!$customers){
+            $customer = getCustomerAll('customer');
+            if (!$customer) {
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;
             }
-            if (mysqli_num_rows($customers) > 0) {
+            if (mysqli_num_rows($customer) > 0) {
 
 
             ?>
@@ -26,39 +52,25 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>Username</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
 
-                            <?php foreach ($customers as $item) : ?>
+                            <?php foreach ($customer as $customerItem) : ?>
                                 <tr>
-                                    <td><?= $item['id'] ?></td>
-                                    <td><?= $item['name'] ?></td>
-                                    <td><?= $item['email'] ?></td>
-                                    <td><?= $item['phone'] ?></td>
+                                    <td><?= $customerItem['customer_ID'] ?></td>
+                                    <td><?= $customerItem['username'] ?></td>
+                                    <td><?= $customerItem['first_name'] ?></td>
+                                    <td><?= $customerItem['last_name'] ?></td>
+                                    <td><?= $customerItem['email'] ?></td>
                                     <td>
-                                        <?php
-                                            if($item['status'] == 1){
-                                                echo '<span class="badge bg-danger">Hidden</span>';
-                                            }else{
-                                                echo '<span class="badge bg-primary">Visible</span>';
-                                            }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <a href="customers_edit.php?id=<?= $item['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                        <a
-                                            href="customers_delete.php?id=<?= $item['id']; ?>" 
-                                            class="btn btn-danger btn-sm">
-                                            onclick="return confirm('Are you sure to delete this data?')"
-                                            Delete
-                                        </a>
+                                        <a href="customer_edit.php?id=<?= $customerItem['customer_ID']; ?>" class="btn btn-success btn-sm">Update</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
