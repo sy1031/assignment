@@ -25,11 +25,11 @@
                 </div>
 
                 <div class="col-md-6"> <!--To hide categories that you don't want to delete but want it to be unvisible to users--->
-                    <label for="">Status(UnChecked = Visible, Checked = Hidden)</label>
+                    <label for="">Would you like to hide the inserted information?</label>
                     <br/>
                     <input type="checkbox" name="categoryStatus" style="width:30px;height:30px";>
                 </div>
-categoryStatus
+
                 <div class="col-md-6 mb-3 text-end">
                     <br/>
                     <button type="submit" name="saveCategory" class="btn btn-primary">Save</button>

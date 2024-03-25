@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="">Status(Unchecked = Available, Checked = Unavailable)</label>
+                    <label for="">Would you like to hide the inserted information?</label>
                     <br/>
                     <input type="checkbox" name="productAvailability" style="width:30px;height:30px";>
                 </div>
