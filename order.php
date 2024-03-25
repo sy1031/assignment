@@ -3,8 +3,11 @@ include 'config/function.php';
 
 $user_id = $_SESSION['loggedInUser']['user_ID'];
 
-// Fetch order details
-$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, order_status FROM `order` WHERE user_ID = $user_id");
+// Determine the filter condition based on the button clicked
+$filter_condition = isset($_GET['filter']) ? $_GET['filter'] : 'to_receive';
+
+// Fetch order details based on the filter condition
+$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, order_status, delivery_status FROM `order` WHERE user_ID = $user_id AND order_status = 'success' AND delivery_status " . ($filter_condition === 'to_receive' ? "!= 'delivered'" : "= 'delivered'"));
 
 ?>
 
@@ -16,7 +19,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
     <title>Order</title>
 
     <!-- CSS file -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <!-- font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -24,48 +27,65 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
 <body>
     <!-- include header -->
     <?php include 'header.php'?>
-
-    <div class="container">
-        <h1 class="heading">Orders Tracking</h1>
-        <?php if(mysqli_num_rows($order_query) == 0): ?>
-            <h3 style="text-align:center">Order history is empty</h3>
-        <?php else: ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Order ID</th>
-                        <th>Total Amount</th>
-                        <th>Order Date</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $num = 1;
-                    while ($order_row = mysqli_fetch_assoc($order_query)) {
-                        // Check if the order status is "success"
-                        if ($order_row['order_status'] === 'success') {
-                    ?>
-                        <tr>
-                            <td><?php echo $num++; ?></td>
-                            <td><?php echo $order_row['order_ID']; ?></td>
-                            <td>RM<?php echo $order_row['total_amount']; ?></td>
-                            <td><?php echo $order_row['order_date']; ?></td>
-                            <td>
-                                <form action="order_details.php" method="get">
-                                    <input type="hidden" name="order_id" value="<?php echo $order_row['order_ID']; ?>">
-                                    <button class="detail_btn" type="submit">Details</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php
-                        }
-                    }
-                    ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
+    <div class="order">
+        <h1 class="block-heading">Orders Tracking</h1>
+        <!-- ToRecieve/Completed -->
+        <div class="choose_btn">
+            <a href="?filter=to_receive" class="single-choose-btn">To Receive</a>
+            <a href="?filter=completed" class="single-choose-btn">Completed</a>
+        </div>
+        <div >
+            <?php if(mysqli_num_rows($order_query) == 0): ?>
+                <h3 style="text-align:center; margin-bottom:800px;">Empty</h3>
+            <?php else: 
+                $num = 1;
+                while ($order_row = mysqli_fetch_assoc($order_query)) {?>
+                    <div class="card px-2 ">
+                        <div class="card-header bg-white ">
+                            <div class="row align-items-center ">
+                                <div class="col">
+                                    <p class="text-muted mb-0">Order ID: <span class="font-weight-bold text-dark"><?php echo $order_row['order_ID']; ?></span></p> 
+                                    <p class="text-muted mb-0">Place On: <span class="font-weight-bold text-dark"><?php echo $order_row['order_date']; ?></span></p>
+                                </div>
+                                <div class="col-auto">
+                                    <h6 class="mb-0">
+                                        <form action="order_details.php" method="get">
+                                            <input type="hidden" name="order_id" value="<?php echo $order_row['order_ID']; ?>">
+                                            <button class="btn btn-link detail_btn" type="submit">View Details</button>
+                                        </form>                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="media flex-column flex-sm-row">
+                                    <div class="media-body ">
+                                        <h4 class="mt-3 mb-4 bold"> <span class="mt-5">RM</span><?php echo $order_row['total_amount']; ?></h4>
+                                        <p class="text-muted">Tracking Status:</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-3">
+                                <div class="col">
+                                    <ul id="progressbar">
+                                        <?php
+                                        // Determine the step based on delivery status
+                                        $delivery_status = $order_row['delivery_status'];
+                                        $step1_class = ($delivery_status === 'paid' || $delivery_status === 'processing' || $delivery_status === 'shipped' || $delivery_status === 'delivered') ? 'step0 active' : 'step0';
+                                        $step2_class = ($delivery_status === 'shipped' || $delivery_status === 'delivered') ? 'step0 active text-center' : 'step0';
+                                        $step3_class = ($delivery_status === 'delivered') ? 'step0 active text-right' : 'step0';
+                                        ?>
+                                        <li class="<?php echo $step1_class; ?>" id="step1">PAID</li>
+                                        <li class="<?php echo $step2_class; ?>" id="step2">SHIPPED</li>
+                                        <li class="<?php echo $step3_class; ?>" id="step3">DELIVERED</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+            endif; ?>
+        </div>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>

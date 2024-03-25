@@ -44,7 +44,7 @@
                                         <td><?= $order['total_amount'] ?></td>
                                         <td><?= $order['order_status'] ?></td>
                                         <td>
-                                            <a href="order_details.php?order_id=<?= $order['order_ID']; ?>" class="btn btn-success btn-sm">Details</a>
+                                            <a href="order_details.php?order_id=<?= $order['order_ID']; ?>" class="btn btn-success">Details</a>
                                         </td>
 
                                     </tr>

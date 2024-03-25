@@ -91,36 +91,37 @@ if(isset($_POST['checkout'])){
     <title>Shopping Cart</title>
 
     <!-- CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <!-- font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> -->
 </head>
 
 <body>
     <!-- include header -->
     <?php include 'header.php'?>
 
-    <div class="container">
+    <div class="container_cart">
         <section class="shopping-cart">
             <h1 class="block-heading">Shopping Cart</h1>
 
             <div class="content">
-                <div class="row">
-                    <div class="col-md-12 col-lg-8">
-                    <?php
-                        $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
+                <?php
+                    $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
                         FROM order_item oi 
                         JOIN product p ON oi.product_ID = p.product_ID 
                         WHERE oi.user_ID = $user_id");
-                        
-                        $num = 1;
-                        $grand_total = 0;
-                        if(mysqli_num_rows($select_cart_products) > 0){
-                            while($fetch_cart_products=mysqli_fetch_assoc($select_cart_products)) {
 
-                    ?>
+                    if(mysqli_num_rows($select_cart_products) > 0){
+                ?>
+                <div class="row">
+                    <div class="col-md-12 col-lg-8">
+                        <?php
+                            $num = 1;
+                            $grand_total = 0.00;
+                            while($fetch_cart_products=mysqli_fetch_assoc($select_cart_products)) {
+                        ?>
                         <div class="items">
                             <div class="product">
                                 <div class="row">
@@ -142,7 +143,7 @@ if(isset($_POST['checkout'])){
                                                     <form action="cart.php" method="post">
                                                         <label for="quantity" class="input-group-prepend">Quantity:</label>
                                                         <div class="input-group">
-                                                            <input id="quantity" type="number" name="update_quantity" value="<?php echo $fetch_cart_products['quantity'] ?>" class="form-control quantity-input">
+                                                            <input id="quantity" type="number" name="update_quantity"  min=1 value="<?php echo $fetch_cart_products['quantity'] ?>" class="form-control quantity-input">
                                                             <input type="hidden" name="update_quantity_id" value="<?php echo $fetch_cart_products['order_item_ID'] ?>"> <!-- Hidden field to store order_item_ID -->
                                                             <div class="input-group-append">
                                                                 <button type="submit" name="update_product_quantity" class="btn">
@@ -167,12 +168,11 @@ if(isset($_POST['checkout'])){
                                 </div>
                             </div>
                         </div>
-                    <?php
-                            $grand_total=$grand_total+($fetch_cart_products['price']*$fetch_cart_products['quantity']);
-                            $num++;
+                        <?php
+                                $grand_total += ($fetch_cart_products['productPrice'] * $fetch_cart_products['quantity']);
+                                $num++;
                             }
-                        }
-                    ?>
+                        ?>
                     </div>
                     <div class="col-md-12 col-lg-4">
                         <div class="summary">
@@ -187,6 +187,11 @@ if(isset($_POST['checkout'])){
                         </div>
                     </div>
                 </div>
+                <?php
+                    } else {
+                        echo "<h3 style='text-align: center; margin-bottom:800px;'>Your shopping cart is empty.</h3>";
+                    }
+                ?>
             </div>
         </section>
     </div>

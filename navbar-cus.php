@@ -3,8 +3,15 @@
 if(isset($_SESSION['loggedInUser']['user_ID'])) {
     $user_id = $_SESSION['loggedInUser']['user_ID'];
 
+    // Fetch username from the database
+    $select_user = mysqli_query($conn, "SELECT username FROM user WHERE user_ID = '$user_id'") or die('query failed');
+    $user_row = mysqli_fetch_assoc($select_user);
+    $username = $user_row['username'];
+
+    //Fetch products in cart
     $select_product = mysqli_query($conn, "SELECT * FROM `order_item` WHERE user_ID = '$user_id'") or die('query failed');
     $row_count = mysqli_num_rows($select_product);
+
 } else {
     header("Location: login.php");
     exit;
@@ -31,6 +38,7 @@ if(isset($_SESSION['loggedInUser']['user_ID'])) {
                     </li>
                     <li class="nav-item cart">
                         <a href="cart.php" class="nav-link">
+                            <?php echo $username." 's "; ?>
                             <i class="fa-solid fa-cart-shopping"></i><span><sup><?php echo $row_count?></sup></span>
                         </a>
                     </li>
