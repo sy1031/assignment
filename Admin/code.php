@@ -223,9 +223,24 @@ if (isset($_POST['updateCustomer'])) {
         redirect('customer_edit.php?id=' . $customerId, 'Please fill required fields.');
     }
 }
-
-
-
+if (isset($_POST['updateCategory'])) {
+    
+    $categoryId = validate($_POST['category_ID']);
+    $name = validate($_POST['categoryName']);
+    $description = validate($_POST['categoryDescription']);
+    $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
+    $data = [
+        'categoryName' => $name,
+        'categoryDescription' => $description,
+        'categoryStatus' => $status
+    ];
+    $result = updateCategory('category', $categoryId, $data);
+    if ($result) {
+        redirect('category.php', 'Category Updated Successfully!');
+    } else {
+        redirect('category.php', 'Something Went Wrong!');
+    }
+}
 
 if (isset($_POST['saveCategory'])) {
     $name = validate($_POST['categoryName']);
@@ -242,25 +257,6 @@ if (isset($_POST['saveCategory'])) {
         redirect('category.php', 'Category Created Successfully!');
     } else {
         redirect('category_create.php', 'Something Went Wrong!');
-    }
-}
-
-if (isset($_POST['updateCategory'])) {
-    $categoryId = validate($_POST['category_ID']);
-
-    $name = validate($_POST['categoryName']);
-    $description = validate($_POST['categoryDescription']);
-    $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
-    $data = [
-        'categoryName' => $name,
-        'categoryDescription' => $description,
-        'categoryStatus' => $status
-    ];
-    $result = update('category', $categoryId, $data);
-    if ($result) {
-        redirect('category_edit.php?id=' .$categoryId, 'Category Updated Successfully!');
-    } else {
-        redirect('category_edit.php?id=' .$categoryId, 'Something Went Wrong!');
     }
 }
 

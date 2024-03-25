@@ -11,38 +11,37 @@
 
             <?php alertMessage(); ?>
 
-            <form action="code.php" method="POST"  enctype="multipart/form-data">
+            <form action="code.php" method="POST" enctype="multipart/form-data">
 
             <?php
-            $parmValue = checkParamId('category_ID');
-            if(!is_numeric($parmValue)){
-                echo '<h5>'.$parmValue.'<h5>';
+            $paramId = checkParamId('category_ID');
+            if(!is_numeric($paramId)){
+                echo '<h5>'.$paramId.'<h5>';
                 return false;
-
             }
 
-            $category = getById('category', $parmValue);
-            if($category['categoryStatus'] == 200)
+            $category = getByCategoryId('category', $paramId);
+
+            if($category['status'] == 200) 
             {
             ?>
+            <input type="hidden" name="category_ID" value="<?= $category['data']['category_ID']; ?>">
 
-            <input type="hidden" name="category_ID" value="<?= $category['data']['categoryDescription']; ?>">
-            
             <div class="row">
                 <div class="col-md-12 mb-3">
                     <label for="">Name</label>
-                    <input type="text" name="name" value="<?= $category['data']['categoryName']; ?>" required class="form-control" />
+                    <input type="text" name="categoryName" value="<?= $category['data']['categoryName']; ?>" required class="form-control" />
                 </div>
 
                 <div class="col-md-12 mb-3">
                     <label for="">Description</label>
-                    <textarea name="description" class="form-control" rows="3"><?= $category['data']['categoryDescription']; ?></textarea>
+                    <textarea name="categoryDescription" class="form-control" rows="3"><?= $category['data']['categoryDescription']; ?></textarea>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="">Status(UnChecked = Visible, Checked = Hidden)</label>
+                    <label for="">Hide category?</label>
                     <br/>
-                    <input type="checkbox" name="status" <?= $category['data']['categoryStatus'] == true ? 'checked':''; ?> style="width:30px;height:30px";>
+                    <input type="checkbox" name="categoryStatus" <?= $category['data']['categoryStatus'] == true ? 'checked':''; ?> style="width:30px;height:30px";>
                 </div>
 
                 <div class="col-md-6 mb-3 text-end">

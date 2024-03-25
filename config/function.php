@@ -392,6 +392,33 @@ function delete($tableName, $id)
     return $result;
 }
 
+//Delete data from category table using category id
+function deleteCategory($tableName, $id)
+{
+    global $conn;
+
+    $table = validate($tableName);
+    $id = validate($id);
+
+    $query = "DELETE FROM $table WHERE category_ID='$id' LIMIT 1";
+    echo "Delete query: $query";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
+
+//Delete data from product table using product id
+function deleteProduct($tableName, $id)
+{
+    global $conn;
+
+    $table = validate($tableName);
+    $id = validate($id);
+
+    $query = "DELETE FROM $table WHERE product_ID='$id' LIMIT 1";
+    $result = mysqli_query($conn, $query);
+    return $result;
+}
+
 function checkParamId($type)
 {
 

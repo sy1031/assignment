@@ -2,32 +2,33 @@
 
 require '../config/function.php';
 
-$paraResultId = checkParamId('id');
-if(is_numeric($paraResultId)){
+$paramId = checkParamId('product_ID');
 
-    $productId = validate($paraResultId);
-    
-    $product = getById('products', $productId);
+if(is_numeric($paramId)){
+
+    $productId = validate($paramId);
+    $product = getByProductId('product', $productId);
 
     if($product['status'] == 200)
     {
-        $response = delete('products', $productId);
-        if($response){
+        $result = deleteProduct('product', $productId);
+
+        if($result){
             $deleteImage = "../".$product['data']['image'];
             if(file_exists($deleteImage)){
                 unlink($deleteImage);
             }
-            redirect('products.php', 'Product Deleted Successfully.');
+            redirect('product.php', 'Product Deleted Successfully.');
         }else{
-            redirect('products.php', 'Something Went Wrong!');
+            redirect('product.php', 'Something Went Wrong1!');
         }
     }
     else{
-        redirect('products.php', $product['message']);
+        redirect('product.php', $product['message']);
     } 
 }
 else{
-    redirect('products.php', 'Something Went Wrong!');
+    redirect('product.php', 'Something Went Wrong2!');
 }
 
 ?>

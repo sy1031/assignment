@@ -1,28 +1,25 @@
 <?php
-
 require '../config/function.php';
 
-$paraResultId = checkParamId('category_ID');
-if(is_numeric($paraResultId)){
+$paramId = checkParamId('category_ID');
+if(is_numeric($paramId)){
 
-    $categoryId = validate($paraResultId);
-    
-    $category = getById('category', $categoryId);
+    $category_id = validate($paramId);
+    $category = getByCategoryId("category", $category_id);
 
-    if($category['CategoryStatus'] == 200)
+    if($category['status'] == 200)
     {
-        $response = delete('category', $categoryId);
-        if($response){
-            redirect('category.php', 'Category Deleted Successfully.');
-        }else{
-            redirect('category.php', 'Something Went Wrong!');
+        $result = deleteCategory('category', $category_id);
+
+        if($result) {
+            redirect('category.php', 'Category deleted successfully.');
+        } else {
+            redirect('category.php', 'Failed to delete category.');
         }
-    }
-    else{
+    } else {
         redirect('category.php', $category['message']);
-    } 
-}
-else{
+    }
+} else {
     redirect('category.php', 'Something Went Wrong!');
 }
 
