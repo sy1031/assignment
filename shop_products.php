@@ -71,9 +71,12 @@ if(isset($_POST['add_to_cart'])){
                     ?>
                         <form method="post" action="shop_products.php">
                         <div class="edit_form">
-                            <img src="images/<?php echo $fetch_product['productImage'] ?> " alt="" style="width: auto; height: 180px;">
-                            <h3><?php echo $fetch_product['productName'] ?></h3>
-                            <div class="price">Price: <?php echo $fetch_product['productPrice'] ?></div>
+                            <img src="images/<?php echo $fetch_product['productImage'] ?> " alt="" style="width: 180px; height: auto;">
+                            <a href="shop_products_details.php?product_id=<?php echo $fetch_product['product_ID'] ?>" style="color: inherit;">
+                                <h4><?php echo $fetch_product['productName'] ?></h4>
+                            </a>
+                            <div class="price">Price: RM<?php echo $fetch_product['productPrice'] ?></div>
+                            <div class="availability">Availability: <?php echo $fetch_product['productAvailability'] ? 'Out of Stock' : 'In Stock'?></div>
                             <input type="hidden" name="product_id" value="<?php echo $fetch_product['product_ID'] ?>"> 
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['productPrice'] ?>"> 
                             <input type="hidden" name="product_image" value="images/<?php echo $fetch_product['productImage'] ?> "> 
