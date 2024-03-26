@@ -40,7 +40,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
         </div>
         <div >
             <?php if(mysqli_num_rows($order_query) == 0): ?>
-                <h3 style="text-align:center; margin-bottom:800px;">Empty</h3>
+                <h3 style="text-align:center; margin-bottom:800px; margin-top:50px">Empty</h3>
             <?php else: 
                 $num = 1;
                 while ($order_row = mysqli_fetch_assoc($order_query)) {?>

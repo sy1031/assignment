@@ -49,11 +49,11 @@ if ($result->num_rows > 0) {
     // Display payment history along with order summaries
     include ('navbar-cus.php');
     echo "<div class='container'>";
-    echo "<h2 class='pt-3'>Payment History</h2>";
+    echo "<h1 class='block-heading'>Payment History</h1>";
     echo "<div class='table-container'>";
     echo "<table class='payment-table'>";
     echo "<thead style='background-color: #FFC107; color: #fff;'>";
-    echo "<tr><th>Payment ID</th><th>Payment Date</th><th>Payment Amount</th><th>Payment Status</th>";
+    echo "<tr><th>Payment ID</th><th>Payment Date/Time</th><th>Payment Amount (RM)</th><th>Payment Status</th>";
     echo "</thead>";
     echo "<tbody>";
     while ($row = $result->fetch_assoc()) {
@@ -121,5 +121,11 @@ $stmt->close();
     .payment-table th {
         background-color: #Ffe58d;
         color: #666;
+    }
+
+    .block-heading {
+    padding-top: 50px;
+    margin-bottom: 40px;
+    text-align: center;
     }
 </style>
