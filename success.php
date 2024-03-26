@@ -83,7 +83,7 @@ try {
 
         // Delete cart items from the database for the corresponding user ID
         $user_id = $_SESSION['loggedInUser']['user_ID'];
-        $delete_cart_sql = "DELETE FROM order_item WHERE user_ID = ?";
+        $delete_cart_sql = "DELETE FROM cart WHERE user_ID = ?";
         $delete_cart_stmt = $conn->prepare($delete_cart_sql);
         $delete_cart_stmt->bind_param("i", $user_id);
         $delete_cart_stmt->execute();

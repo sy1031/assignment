@@ -8,7 +8,7 @@ if(isset($_POST['update_product_quantity'])){
     $update_value=$_POST['update_quantity'];
     $update_id=$_POST['update_quantity_id'];
 
-    $update_quantity_query = mysqli_query($conn, "UPDATE `order_item` SET quantity = $update_value WHERE order_item_ID = $update_id");
+    $update_quantity_query = mysqli_query($conn, "UPDATE `cart` SET quantity = $update_value WHERE cart_ID = $update_id");
 
     if (!$update_quantity_query) {
         echo "Error updating quantity: " . mysqli_error($conn);
@@ -20,7 +20,7 @@ if(isset($_POST['update_product_quantity'])){
 //Remove query
 if(isset($_GET['remove'])){
     $remove_id = $_GET['remove'];
-    $delete_query = mysqli_query($conn, "DELETE FROM `order_item` WHERE order_item_ID = $remove_id");
+    $delete_query = mysqli_query($conn, "DELETE FROM `cart` WHERE cart_ID = $remove_id");
     header('location: cart.php');
 }
 
@@ -31,7 +31,7 @@ if(isset($_GET['remove'])){
 //     $order_row = mysqli_fetch_assoc($get_order_id_query);
 //     $order_id = $order_row['order_ID'];
 
-//     mysqli_query($conn, "DELETE FROM `order_item` WHERE user_ID = '$user_id'");
+//     mysqli_query($conn, "DELETE FROM `cart` WHERE user_ID = '$user_id'");
 //     header('location:cart.php');
 // }
 
@@ -47,8 +47,8 @@ if(isset($_POST['checkout'])){
         $order_id = mysqli_insert_id($conn);
         
         // Fetch cart data from the database or any other source
-        $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
-        FROM order_item oi 
+        $select_cart_products = mysqli_query($conn, "SELECT oi.cart_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
+        FROM cart oi 
         JOIN product p ON oi.product_ID = p.product_ID 
         WHERE oi.user_ID = $user_id");
         
@@ -64,7 +64,7 @@ if(isset($_POST['checkout'])){
         $_SESSION['cart'] = $cart_data;
 
         // Insert order items into order_paid table
-        $select_cart_products = mysqli_query($conn, "SELECT * FROM `order_item` WHERE user_ID = $user_id");
+        $select_cart_products = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_ID = $user_id");
         while($fetch_cart_products=mysqli_fetch_assoc($select_cart_products)) {
             $product_ID = $fetch_cart_products['product_ID'];
             $quantity = $fetch_cart_products['quantity'];
@@ -108,8 +108,8 @@ if(isset($_POST['checkout'])){
 
             <div class="content">
                 <?php
-                    $select_cart_products = mysqli_query($conn, "SELECT oi.order_item_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
-                        FROM order_item oi 
+                    $select_cart_products = mysqli_query($conn, "SELECT oi.cart_ID, oi.product_ID, oi.quantity, oi.price, p.productName, p.productPrice, p.productImage 
+                        FROM cart oi 
                         JOIN product p ON oi.product_ID = p.product_ID 
                         WHERE oi.user_ID = $user_id");
 
@@ -144,7 +144,7 @@ if(isset($_POST['checkout'])){
                                                         <label for="quantity" class="input-group-prepend">Quantity:</label>
                                                         <div class="input-group">
                                                             <input id="quantity" type="number" name="update_quantity"  min=1 value="<?php echo $fetch_cart_products['quantity'] ?>" class="form-control quantity-input">
-                                                            <input type="hidden" name="update_quantity_id" value="<?php echo $fetch_cart_products['order_item_ID'] ?>"> <!-- Hidden field to store order_item_ID -->
+                                                            <input type="hidden" name="update_quantity_id" value="<?php echo $fetch_cart_products['cart_ID'] ?>"> <!-- Hidden field to store cart_ID -->
                                                             <div class="input-group-append">
                                                                 <button type="submit" name="update_product_quantity" class="btn">
                                                                     <i class="fas fa-check"></i>
@@ -157,7 +157,7 @@ if(isset($_POST['checkout'])){
                                                     <span>RM<?php echo $fetch_cart_products['productPrice']?></span>
                                                 </div>
                                                 <div class="col-md-3 remove">
-                                                    <a href="cart.php?remove=<?php echo $fetch_cart_products['order_item_ID']?>"
+                                                    <a href="cart.php?remove=<?php echo $fetch_cart_products['cart_ID']?>"
                                                     onclick = "return confirm('Are you sure you want to delete?')">                           
                                                         <i class="fas fa-trash"></i>
                                                     </a>

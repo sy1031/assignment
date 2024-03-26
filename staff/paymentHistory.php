@@ -21,7 +21,7 @@ FROM
 payment p
 INNER JOIN `order` o ON p.order_ID = o.order_ID
 INNER JOIN `user` u ON o.user_ID = u.user_ID
-INNER JOIN `order_item` od ON o.order_ID = od.order_item_ID
+INNER JOIN `cart` od ON o.order_ID = od.cart_ID
 WHERE
 u.usertype = 'customer';
 ";

@@ -8,14 +8,14 @@ if(isset($_POST['add_to_cart'])){
     $user_id = $_SESSION['loggedInUser']['user_ID'];
 
     // Check if the product already exists
-    $existing_item_query = mysqli_query($conn, "SELECT * FROM order_item WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
+    $existing_item_query = mysqli_query($conn, "SELECT * FROM cart WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
     if(mysqli_num_rows($existing_item_query) > 0) {
         // Product already exists, update the quantity
         $existing_item_row = mysqli_fetch_assoc($existing_item_query);
         $existing_quantity = $existing_item_row['quantity'];
         $new_quantity = $existing_quantity + 1;
 
-        $update_query = mysqli_query($conn, "UPDATE order_item SET quantity = '$new_quantity' WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
+        $update_query = mysqli_query($conn, "UPDATE cart SET quantity = '$new_quantity' WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
 
         if($update_query) {
             $display_message = "Quantity updated successfully.";
@@ -24,7 +24,7 @@ if(isset($_POST['add_to_cart'])){
         }
     } else {
         // Product does not exist, add a new entry
-        $insert_query = mysqli_query($conn, "INSERT INTO order_item (user_ID, product_ID, quantity, price) VALUES ('$user_id', '$product_id', 1, '$product_price')");
+        $insert_query = mysqli_query($conn, "INSERT INTO cart (user_ID, product_ID, quantity, price) VALUES ('$user_id', '$product_id', 1, '$product_price')");
 
         if($insert_query) {
             $display_message = "Product added to cart successfully.";

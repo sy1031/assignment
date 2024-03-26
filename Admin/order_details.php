@@ -30,8 +30,12 @@ include('Includes/header.php');
                         echo '<h4>Something Went Wrong!</h4>';
                         return false;
                     }
+                    // Fetch order details from order table
+                    $order_query = mysqli_query($conn, "SELECT * FROM `order` WHERE order_ID = $order_id");
+                    $order_data = mysqli_fetch_assoc($order_query);
+
                     ?>
-                     <h6 style="margin:5px">Order ID: <?php echo $order_id; ?> </h6>
+                     <h5 style="margin:10px 10px 10px 5px">Order ID: <?php echo $order_id; ?> </h5>
                     <?php
 
                     if (mysqli_num_rows($orders) > 0) {
@@ -45,6 +49,7 @@ include('Includes/header.php');
                                     <th>Quantity</th>
                                     <th>Unit Price (RM)</th>
                                     <th>Total Price (RM)</th>
+                                    <th>Delivery status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,6 +66,7 @@ include('Includes/header.php');
                                         <td><?= $order['quantity'] ?></td>
                                         <td><?= $order['price'] ?></td>
                                         <td><?= $order['price']*$order['quantity'] ?></td>
+                                        <td><?= $order_data['delivery_status'] ?></td>
                                     </tr>
                                 <?php 
                                 } 
