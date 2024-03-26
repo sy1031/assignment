@@ -6,6 +6,9 @@ if(isset($_POST['registerBtn'])) {
     $phone = validate($_POST['phone']);
     $email = validate($_POST['email']);
     $password = validate($_POST['password']);
+    $firstname = validate($_POST['firstname']);
+    $lastname = validate($_POST['lastname']);
+    $address = validate($_POST['address']);
     $usertype = 'customer';
 
     // Check if the email already exists in the database
@@ -27,8 +30,8 @@ if(isset($_POST['registerBtn'])) {
         $userId = mysqli_insert_id($conn);
 
         // Insert data into the customer table
-        $customerQuery = "INSERT INTO customer (username, phone, email, password, user_ID) 
-                        VALUES ('$username', '$phone', '$email', '$hashedPassword', '$userId')";
+        $customerQuery = "INSERT INTO customer (username, phone, email, password, user_ID, first_name, last_name, address) 
+                        VALUES ('$username', '$phone', '$email', '$hashedPassword', '$userId', '$firstname', '$lastname', '$address')";
         $customerResult = mysqli_query($conn, $customerQuery);
 
         if($result && $customerResult) {
@@ -66,6 +69,21 @@ if(isset($_POST['registerBtn'])) {
                             <div class="mb-3">
                                 <label>Email: </label>
                                 <input type="email" name="email" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Firstname: </label>
+                                <input type="text" name="firstname" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Lastname: </label>
+                                <input type="text" name="lastname" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Address: </label>
+                                <textarea name="address" class="form-control" required></textarea>
                             </div>
 
                             <div class="mb-3">
