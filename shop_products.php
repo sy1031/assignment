@@ -1,10 +1,13 @@
 <?php
 include 'config/function.php';
 
+//Add to cart
 if(isset($_POST['add_to_cart'])){
+    // Get product ID and price
     $product_id = $_POST['product_id'];
     $product_price = $_POST['product_price'];
 
+    // Get user ID from session
     $user_id = $_SESSION['loggedInUser']['user_ID'];
 
     // Check if the product already exists
@@ -36,7 +39,6 @@ if(isset($_POST['add_to_cart'])){
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,8 +46,6 @@ if(isset($_POST['add_to_cart'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Products</title>
 
-    <!-- CSS file -->
-    <link rel="stylesheet" href="css/style.css">
     <!-- font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -92,5 +92,7 @@ if(isset($_POST['add_to_cart'])){
             </div>
         </section> 
     </div>
+    <!-- include footer -->
+    <?php include 'footer.php'?>
 </body>
 </html>

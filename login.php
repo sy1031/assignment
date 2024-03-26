@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
 
+<body class="bg-dark">
+    <!-- include header -->
     <?php include('includes/header.php'); ?>
-    <body class="bg-dark">
-        <div class="py-5">
-            <div class="mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card_login shadow rounded-4">
-                            <?php alertMessage(); ?>
-                                
-                            <div class="p-5">
-                                <h4 class="text-dark mb-3">Sign into your System</h4>
-                                <form action="login_code.php" method="POST">
 
+    <!-- Container with padding -->
+    <div class="py-3">
+        <div class="mt-5">
+            <!-- Content centered horizontally -->
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card_login shadow rounded-4">
+                        <?php alertMessage(); ?>
+                                
+                        <div class="p-5">
+                            <h4 class="text-dark mb-3">Sign into your System</h4>
+                            <!-- Login information -->
+                            <form action="login_code.php" method="POST">
                                 <div class="mb-3">
                                     <label>Email: </label>
                                     <input type="email" name="email" class="form-control" required />
@@ -44,6 +48,5 @@
                 </div>  
             </div>   
         </div>
-    </body>
-    <?php include('includes/footer.php'); ?>
+</body>
 </html>

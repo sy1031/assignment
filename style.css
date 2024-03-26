@@ -111,6 +111,80 @@ text {
     color: #fff;
 }
 
+/* Shop */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+  }
+  
+  .display_message {
+    background-color: #bfe2c5;
+    color: #340b0f;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .display_message i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .products {
+    margin-top: 30px;
+    min-height: 800px;
+  }
+  
+  .product_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .edit_form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product_image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .product_name {
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  
+  .price {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .submit_btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #2e74df;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit_btn:hover {
+    background-color: #0056b3;
+  }
 
 /*Cart */
 .container_cart {
@@ -201,7 +275,7 @@ text {
 .shopping-cart .summary{
 	border-top: 2px solid #5ea4f3;
     background-color: #f7fbff;
-	width: fit-content;
+	min-width: fit-content;
     padding: 30px;
 	margin: 0px 15px;
     height: 100%;

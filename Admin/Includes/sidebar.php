@@ -2,12 +2,6 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark bg-warning" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading text-dark">Core</div>
-                <a class="nav-link text-dark" href="homepage.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-home text-dark"></i></div>
-                    HomePage
-                </a>
-
                 <div class="sb-sidenav-menu-heading text-dark">Interface</div>
 
                 <!--Categories--->
