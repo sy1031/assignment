@@ -11,6 +11,13 @@ div
     font-family: 'Montserrat', sans-serif;
 }
 
+/* Login */
+.card_login {
+    width: 70%;
+    margin: 50px auto; 
+    background-color: white;
+}
+
 /* Navbar styling */
 .navbar {
     padding: 5px 0; 

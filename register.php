@@ -1,5 +1,4 @@
 <?php
-include('includes/header.php');
 
 if(isset($_POST['registerBtn'])) {
     $username = validate($_POST['username']);
@@ -44,67 +43,78 @@ if(isset($_POST['registerBtn'])) {
 
 ?>
 
-<div class="py-5 bg-dark">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow rounded-4">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+    </head>
 
-                    <?php alertMessage(); ?>
-                    
-                    <div class="p-5">
-                        <h4 class="text-dark mb-3">Register an Account</h4>
-                        <form action="register.php" method="POST">
+    <?php include('includes/header.php');?>
+    <body class="bg-dark">
+        <div class="py-5">
+            <div class="mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card_login shadow rounded-4">
 
-                            <div class="mb-3">
-                                <label>Username: </label>
-                                <input type="text" name="username" class="form-control" required />
+                            <?php alertMessage(); ?>
+                            
+                            <div class="p-5">
+                                <h4 class="text-dark mb-3">Register an Account</h4>
+                                <form action="register.php" method="POST">
+
+                                    <div class="mb-3">
+                                        <label>Username: </label>
+                                        <input type="text" name="username" class="form-control" required />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Phone: </label>
+                                        <input type="text" name="phone" class="form-control" required />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Email: </label>
+                                        <input type="email" name="email" class="form-control" required />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Firstname: </label>
+                                        <input type="text" name="firstname" class="form-control" required />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Lastname: </label>
+                                        <input type="text" name="lastname" class="form-control" required />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Address: </label>
+                                        <textarea name="address" class="form-control" required></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Password: </label>
+                                        <input type="password" name="password" class="form-control" required />
+                                    </div>
+
+                                    <div class="my-3">
+                                        <button type="submit" name="registerBtn" class="btn btn-primary w-100 mt-2">Register</button>
+                                    </div>
+                                </form>
+                                
+                                <!-- Link to login page -->
+                                <div class="text-center">
+                                    <p>Already have an account? <a href="login.php">Sign in here</a></p>
+                                </div>
                             </div>
-
-                            <div class="mb-3">
-                                <label>Phone: </label>
-                                <input type="text" name="phone" class="form-control" required />
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Email: </label>
-                                <input type="email" name="email" class="form-control" required />
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Firstname: </label>
-                                <input type="text" name="firstname" class="form-control" required />
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Lastname: </label>
-                                <input type="text" name="lastname" class="form-control" required />
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Address: </label>
-                                <textarea name="address" class="form-control" required></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Password: </label>
-                                <input type="password" name="password" class="form-control" required />
-                            </div>
-
-                            <div class="my-3">
-                                <button type="submit" name="registerBtn" class="btn btn-primary w-100 mt-2">Register</button>
-                            </div>
-                        </form>
-                        
-                        <!-- Link to login page -->
-                        <div class="text-center">
-                            <p>Already have an account? <a href="login.php">Sign in here</a></p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<?php include('includes/footer.php'); ?>
+        </div>
+    </body>
+    <?php include('includes/footer.php'); ?>
+</html>
