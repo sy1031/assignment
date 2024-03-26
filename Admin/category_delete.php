@@ -13,6 +13,8 @@ if(is_numeric($paramId)){
 
         if($result) {
             redirect('category.php', 'Category deleted successfully.');
+        } elseif($result == false) {
+            redirect('category.php', 'Unable to delete category. There are associated Product records.');
         } else {
             redirect('category.php', 'Failed to delete category.');
         }

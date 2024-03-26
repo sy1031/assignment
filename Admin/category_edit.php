@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="">Would you like to hide the inserted information?</label>
+                    <label for="">Hide category?</label>
                     <br/>
                     <input type="checkbox" name="categoryStatus" <?= $category['data']['categoryStatus'] == true ? 'checked':''; ?> style="width:30px;height:30px";>
                 </div>

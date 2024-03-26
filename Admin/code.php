@@ -226,25 +226,6 @@ if (isset($_POST['updateCustomer'])) {
     }
 }
 
-if (isset($_POST['updateCategory'])) {
-    
-    $categoryId = validate($_POST['category_ID']);
-    $name = validate($_POST['categoryName']);
-    $description = validate($_POST['categoryDescription']);
-    $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
-    $data = [
-        'categoryName' => $name,
-        'categoryDescription' => $description,
-        'categoryStatus' => $status
-    ];
-    $result = updateCategory('category', $categoryId, $data);
-    if ($result) {
-        redirect('category.php', 'Category Updated Successfully!');
-    } else {
-        redirect('category.php', 'Something Went Wrong!');
-    }
-}
-
 if (isset($_POST['saveCategory'])) {
     $name = validate($_POST['categoryName']);
     $description = validate($_POST['categoryDescription']);
@@ -263,6 +244,25 @@ if (isset($_POST['saveCategory'])) {
     }
 }
 
+if (isset($_POST['updateCategory'])) {
+    
+    $categoryId = validate($_POST['category_ID']);
+    $name = validate($_POST['categoryName']);
+    $description = validate($_POST['categoryDescription']);
+    $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
+    $data = [
+        'categoryName' => $name,
+        'categoryDescription' => $description,
+        'categoryStatus' => $status
+    ];
+    $result = updateCategory('category', $categoryId, $data);
+    if ($result) {
+        redirect('category.php?category_ID=' . $categoryId, 'Category Updated Successfully!');
+    } else {
+        redirect('category.php?category_ID=' . $categoryId, 'Something Went Wrong!');
+    }
+}
+
 if (isset($_POST['saveProduct'])) {
     $category_id = validate($_POST['category_ID']);
     $name = validate($_POST['productName']);
@@ -273,28 +273,41 @@ if (isset($_POST['saveProduct'])) {
     $status = isset($_POST['productAvailability']) == true ? 1 : 0;
 
     if ($_FILES['productImage']['size'] > 0) {
-        $path = "../assets/uploads/products";
+        $path = "../assets/uploads";
         $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
-
         $filename = time() . '.' . $image_ext;
 
         move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
 
-        $finalImage = "assets/uploads/products/" . $filename; //save product images here 
+        $finalImage = "assets/uploads/" . $filename; //save product images here 
+
+        if (move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename)) {
+            $finalImage = "assets/uploads/" . $filename;
+    
+            // Debugging message
+            echo "Image uploaded successfully. Path: " . $finalImage . "<br>";
+            
+        }else{
+            // Debugging message
+            redirect('product.php', "Failed to move uploaded file to destination directory."); 
+        $finalImage = '';
+        }
     } else {
 
-        $finalImage = '';
+        // Debugging message for image upload only
+    //redirect('product.php', "No image uploaded"); 
+    $finalImage = '';
     }
 
     $data = [
-        'category_ID' => $category_id,
+        'product_ID' => $product_id,
         'productName' => $name,
         'productDescription' => $description,
         'productBrand' => $brand,
         'productPrice' => $price,
         'productQuantity' => $quantity,
         'productImage' => $finalImage,
-        'productAvailability' => $status
+        'productAvailability' => $status,
     ];
     $result = insert('product', $data);
 
@@ -306,9 +319,10 @@ if (isset($_POST['saveProduct'])) {
 }
 
 if (isset($_POST['updateProduct'])) {
+
     $product_ID = validate($_POST['product_ID']);
 
-    $productData = getById('product', $product_ID);
+    $productData = getByProductId('product', $product_ID);
     if (!$productData) {
         redirect('product.php', 'No such product found.');
     }
@@ -316,27 +330,26 @@ if (isset($_POST['updateProduct'])) {
     $category_id = validate($_POST['category_ID']);
     $name = validate($_POST['productName']);
     $description = validate($_POST['productDescription']);
-
     $price = validate($_POST['productPrice']);
     $quantity = validate($_POST['productQuantity']);
-    $status = isset($_POST['productStatus']) == true ? 1 : 0;
+    $status = isset($_POST['productAvailability']) == true ? 1 : 0;
 
     if ($_FILES['productImage']['size'] > 0) {
         $path = "../assets/uploads/products";
-        $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
+        $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
 
         $filename = time() . '.' . $image_ext;
 
         move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
 
         $finalImage = "assets/uploads/products/" . $filename;
-        $deleteImage = "../" . $productData['data']['image'];
+        $deleteImage = "../" . $productData['data']['productImage'];
         if (file_exists($deleteImage)) {
             unlink($deleteImage);
         }
     } else {
 
-        $finalImage = $productData['data']['image'];
+        $finalImage = $productData['data']['productImage'];
     }
 
     $data = [
@@ -346,15 +359,15 @@ if (isset($_POST['updateProduct'])) {
         'productPrice' => $price,
         'productQuantity' => $quantity,
         'productImage' => $finalImage,
-        'productStatus' => $status
+        'productAvailability' => $status
     ];
 
-    $result = insert('product', $product_id, $data);
+    $result = updateProduct('product', $product_ID, $data);
 
     if ($result) {
-        redirect('product_edit.php?id=' . $product_id, 'Product Updated Successfully!');
+        redirect('product_edit.php?product_ID=' . $product_ID, 'Product Updated Successfully!');
     } else {
-        redirect('product_edit.php?id=' . $product_id, 'Something Went Wrong!');
+        redirect('product_edit.php?product_ID=' . $product_ID, 'Something Went Wrong!');
     }
 }
 

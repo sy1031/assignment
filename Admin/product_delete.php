@@ -19,16 +19,16 @@ if(is_numeric($paramId)){
                 unlink($deleteImage);
             }
             redirect('product.php', 'Product Deleted Successfully.');
-        }else{
-            redirect('product.php', 'Something Went Wrong1!');
+        } elseif ($result == false) {
+            redirect('product.php', 'Unable to delete product. There are associated Order records.');
+        } else {
+            redirect('product.php', 'Something Went Wrong!');
         }
-    }
-    else{
+    } else {
         redirect('product.php', $product['message']);
     } 
-}
-else{
-    redirect('product.php', 'Something Went Wrong2!');
+} else {
+    redirect('product.php', 'Something Went Wrong!');
 }
 
 ?>

@@ -402,6 +402,103 @@ function getById($tableName, $id)
 }
 
 
+//to get specific data by product id
+function getByProductId($tableName, $id)
+{
+    global $conn;
+
+    $table = validate($tableName);
+    $id = validate($id);
+
+    $query = "SELECT * FROM $table WHERE product_ID='$id' LIMIT 1";
+    $result = mysqli_query($conn, $query);
+
+    if(!$result){
+        die("Query execution error: " . mysqli_error($conn));
+    }
+
+    if ($result) {
+
+        if (mysqli_num_rows($result) == 1) {
+
+            $row = mysqli_fetch_assoc($result);
+
+            return [
+                'status' => 200,
+                'data' => $row,
+                'message' => 'Record Found'
+            ];
+
+        } else {
+
+            return [
+                'status' => 404,
+                'message' => 'No Data Found'
+            ];
+            
+        }
+
+       }else{
+            return [
+                'status' => 500,
+                'message' => 'Something Went Wrong'
+        ];
+
+    }
+}
+
+//to get specific data by product id
+function getByCategoryId($tableName, $id)
+{
+    global $conn;
+
+    $table = validate($tableName);
+    $id = validate($id);
+
+    $query = "SELECT * FROM $table WHERE category_ID='$id' LIMIT 1";
+    $result = mysqli_query($conn, $query);
+
+
+    if(!$result){
+        die("Query execution error: " . mysqli_error($conn));
+    }
+
+    if ($result) {
+
+        if (mysqli_num_rows($result) == 1) {
+
+            $row = mysqli_fetch_assoc($result);
+
+            return [
+                'status' => 200,
+                'data' => $row,
+                'message' => 'Record Found'
+            ];
+
+        } else {
+
+            $response = [
+                'status' => 404,
+                'message' => 'No Data Found'
+            ];
+
+            return $response;
+            
+        }
+
+       }else{
+            $response = [
+                'status' => 500,
+                'message' => 'Something Went Wrong'
+        ];
+
+        return $response;
+
+    }
+}
+
+
+
 //delete order
 function deleteOrder($tableName, $id){
     global $conn;
@@ -437,10 +534,27 @@ function deleteCategory($tableName, $id)
     $table = validate($tableName);
     $id = validate($id);
 
-    $query = "DELETE FROM $table WHERE category_ID='$id' LIMIT 1";
-    echo "Delete query: $query";
-    $result = mysqli_query($conn, $query);
-    return $result;
+     // Check if there are associated Product records
+    $query = "SELECT * FROM product WHERE category_ID='$id'";
+    $result = mysqli_query($conn, $query);//line 443
+
+    if (mysqli_num_rows($result) > 0) {
+        // Associated Product records found, return false
+        return false;
+    }
+
+     // No associated OrderItem records, proceed with deletion
+    $deleteQuery = "DELETE FROM $table WHERE category_ID='$id' LIMIT 1";
+    $deleteResult = mysqli_query($conn, $deleteQuery);
+ 
+
+    if ($deleteResult) {
+        return true;
+    } else {
+        error_log("Error deleting category: " . mysqli_error($conn));
+        return false;
+    }
+
 }
 
 //Delete data from product table using product id
@@ -451,9 +565,26 @@ function deleteProduct($tableName, $id)
     $table = validate($tableName);
     $id = validate($id);
 
-    $query = "DELETE FROM $table WHERE product_ID='$id' LIMIT 1";
+    // Check if there are associated OrderItem records
+    $query = "SELECT * FROM order_item WHERE product_ID='$id'";
     $result = mysqli_query($conn, $query);
-    return $result;
+
+    if (mysqli_num_rows($result) > 0) {
+        // Associated OrderItem records found, return false
+        return false;
+    }
+
+     // No associated OrderItem records, proceed with deletion
+    $deleteQuery = "DELETE FROM $table WHERE product_ID='$id' LIMIT 1";
+    $deleteResult = mysqli_query($conn, $deleteQuery);
+ 
+
+    if ($deleteResult) {
+        return true;
+    } else {
+        error_log("Error deleting product: " . mysqli_error($conn));
+        return false;
+    }
 }
 
 function checkParamId($type)

@@ -26,6 +26,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Description</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -37,6 +38,9 @@
                                 <tr>
                                     <td><?= $item['category_ID'] ?></td>
                                     <td><?= $item['categoryName'] ?></td>
+                                    <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                                        <?= $item['categoryDescription'] ?>
+                                    </td>
                                     <td>
                                         <?php
                                             if($item['categoryStatus'] == 1){
@@ -47,8 +51,9 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="category_edit.php?id=<?= $item['category_ID']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                        <a href="category_delete.php?id=<?= $item['category_ID']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="category_edit.php?category_ID=<?= $item['category_ID']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                        <a href="category_delete.php?category_ID=<?= $item['category_ID']; ?>" class="btn btn-danger btn-sm">Delete</a>
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

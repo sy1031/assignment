@@ -14,19 +14,20 @@
             <form action="code.php" method="POST" enctype="multipart/form-data">
 
             <?php
-                $parmValue = checkParamId('product_ID');
-                if(!is_numeric($parmValue)){
-                    echo '<h5>Id is not an integer.<h5>';
+                $paramId = checkParamId('product_ID');
+                if(!is_numeric($paramId)){
+                    echo '<h5>'.$paramId.'<h5>';
                     return false;
                 }
 
-                $product = getById('product', $paramValue);
+                $product = getByProductId('product', $paramId);
+
                 if($product){
                     if($product['status'] == 200)
                     {
                    
                     ?>
-                    <input type="hidden" name="product_ID" value="<?= $product['data']['category_ID']; ?>" >
+                    <input type="hidden" name="product_ID" value="<?= $product['data']['product_ID']; ?>" >
 
                     <div class="row">
                                 <div class="col-md-12 mb-3">
@@ -34,17 +35,17 @@
                                     <select name="category_ID" class="form-select">
                                         <option value="">Select Category</option>
                                         <?php
-                                        $categories=getAll('categories');
-                                        if($categories){
-                                            if(mysqli_num_rows($categories)>0){
-                                                foreach($categories as $catitem){
+                                        $category = getCategoryAll('category');
+                                        if($category){
+                                            if(mysqli_num_rows($category)>0){
+                                                foreach($category as $item){
                                                     ?>
 
                                                         <option 
-                                                            value="<?= $cateItem['category_ID']; ?>"
-                                                            <?= $product['data']['category_ID'] == $cateItem['category_ID']  ? 'selected':''; ?>
+                                                            value="<?= $item['category_ID']; ?>"
+                                                            <?= $product['data']['category_ID'] == $item['category_ID']  ? 'selected':''; ?>
                                                         >
-                                                            <?= $cateItem['productName']; ?>
+                                                            <?= $item['categoryName']; ?><!--line with issue--->
                                                         </option>
 
                                                     <?php
@@ -63,7 +64,7 @@
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="">Product Name</label>
-                                    <input type="text" name="productName" required value = "<?= $product['data']['name']; ?>" class="form-control" />
+                                    <input type="text" name="productName" required value = "<?= $product['data']['productName']; ?>" class="form-control" />
                                 </div>
 
                                 <div class="col-md-12 mb-3">
