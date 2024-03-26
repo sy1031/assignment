@@ -115,7 +115,7 @@ if(isset($_POST['add_to_cart'])){
                 <input type="hidden" name="product_id" value="<?php echo $product['product_ID'] ?>"> 
                 <input type="hidden" name="product_price" value="<?php echo $product['productPrice'] ?>"> 
                 <input type="hidden" name="product_image" value="images/<?php echo $product['productImage'] ?>">
-                <input type="submit" class="submit_btn cart_btn" value="Add to Cart" name="add_to_cart style="margin-left: 5px;">
+                <input type="submit" class="submit_btn cart_btn" value="Add to Cart" name="add_to_cart">
             </form>
         </div>
     </div>
