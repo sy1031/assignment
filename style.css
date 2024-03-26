@@ -275,7 +275,7 @@ text {
 .shopping-cart .summary{
 	border-top: 2px solid #5ea4f3;
     background-color: #f7fbff;
-	width: fit-content;
+	min-width: fit-content;
     padding: 30px;
 	margin: 0px 15px;
     height: 100%;

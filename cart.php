@@ -180,7 +180,7 @@ if(isset($_POST['checkout'])){
                             <div class="summary-item"><span class="text">Total</span><span class="price" style="font-weight:bold">RM<?php echo $grand_total?></span></div>
                             <form action="cart.php" method="post">
                                 <input type="hidden" name="grand_total" value="<?php echo $grand_total; ?>">
-                                <button type="submit" class="btn btn-primary btn-lg" name="checkout">Proceed to checkout</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" name="checkout">Proceed to checkout</button>
                             </form>
                         </div>
                     </div>
