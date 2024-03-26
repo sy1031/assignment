@@ -1,8 +1,20 @@
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div
+{
+    font-family: 'Montserrat', sans-serif;
+}
+
 /* Navbar styling */
 .navbar {
     padding: 5px 0; 
     height: 70px;
-	font-family: 'Montserrat', sans-serif;
 }
 
 .navbar-brand {
@@ -56,7 +68,7 @@
 .footer {
     padding: 50px 0;
     color: black;
-	font-family: 'Montserrat', sans-serif;
+
 }
 
 text {
@@ -103,7 +115,6 @@ text {
 
 .shopping-cart{
 	padding-bottom: 50px;
-	font-family: 'Montserrat', sans-serif;
 }
 
 .shopping-cart.dark{
@@ -264,10 +275,6 @@ text {
 }
 
 /*Order*/
-body .order {
-    font-family: 'Montserrat', sans-serif;
-}
-
 .block-heading {
     padding-top: 50px;
     margin-bottom: 40px;
@@ -409,7 +416,7 @@ p {
     width: 30%;
     margin: 50px auto; 
 	z-index: 0;
-	border: 1px solid black
+	border: 1px solid black;
 }
 
 .card-header {
@@ -417,14 +424,10 @@ p {
 }
 
 /*Order Detail*/
-.od_body {
-	font-family: 'Montserrat', sans-serif;
-}
-
 .od_card {
     background-color: white;
     margin: auto;
-    width: 500px;
+    width: 450px;
     max-width: 1000px;
     padding-bottom: 100px;
 	border-radius: 20px;
@@ -458,8 +461,8 @@ p {
 }
 
 .gap .col-2 {
-    width: 1.2rem;
-    padding: 1.2rem;
+    width: .8rem;
+    padding: .8rem;
     margin-top: -2.5rem;
     border-radius: 1.2rem;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

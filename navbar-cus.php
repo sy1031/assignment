@@ -28,10 +28,10 @@ if(isset($_SESSION['loggedInUser']['user_ID'])) {
                 <nav class="navbar navbar-expand-md bg-warning justify-content-end">
                     <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="order.php">Orders</a>
+                        <a class="nav-link" href="shop_products.php">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="shop_products.php">Shop</a>
+                        <a class="nav-link" href="order.php">Order</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="payment_history.php">Payment</a> 

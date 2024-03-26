@@ -207,6 +207,43 @@ function getOrderAll($table)
     return $result;
 }
 
+function getUserByID($user_id) {
+    global $conn;
+
+    $query = "SELECT * FROM user WHERE user_ID = $user_id";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        return $user;
+    } else {
+        return null;
+    }
+}
+
+function getOrderFilteredByStatus($tableName, $status) {
+    global $conn;
+
+    // Escape the status to prevent SQL injection
+    $status = mysqli_real_escape_string($conn, $status);
+
+    // Enclose the table name in backticks to avoid SQL syntax error
+    $tableName = "`$tableName`";
+
+    $query = "SELECT * FROM $tableName WHERE order_status = '$status'";
+    $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        echo "Error fetching orders: " . mysqli_error($conn);
+        return false;
+    }
+
+    return $result;
+}
+
+
+
+
 function getStaffAll($table)
 {
     global $conn;

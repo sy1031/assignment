@@ -3,6 +3,10 @@ include 'config/function.php';
 
 $user_id = $_SESSION['loggedInUser']['user_ID'];
 
+// Fetch user's address from the customer table
+$address_query = mysqli_query($conn, "SELECT address FROM customer WHERE user_ID = $user_id");
+$user_address = mysqli_fetch_assoc($address_query)['address'];
+
 // Determine the filter condition based on the button clicked
 $filter_condition = isset($_GET['filter']) ? $_GET['filter'] : 'to_receive';
 
@@ -28,7 +32,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
     <!-- include header -->
     <?php include 'header.php'?>
     <div class="order">
-        <h1 class="block-heading">Orders Tracking</h1>
+        <h1 class="block-heading">Order Tracking</h1>
         <!-- ToRecieve/Completed -->
         <div class="choose_btn">
             <a href="?filter=to_receive" class="single-choose-btn">To Receive</a>
@@ -46,6 +50,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
                                 <div class="col">
                                     <p class="text-muted mb-0">Order ID: <span class="font-weight-bold text-dark"><?php echo $order_row['order_ID']; ?></span></p> 
                                     <p class="text-muted mb-0">Place On: <span class="font-weight-bold text-dark"><?php echo $order_row['order_date']; ?></span></p>
+                                    <p class="text-muted mb-0">Address: <span class="font-weight-bold text-dark"><?php echo $user_address; ?></span></p> <!-- Display user's address -->
                                 </div>
                                 <div class="col-auto">
                                     <h6 class="mb-0">
