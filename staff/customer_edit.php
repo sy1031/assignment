@@ -4,13 +4,13 @@
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
             <h4 class="mb-0">Edit customer
-                <a href="customers.php" class="btn btn-danger float-end">Back</a>
+                <a href="customer_list.php" class="btn btn-danger float-end">Back</a>
             </h4>
         </div>
         <div class="card-body">
             <?php alertMessage(); ?>
 
-            <form action="code.php" method="POST">
+            <form action="customer_code.php" method="POST">
 
                 <?php
                 if (isset($_GET['id'])) {
@@ -62,6 +62,7 @@
                                 <label for="">Address *</label>
                                 <input type="text" name="address" required value="<?= $customerData['data']['address']; ?>" class="form-control" />
                             </div>
+
 
                             <div class="col-md-12 mb-3 text-end">
                                 <button type="submit" name="updateCustomer" class="btn btn-primary">Save</button>

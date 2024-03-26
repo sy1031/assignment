@@ -188,6 +188,7 @@ if (isset($_POST['updateCustomer'])) {
     $email = validate($_POST['email']);
     $phone = validate($_POST['phone']);
     $username = validate($_POST['username']);
+    $address = validate($_POST['address']);
 
     if ($username != '' && $email != '') {
         // Prepare data for updating customer
@@ -196,7 +197,8 @@ if (isset($_POST['updateCustomer'])) {
             'last_name' => $last_name,
             'email' => $email,
             'phone' => $phone,
-            'username' => $username
+            'username' => $username,
+            'address' => $address
         ];
 
         // Update customer record
@@ -223,6 +225,7 @@ if (isset($_POST['updateCustomer'])) {
         redirect('customer_edit.php?id=' . $customerId, 'Please fill required fields.');
     }
 }
+
 if (isset($_POST['updateCategory'])) {
     
     $categoryId = validate($_POST['category_ID']);
