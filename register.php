@@ -1,4 +1,5 @@
 <?php
+include('includes/header.php');
 
 if(isset($_POST['registerBtn'])) {
     $username = validate($_POST['username']);
@@ -21,8 +22,8 @@ if(isset($_POST['registerBtn'])) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert data into the user table
-        $query = "INSERT INTO user (username, phone, email, usertype, password) 
-                  VALUES ('$username', '$phone', '$email', '$usertype', '$hashedPassword')";
+        $query = "INSERT INTO user (username, phone, email, usertype, password, first_name, last_name) 
+                  VALUES ('$username', '$phone', '$email', '$usertype', '$hashedPassword', '$firstname', '$lastname')";
         $result = mysqli_query($conn, $query);
 
         // Get the user ID of the newly inserted user
@@ -51,7 +52,6 @@ if(isset($_POST['registerBtn'])) {
         <title>Register</title>
     </head>
 
-    <?php include('includes/header.php');?>
     <body class="bg-dark">
         <div class="py-5">
             <div class="mt-5">
@@ -116,5 +116,4 @@ if(isset($_POST['registerBtn'])) {
 
         </div>
     </body>
-    <?php include('includes/footer.php'); ?>
 </html>

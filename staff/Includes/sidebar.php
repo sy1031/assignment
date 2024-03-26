@@ -3,12 +3,6 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark bg-warning shadow" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading text-dark">Core</div>
-                <a class="nav-link text-dark" href="index.html">
-                    <div class="sb-nav-link-icon"><i class="fas fa-info-circle text-dark"></i></div>
-                    About Us
-                </a>
-
                 <div class="sb-sidenav-menu-heading text-dark">Interface</div>
 
                 <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"

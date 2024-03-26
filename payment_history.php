@@ -104,6 +104,7 @@ $stmt->close();
 <style>
     .table-container {
         overflow-x: auto;
+        min-height: 400px;
     }
 
     .payment-table {
