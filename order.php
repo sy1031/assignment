@@ -60,7 +60,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
                                     <h6 class="mb-0">
                                         <form action="order_details.php" method="get">
                                             <input type="hidden" name="order_id" value="<?php echo $order_row['order_ID']; ?>">
-                                            <button class="btn btn-link detail_btn" type="submit"><i class="fas sfa-list"></i></button>
+                                            <button class="btn btn-link detail_btn" type="submit"><i class="fas fa-list"></i></button>
                                         </form>                                       
                                     </div>
                                 </div>

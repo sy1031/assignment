@@ -143,16 +143,19 @@ text {
   
   .product_container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-  }
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
   
-  .edit_form {
+.edit_form {
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    min-height: fit-content;
+    align-items: flex-start;
+    text-align: left;
+}
   
   .product_image {
     width: 100%;
@@ -180,6 +183,7 @@ text {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
   }
   
   .submit_btn:hover {
@@ -508,7 +512,7 @@ p {
 .od_card {
     background-color: white;
     margin: auto;
-    width: 450px;
+    width: 600px;
     max-width: 1000px;
     padding-bottom: 100px;
 	border-radius: 20px;
