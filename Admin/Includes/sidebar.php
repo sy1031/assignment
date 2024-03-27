@@ -13,7 +13,7 @@
                 <div class="collapse" id="collapseCategory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link text-dark" href="category_create.php">Create Category</a>
-                        <a class="nav-link text-dark" href="category.php">View Category</a>
+                        <a class="nav-link text-dark" href="category.php">View Categories</a>
                     </nav>
                 </div>
 
