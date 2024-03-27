@@ -272,6 +272,11 @@ if (isset($_POST['saveProduct'])) {
     $quantity = validate($_POST['productQuantity']);
     $status = isset($_POST['productAvailability']) == true ? 1 : 0;
 
+    // If product out of stock, automatically hide the product
+    if ($quantity == 0) {
+        $status = 1;
+    }
+
     if ($_FILES['productImage']['size'] > 0) {
         $path = "../assets/uploads";
         $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
@@ -300,7 +305,8 @@ if (isset($_POST['saveProduct'])) {
     }
 
     $data = [
-        'product_ID' => $product_id,
+        //'product_ID' => $product_id,
+        'category_ID' => $category_id,
         'productName' => $name,
         'productDescription' => $description,
         'productBrand' => $brand,
@@ -334,6 +340,12 @@ if (isset($_POST['updateProduct'])) {
     $quantity = validate($_POST['productQuantity']);
     $status = isset($_POST['productAvailability']) == true ? 1 : 0;
 
+    // If product out of stock, automatically hide the product
+    if ($quantity == 0) {
+        redirect('product.php'. $item[$product_ID], 'Unable to Display Product, Product is Out of Stock!');
+        $status = 1;
+    }
+
     if ($_FILES['productImage']['size'] > 0) {
         $path = "../assets/uploads/products";
         $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
@@ -365,11 +377,12 @@ if (isset($_POST['updateProduct'])) {
     $result = updateProduct('product', $product_ID, $data);
 
     if ($result) {
-        redirect('product_edit.php?product_ID=' . $product_ID, 'Product Updated Successfully!');
+        redirect('product.php', 'Product Updated Successfully!');
     } else {
-        redirect('product_edit.php?product_ID=' . $product_ID, 'Something Went Wrong!');
+        redirect('product.php', 'Something Went Wrong!');
     }
 }
+
 
 if(isset($_POST['addCustomer']))
 {

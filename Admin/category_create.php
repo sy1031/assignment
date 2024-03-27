@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="col-md-6"> <!--To hide categories that you don't want to delete but want it to be unvisible to users--->
-                    <label for="">Would you like to hide the inserted information?</label>
+                    <label for="">Would you like to hide this category?</label>
                     <br/>
                     <input type="checkbox" name="categoryStatus" style="width:30px;height:30px";>
                 </div>
