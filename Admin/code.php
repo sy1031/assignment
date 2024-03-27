@@ -278,19 +278,16 @@ if (isset($_POST['saveProduct'])) {
     }
 
     if ($_FILES['productImage']['size'] > 0) {
-        $path = "../assets/uploads";
-        $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
+        $path = "../images/";
+        $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
         $filename = time() . '.' . $image_ext;
 
-        move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
+        //move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
 
-        $finalImage = "assets/uploads/" . $filename; //save product images here 
+        //$finalImage = "images/" . $filename; //save product images here 
 
         if (move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename)) {
-            $finalImage = "assets/uploads/" . $filename;
-    
-            // Debugging message
-            echo "Image uploaded successfully. Path: " . $finalImage . "<br>";
+            $finalImage = "images/" . $filename;
             
         }else{
             // Debugging message
@@ -345,23 +342,28 @@ if (isset($_POST['updateProduct'])) {
         redirect('product.php'. $item[$product_ID], 'Unable to Display Product, Product is Out of Stock!');
         $status = 1;
     }
-
     if ($_FILES['productImage']['size'] > 0) {
-        $path = "../assets/uploads/products";
-        $image_ext = pathinfo($_FILES['productImage']['productName'], PATHINFO_EXTENSION);
-
+        $path = "../images/";
+        $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
         $filename = time() . '.' . $image_ext;
 
-        move_uploaded_file($_FILES['image']['tmp_name'], $path . "/" . $filename);
+        //move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
 
-        $finalImage = "assets/uploads/products/" . $filename;
-        $deleteImage = "../" . $productData['data']['productImage'];
-        if (file_exists($deleteImage)) {
-            unlink($deleteImage);
+        //$finalImage = "images/" . $filename; //save product images here 
+
+        if (move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename)) {
+            $finalImage = "images/" . $filename;
+            
+        }else{
+            // Debugging message
+            redirect('product.php', "Failed to move uploaded file to destination directory."); 
+        $finalImage = '';
         }
     } else {
 
-        $finalImage = $productData['data']['productImage'];
+        // Debugging message for image upload only
+    //redirect('product.php', "No image uploaded"); 
+    $finalImage = '';
     }
 
     $data = [
@@ -382,7 +384,6 @@ if (isset($_POST['updateProduct'])) {
         redirect('product.php', 'Something Went Wrong!');
     }
 }
-
 
 if(isset($_POST['addCustomer']))
 {
