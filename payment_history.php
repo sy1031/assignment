@@ -11,6 +11,7 @@ if (!isset ($_SESSION['loggedInUser'])) {
     exit; // Stop further execution
 }
 
+include ('navbar-cus.php');
 
 // Prepare SQL statement to fetch payment history for the logged-in user
 $sql = "SELECT 
@@ -49,10 +50,9 @@ $result = $stmt->get_result();
 // Check if there are any payment records for the user
 if ($result->num_rows > 0) {
     // Display payment history along with order summaries
-    include ('navbar-cus.php');
     echo "<div class='container'>";
     echo "<h1 class='block-heading'>Payment History</h1>";
-    echo "<div class='table-container'>";
+    echo "<div class='table-containers'>";
     echo "<table class='payment-table'>";
     echo "<thead style='background-color: #FFC107; color: #fff;'>";
     echo "<tr><th>Payment ID</th><th>Payment Date/Time</th><th>Payment Amount (RM)</th><th>Payment Status</th><th>Order Status</th><th>Delivery Status</th>";
@@ -76,7 +76,7 @@ if ($result->num_rows > 0) {
     include ('footer.php');
 } else {
     // Handle the case where no payment records are found for the user
-    include include ('navbar-cus.php');
+    include ('navbar-cus.php');
     echo "No payment records found for the logged-in user.";
     include ('footer.php');
 }
@@ -90,12 +90,10 @@ $stmt->close();
 
 <head>
     <title>Payment History</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <!-- font awesome link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
      <!-- font awesome link -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -107,7 +105,7 @@ $stmt->close();
 
 </html>
 <style>
-    .table-container {
+    .table-containers {
         overflow-x: auto;
         min-height: 400px;
     }
