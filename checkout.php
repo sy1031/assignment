@@ -259,7 +259,7 @@ if (!$_SESSION['promotional_code_applied']) {
             <div id="payment-section">
                 <!-- Stripe checkout button -->
                 <a href="checkout_stripe.php?order_id=<?php echo $order_id; ?>" class="buttonLinktoPayment">Proceed to
-                    Checkout</a>
+                    Payment Checkout</a>
 
             </div>
 

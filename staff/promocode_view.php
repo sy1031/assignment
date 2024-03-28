@@ -2,7 +2,6 @@
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +10,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Promotional Code - Admin</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
 
+    .container-fluid {
+        padding: 0 15px;
+    }
+
+    .card {
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+</style>
 
 <body>
     <div class="container-fluid px-4">
@@ -25,7 +82,7 @@
             // Unset the session variable to remove the message after displaying it
             unset($_SESSION['success_message']);
         } ?>
-        
+
         <div class="card mt-4 shadow-sm">
             <div class="card-body">
                 <?php
