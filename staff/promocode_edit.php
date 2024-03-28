@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         // Redirect back to the view page with success message
-        $_SESSION['success_message'] = "Promotional code updated successfully.";
+        $_SESSION['success_message'] = "Promotional code is updated successfully.";
         header("Location: promocode_view.php");
         exit();
     } else {

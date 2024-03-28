@@ -13,7 +13,7 @@ if (isset ($_GET['promotion_id']) && !empty ($_GET['promotion_id'])) {
     // Execute the delete query
     if ($conn->query($deleteSql) === TRUE) {
         // Set success message in session
-        $_SESSION['success_message'] = "Promotional code deleted successfully.";
+        $_SESSION['success_message'] = "Promotional code is deleted successfully.";
         // Redirect back to the view promotional code page after successful deletion
         header("Location: promocode_view.php");
         exit();

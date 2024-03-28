@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute statement
         if ($stmt->execute()) {
-            echo "<div class='alert alert-success' role='alert'>Promotion created successfully.</div>";
+            echo "<div class='alert alert-success' role='alert'>Promotion code is created successfully.</div>";
         } else {
             echo "<div class='alert alert-danger' role='alert'>Error creating promotion: " . $conn->error . "</div>";
         }
