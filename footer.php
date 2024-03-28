@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
 
 <body>
     <footer class="footer">
+        <hr class="horizontalLine">
         <div class="container">
             <div class="row">
                 <!-- Contact Us-->
@@ -31,5 +33,16 @@
         </div>
     </footer>
 </body>
+
 </html>
 
+<style>
+    .horizontalline {
+        height: 1px;
+        color: #ffc107;
+    }
+
+    .footer ul.list-inline li a:hover {
+        color: #ffc107;
+    }
+</style>

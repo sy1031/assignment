@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History</title>
+</head>
+<body>
+    
+</body>
+</html>
+
 <?php
 // Include your database connection file
 require ('../config/dbcon.php');
@@ -14,6 +26,7 @@ u.last_name,
 u.usertype,
 o.order_date, 
 o.total_amount,
+o.order_ID
 od.product_ID,
 od.quantity,
 od.price

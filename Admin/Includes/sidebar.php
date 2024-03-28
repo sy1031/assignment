@@ -70,7 +70,7 @@
         </div>
         <div class="sb-sidenav-footer bg-warning">
             <div class="small text-dark">Logged in as:</div>
-            <div class="text-dark">Start Bootstrap</div>
+            <div class="text-dark"><?= $_SESSION['loggedInUser']['username']; ?></div>
         </div>
 
     </nav>

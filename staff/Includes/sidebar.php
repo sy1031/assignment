@@ -29,7 +29,7 @@
                 <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave text-dark"></i></div>
-                    Promotional Code
+                    Payment
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
                 </a>
                 <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
@@ -60,7 +60,7 @@
         </div>
         <div class="sb-sidenav-footer bg-warning">
             <div class="small text-dark">Logged in as:</div>
-            <div class="text-dark">Start Bootstrap</div>
+            <div class="text-dark"><?= $_SESSION['loggedInUser']['username']; ?></div>
         </div>
     </nav>
 </div>

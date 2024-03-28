@@ -20,7 +20,9 @@ $sql = "SELECT
             p.payment_Status,
             o.user_ID, 
             o.order_date, 
-            o.total_amount
+            o.total_amount,
+            o.order_status,
+            o.delivery_status
         FROM 
             payment p
         INNER JOIN `order` o ON p.order_ID = o.order_ID 
@@ -53,7 +55,7 @@ if ($result->num_rows > 0) {
     echo "<div class='table-container'>";
     echo "<table class='payment-table'>";
     echo "<thead style='background-color: #FFC107; color: #fff;'>";
-    echo "<tr><th>Payment ID</th><th>Payment Date/Time</th><th>Payment Amount (RM)</th><th>Payment Status</th>";
+    echo "<tr><th>Payment ID</th><th>Payment Date/Time</th><th>Payment Amount (RM)</th><th>Payment Status</th><th>Order Status</th><th>Delivery Status</th>";
     echo "</thead>";
     echo "<tbody>";
     while ($row = $result->fetch_assoc()) {
@@ -62,6 +64,8 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row['payment_Date'] . "</td>";
         echo "<td>" . $row['payment_Amount'] . "</td>";
         echo "<td>" . $row['payment_Status'] . "</td>";
+        echo "<td>" . $row['order_status'] . "</td>";
+        echo "<td>" . $row['delivery_status'] . "</td>";
         echo "</tr>";
     }
     echo "</tbody>";
@@ -86,6 +90,7 @@ $stmt->close();
 
 <head>
     <title>Payment History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">

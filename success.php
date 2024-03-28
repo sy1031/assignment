@@ -71,7 +71,7 @@ try {
     if ($stmt->execute()) {
         // Payment information saved successfully
 
-        // Update order status to 'success'
+        //Update order status to 'success'
         $update_order_status_sql = "UPDATE `order` SET order_status = 'success', delivery_status = 'paid' WHERE order_ID = ?";
         $update_order_status_stmt = $conn->prepare($update_order_status_sql);
         $update_order_status_stmt->bind_param("i", $order_id);

@@ -11,8 +11,12 @@ $user_address = mysqli_fetch_assoc($address_query)['address'];
 // Determine the filter condition based on the button clicked
 $filter_condition = isset($_GET['filter']) ? $_GET['filter'] : 'to_receive';
 
-// Fetch order details based on the filter condition
-$order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, order_status, delivery_status FROM `order` WHERE user_ID = $user_id AND order_status = 'success' AND delivery_status " . ($filter_condition === 'to_receive' ? "!= 'delivered'" : "= 'delivered'"));
+$order_query = mysqli_query($conn, "SELECT o.order_ID, o.total_amount, o.order_date, o.order_status, o.delivery_status, p.payment_Amount
+                                    FROM `order` AS o
+                                    INNER JOIN `payment` AS p ON o.order_ID = p.order_ID
+                                    WHERE o.user_ID = $user_id 
+                                    AND o.order_status = 'success' 
+                                    AND o.delivery_status " . ($filter_condition === 'to_receive' ? "!= 'delivered'" : "= 'delivered'"));
 
 ?>
 
@@ -69,7 +73,7 @@ $order_query = mysqli_query($conn, "SELECT order_ID, total_amount, order_date, o
                             <div class="card-body">
                                 <div class="media flex-column flex-sm-row">
                                     <div class="media-body ">
-                                        <h4 class="mt-3 mb-4 bold"> <span class="mt-5">RM</span><?php echo $order_row['total_amount']; ?></h4>
+                                        <h4 class="mt-3 mb-4 bold"> <span class="mt-5">RM</span><?php echo $order_row['payment_Amount']; ?></h4>
                                         <p class="text-muted">Tracking Status:</p>
                                     </div>
                                 </div>
