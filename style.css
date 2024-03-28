@@ -576,19 +576,6 @@ p {
     align-items: center
 }
 
-.total {
-    font-size: 1.3rem;
-}
-
-hr {
-    border: 0;
-    height: 5px;
-    background-color: #000;
-    margin: 20px 0;
-}
-
-
-
 @media(height: 1366px) {
     .main p {
         margin-bottom: 0;

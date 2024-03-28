@@ -7,7 +7,7 @@ if(isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
     // Fetch order details based on the order ID
-    $order_query = mysqli_query($conn, "SELECT op.product_ID, op.quantity, op.price, p.productName, p.productImage, o.total_amount
+    $order_query = mysqli_query($conn, "SELECT op.product_ID, op.quantity, op.price, p.productName, p.productImage
     FROM order_paid op 
     INNER JOIN product p ON op.product_ID = p.product_ID
     INNER JOIN `order` o ON op.order_ID = o.order_ID
@@ -17,6 +17,9 @@ if(isset($_GET['order_id'])) {
     // Display if no order ID in the URL
     echo '<h4 class="mb-0">No order ID provided in URL</h4>';
 }
+
+$discounted_total_amount = $_SESSION['discounted_total_amount'] ?? null;
+
 ?>
 
 <!DOCTYPE html>
@@ -63,19 +66,10 @@ if(isset($_GET['order_id'])) {
                             <p><b><?php echo $order_row['price']; ?></b></p>
                         </div> 
                     </div>
-                    <?php $total = $order_row['total_amount'];
+                <?php 
                 }
+                endif; 
                 ?>
-                <?php endif; 
-                ?>
-                <hr>
-                <!-- Display total amout of this order -->
-                <div class="total">
-                    <div class="row">
-                        <div class="col"> <b>Total Amount:</b> </div>
-                        <div class="col d-flex justify-content-end"> <b>RM<?php echo  $total?></b> </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
