@@ -115,5 +115,6 @@ if(isset($_POST['add_to_cart'])){
         }
         ?>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>
