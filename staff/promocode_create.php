@@ -1,6 +1,6 @@
-<?php 
+<?php
 include ('Includes/header.php');
- ?>
+?>
 
 <?php
 //require ('../config/dbcon.php');
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute statement
         if ($stmt->execute()) {
-            echo "<div class='alert alert-success' role='alert'>Promotion created successfully.</div>";
+            echo "<div class='alert alert-success' role='alert'>Promotion code is created successfully.</div>";
         } else {
             echo "<div class='alert alert-danger' role='alert'>Error creating promotion: " . $conn->error . "</div>";
         }
@@ -82,103 +82,132 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 0;
         }
 
-
-        h2 {
-            margin-top: 0;
-            text-align: center;
-            color: #333;
+        .container-fluid {
+            padding: 0 15px;
         }
 
-        form {
+        .card {
             margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            padding: 15px 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="date"] {
+        .card-body {
+            padding: 20px;
+        }
+
+        .table {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        select {
+            height: 38px;
+            width: 200px;
+            border-radius: 5px;
             border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 6px 12px;
         }
 
         input[type="submit"] {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 20px;
+            width: 100px;
+            height: 38px;
             border: none;
-            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
             cursor: pointer;
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
 
         .titleSize {
-            font-weight:bold;
-            font-size:24px;
+            font-weight: bold;
+            font-size: 24px;
         }
     </style>
     </head>
 
     <body>
-        <div class="container-fluid px-4">
+        <div class="container-fluid">
             <div class="card mt-4 shadow-sm">
                 <div class="card-header">
-                    <h4 class="mb-0 titleSize mt-3">Create Promotional Code 
-                    </h4>
+                    <h4 class="mb-0 titleSize mt-3">Create Promotional Code</h4>
                 </div>
                 <div class="card-body">
-
                     <?php alertMessage(); ?>
 
                     <form action="promocode_create.php" method="POST">
-
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="">Promotion Name</label>
-                                <input type="text" name="promotionName" required class="form-control" />
+                                <label for="promotionName">Promotion Name</label>
+                                <input type="text" name="promotionName" required class="form-control">
                             </div>
-
                             <div class="col-md-12 mb-3">
-                                <label for="">Description</label>
+                                <label for="promotionDescription">Description</label>
                                 <textarea name="promotionDescription" class="form-control" rows="3"></textarea>
                             </div>
-
                             <div class="col-md-12 mb-3">
                                 <label for="direct_discount">Direct Discount (RM):</label>
-                                <input type="number" id="direct_discount" name="direct_discount" min="0" step="0.1"><br>
+                                <input type="number" id="direct_discount" name="direct_discount" min="0" step="0.1">
                             </div>
-
                             <div class="col-md-6">
-                                <label for="">Start Date</label>
-                                <input type="date" name="startDate" required class="form-control" />
+                                <label for="startDate">Start Date</label>
+                                <input type="date" name="startDate" required class="form-control">
                             </div>
-
                             <div class="col-md-6">
-                                <label for="">End Date</label>
-                                <input type="date" name="endDate" required class="form-control" />
+                                <label for="endDate">End Date</label>
+                                <input type="date" name="endDate" required class="form-control">
                             </div>
-
                             <div class="col-md-6 mb-3">
-                                <br />
+                                <br>
                                 <button type="submit" name="savePromotion" class="btn btn-primary">Save</button>
                             </div>
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
         </div>
     </body>
