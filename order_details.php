@@ -7,9 +7,10 @@ if(isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
     // Fetch order details based on the order ID
-    $order_query = mysqli_query($conn, "SELECT op.product_ID, op.quantity, op.price, p.productName, p.productImage
+    $order_query = mysqli_query($conn, "SELECT op.product_ID, op.quantity, op.price, p1.productName, p1.productImage, o.total_amount, p2.payment_Amount
     FROM order_paid op 
-    INNER JOIN product p ON op.product_ID = p.product_ID
+    INNER JOIN `payment` AS p2 ON op.order_ID = p2.order_ID
+    INNER JOIN product AS p1 ON op.product_ID = p1.product_ID
     INNER JOIN `order` o ON op.order_ID = o.order_ID
     WHERE op.order_ID = $order_id");
 
@@ -17,9 +18,6 @@ if(isset($_GET['order_id'])) {
     // Display if no order ID in the URL
     echo '<h4 class="mb-0">No order ID provided in URL</h4>';
 }
-
-$discounted_total_amount = $_SESSION['discounted_total_amount'] ?? null;
-
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +26,8 @@ $discounted_total_amount = $_SESSION['discounted_total_amount'] ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Details</title>
-
+    <!-- CSS file -->
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <!-- font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -66,17 +65,32 @@ $discounted_total_amount = $_SESSION['discounted_total_amount'] ?? null;
                             <p><b><?php echo $order_row['price']; ?></b></p>
                         </div> 
                     </div>
-                <?php 
+                    <?php $total = $order_row['total_amount'];
+                    $totalAfterDiscount = $order_row['payment_Amount'];
                 }
-                endif; 
                 ?>
+                <?php endif; 
+                ?>
+                <hr>
+                <div class="total">
+                    <div class="row">
+                        <div class="col"> <b>Total Amount:</b> </div>
+                        <div class="col d-flex justify-content-end"> <b>RM<?php echo  $total?></b> </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"> <b>Promotion:</b> </div>
+                        <div class="col d-flex justify-content-end"> <b>RM<?php echo  $total-$totalAfterDiscount?></b> </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"> <b>Payment Amount:</b> </div>
+                        <div class="col d-flex justify-content-end"> <b>RM<?php echo  $totalAfterDiscount?></b> </div>
+                    </div>                    
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- include footer -->
-    <?php include 'footer.php'?>
-</body>
+        <!-- include footer -->
+        <?php include 'footer.php'?>
+    </body>
 </html>
 
 
