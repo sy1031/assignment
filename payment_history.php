@@ -8,18 +8,18 @@
 <body>
     
 <?php
-// Include your database connection file
+// Include Database connection file
 require_once 'config/dbcon.php';
 
-// Check if the user is logged in
+// Check if the user is logged in (Authentication)
 session_start(); // Start the session
 if (!isset ($_SESSION['loggedInUser'])) {
-    // Redirect the user to the login page or handle the situation accordingly
-    // For example:
+    // Redirect the user to the login page (Ask to login first)
     header("Location: login.php");
     exit; // Stop further execution
 }
 
+//Include the navbar
 include ('navbar-cus.php');
 
 // Prepare SQL statement to fetch payment history for the logged-in user
