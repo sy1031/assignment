@@ -104,7 +104,7 @@ if(isset($_POST['add_to_cart'])){
         }
         ?>
         <div class="product_details">
-            <img src="<?php echo $product['productImage'] ?>" alt="<?php echo $product['productName'] ?>" style="width: 420px; height: auto;">
+            <img src="<?php echo $product['productImage'] ?>" alt="<?php echo $product['productName'] ?>" style="width: 250px; height: auto;">
             <h2><?php echo $product['productName'] ?></h2>
             <h6><?php echo $product['productDescription'] ?></h6>
             <div class="price">Price: RM<?php echo $product['productPrice'] ?></div>
@@ -119,5 +119,6 @@ if(isset($_POST['add_to_cart'])){
             </form>
         </div>
     </div>
+    <?php include 'footer.php'?>
 </body>
 </html>
