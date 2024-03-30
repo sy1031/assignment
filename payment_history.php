@@ -85,7 +85,6 @@ if ($result->num_rows > 0) {
     include ('footer.php');
 } else {
     // Handle the case where no payment records are found for the user
-    include ('navbar-cus.php');
     echo "No payment records found for the logged-in user.";
     include ('footer.php');
 }
