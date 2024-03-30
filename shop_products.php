@@ -3,11 +3,6 @@ include 'config/function.php';
 include 'config/dbcon.php';
 
 $display_all_products = true; // Flag to determine whether to display all products or just search results
-
-if(isset($_POST['add_to_cart'])){
-    // Your existing code for adding to cart
-}
-
 ?>
 
 
