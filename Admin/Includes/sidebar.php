@@ -43,12 +43,12 @@
                         <!-- <a class="nav-link" href="cus_orders.php">Customer's Orders</a> -->
                     </nav>
                 </div>
-
+<!-- 
                 <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave text-dark"></i></div>
                     Payment
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
-                </a>
+                </a> -->
 
                 <div class="sb-sidenav-menu-heading text-dark">Manage Users</div>
 
