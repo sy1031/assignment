@@ -120,7 +120,7 @@ if(isset($_POST['checkout'])){
                                 <div class="row">
                                     <!-- Product Image -->
                                     <div class="col-md-4">
-                                        <img src="images/<?php echo $fetch_cart_products['productImage']?>" alt="<?php echo $fetch_cart_products['productName']?>" style="width: 180px; height: auto;">
+                                        <img src="<?php echo $fetch_cart_products['productImage']?>" alt="<?php echo $fetch_cart_products['productName']?>" style="width: 180px; height: auto;">
                                     </div>
                                     <!-- Product info -->
                                     <div class="col-md-8">

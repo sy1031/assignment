@@ -53,7 +53,7 @@ $discounted_total_amount = $_SESSION['discounted_total_amount'] ?? null;
                 while ($order_row = mysqli_fetch_assoc($order_query)) {
                 ?>
                     <div class="row row-main">
-                        <div class="col-3"><img class="img-fluid" src="images/<?php echo $order_row['productImage']; ?>"></div>
+                        <div class="col-3"><img class="img-fluid" src="<?php echo $order_row['productImage']; ?>"></div>
                         <div class="col-6">
                             <div class="row d-flex">
                                 <p><b><?php echo $order_row['productName']; ?></b></p>

@@ -92,7 +92,7 @@ if(isset($_POST['add_to_cart'])){
                             <div class="availability">Availability: <?php echo $row['productAvailability'] ? 'Out of Stock' : 'In Stock'?></div>
                             <input type="hidden" name="product_id" value="<?php echo $row['product_ID'] ?>">
                             <input type="hidden" name="product_price" value="<?php echo $row['productPrice'] ?>">
-                            <input type="hidden" name="product_image" value="images/<?php echo $row['productImage'] ?>">
+                            <input type="hidden" name="product_image" value="<?php echo $row['productImage'] ?>">
                             <input type="submit" class="submit_btn cart_btn" value="Add to Cart" name="add_to_cart">
                         </div>
                     </form>
@@ -119,7 +119,7 @@ if(isset($_POST['add_to_cart'])){
                                 <form method="post" action="shop_products.php">
                                     <div class="edit_form">
 
-                                        <img src="images/<?php echo $fetch_product['productImage'] ?> " alt="" style="width: auto; height: 180px;">
+                                        <img src="<?php echo $fetch_product['productImage'] ?> " alt="" style="width: auto; height: 180px;">
                                         <a href="shop_products_details.php?product_id=<?php echo $fetch_product['product_ID'] ?>" style="color: inherit;">
                                             <h4><?php echo $fetch_product['productName'] ?></h4>
                                         </a>
@@ -127,7 +127,7 @@ if(isset($_POST['add_to_cart'])){
                                         <div class="availability">Availability: <?php echo $fetch_product['productAvailability'] ? 'Out of Stock' : 'In Stock'?></div>
                                         <input type="hidden" name="product_id" value="<?php echo $fetch_product['product_ID'] ?>">
                                         <input type="hidden" name="product_price" value="<?php echo $fetch_product['productPrice'] ?>">
-                                        <input type="hidden" name="product_image" value="images/<?php echo $fetch_product['productImage'] ?> ">
+                                        <input type="hidden" name="product_image" value="<?php echo $fetch_product['productImage'] ?> ">
                                         <input type="submit" class="submit_btn cart_btn" value="Add to Cart" name="add_to_cart">
                                     </div>
                                 </form>
