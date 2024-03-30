@@ -228,7 +228,7 @@ if (!$_SESSION['promotional_code_applied']) {
                                 <td>
                                     <?php echo $item['productName']; ?>
                                 </td>
-                                <td><img src="images/<?php echo $item['productImage']; ?>"
+                                <td><img src="<?php echo $item['productImage']; ?>"
                                         style="width: 200px; height: auto;"></td>
                                 <td>RM
                                     <?php echo $item['productPrice']; ?>
