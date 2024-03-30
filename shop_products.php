@@ -3,6 +3,40 @@ include 'config/function.php';
 include 'config/dbcon.php';
 
 $display_all_products = true; // Flag to determine whether to display all products or just search results
+
+// Add to cart
+if(isset($_POST['add_to_cart'])){
+    $product_id = $_POST['product_id'];
+    $product_price = $_POST['product_price'];
+
+    $user_id = $_SESSION['loggedInUser']['user_ID'];
+
+    // Check if the product already exists
+    $existing_item_query = mysqli_query($conn, "SELECT * FROM cart WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
+    if(mysqli_num_rows($existing_item_query) > 0) {
+        // Product already exists, update the quantity
+        $existing_item_row = mysqli_fetch_assoc($existing_item_query);
+        $existing_quantity = $existing_item_row['quantity'];
+        $new_quantity = $existing_quantity + 1;
+
+        $update_query = mysqli_query($conn, "UPDATE cart SET quantity = '$new_quantity' WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
+
+        if($update_query) {
+            $display_message = "Quantity updated successfully.";
+        } else {
+            $display_message = "Error updating quantity: " . mysqli_error($conn);
+        }
+    } else {
+        // Product does not exist, add a new entry
+        $insert_query = mysqli_query($conn, "INSERT INTO cart (user_ID, product_ID, quantity, price) VALUES ('$user_id', '$product_id', 1, '$product_price')");
+
+        if($insert_query) {
+            $display_message = "Product added to cart successfully.";
+        } else {
+            $display_message = "Error adding product to cart: " . mysqli_error($conn);
+        }
+    }
+}
 ?>
 
 
