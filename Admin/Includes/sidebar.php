@@ -43,6 +43,19 @@
                         <!-- <a class="nav-link" href="cus_orders.php">Customer's Orders</a> -->
                     </nav>
                 </div>
+
+                <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                    aria-expanded="false" aria-controls="collapsePages">
+                    <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave text-dark"></i></div>
+                    Payment
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-dark"></i></div>
+                </a>
+                <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
+                    data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link text-dark" href="payment_lists.php">View Payment History</a>
+                    </nav>
+                </div>
 <!-- 
                 <a class="nav-link text-dark collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave text-dark"></i></div>
