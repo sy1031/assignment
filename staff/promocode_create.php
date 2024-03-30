@@ -3,14 +3,14 @@ include ('Includes/header.php');
 ?>
 
 <?php
-//require ('../config/dbcon.php');
-
 // Function to sanitize input data
 function sanitizeInput($data)
 {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = trim($data); //Removes any leading or trailing whitespace 
+    $data = stripslashes($data); //Removes backslashes (\) 
+    $data = htmlspecialchars($data); // Converts special characters to HTML entities. (Preventing XSS[Cross-site Scripting] attacks)
+    //Eg: &(ampersand) will be converted to &amp; in html (Same thing)
+    //More info for htmlspecialchars may refer to : https://www.php.net/manual/en/function.htmlspecialchars.php
     return $data;
 }
 

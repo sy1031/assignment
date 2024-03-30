@@ -113,6 +113,7 @@
 
                 <?php
                 // Fetch payment history along with order summaries and user details
+                // By using Join method
                 $sql = "SELECT 
                     p.payment_ID, 
                     p.payment_Date, 
@@ -167,6 +168,7 @@
     </div>
 
     <script>
+        //Search By Name Function - Apply Effective Searching for Staff
         function searchByName() {
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("searchInput");

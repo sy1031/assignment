@@ -1,3 +1,5 @@
+<!-- This is the sucess.php page after user have succesfully done their payment process -->
+
 <?php
 require_once 'config/function.php';
 require_once __DIR__ . "/vendor/autoload.php";
@@ -14,15 +16,6 @@ if (!$order_id || !$payment_amount) {
     exit;
 }
 
-// Ensure that the necessary session variables are set
-// if (!isset ($_SESSION['total_amount']) || !isset ($_SESSION['discounted_total_amount'])) {
-//     echo "Error: Total amount information is missing.";
-//     exit;
-// }
-
-// Retrieve total amount and discounted total amount from session
-// $total_amount = $_SESSION['total_amount'];
-// $discounted_total_amount = $_SESSION['discounted_total_amount'];
 
 // Check if the cart data is available in the session
 if (!isset ($_SESSION['cart']) || empty ($_SESSION['cart'])) {
@@ -32,26 +25,12 @@ if (!isset ($_SESSION['cart']) || empty ($_SESSION['cart'])) {
 }
 
 
-// Iterate through each item in the cart to calculate the total amount
-// foreach ($_SESSION['cart'] as $item) {
-//     // Ensure that productPrice and quantity keys are set for each item
-//     if (isset ($item['productPrice'], $item['quantity'])) {
-//         $total_amount += $item['productPrice'] * $item['quantity'];
-//     } else {
-//         // Handle the case where productPrice or quantity keys are missing
-//         echo "Error: Missing product price or quantity.";
-//         exit;
-//     }
-// }
-
-// Set your Stripe secret key
+// Set Stripe secret key
 \Stripe\Stripe::setApiKey("sk_test_51KA3yrDKdTwGg1g3k6jPrfkpvZ7P4QdfLoLQQrKbaHptXbr1mDIyTwt3eb9yHHPt6laaweaIQwTxrkTk3Mqex8al000djCqimv");
 
-// Calculate the payment amount (unit amount * quantity)
-//$payment_amount = $discounted_total_amount !== null ? $discounted_total_amount : $total_amount;
 
 try {
-    // Connect to your MySQL database
+    // Connect to MySQL database
     $conn = new mysqli('localhost', 'root', '', 'assignment');
 
     // Check connection
@@ -59,13 +38,21 @@ try {
         die ("Connection failed: " . $conn->connect_error);
     }
 
-    // Start a transaction
+    // Start a transaction on the database connection
+    //Transactions ensure that a series of database operations either complete entirely or have no effect at all if an error occurs
+    // (All or nothing) - Ensuring the data consistency 
     $conn->begin_transaction();
 
     // Prepare SQL statement to insert payment data
     $sql = "INSERT INTO payment (payment_Date, payment_Amount, payment_Status, order_ID) VALUES (NOW(), ?, 'success', ?)";
     $stmt = $conn->prepare($sql);
+
+    //Bind parameters to a prepared SQL statement 
+    //Puporse: Preventing SQL injection attacks and ensuring the data integrity
     $stmt->bind_param("di", $payment_amount, $order_id);
+    // d indicated for $payment_amount is (double/decimal)
+    // i indicated for $order_id is (int)
+    // more info may refer to https://www.php.net/manual/en/mysqli-stmt.bind-param.php
 
     // Execute SQL statement
     if ($stmt->execute()) {
@@ -89,15 +76,14 @@ try {
         $delete_cart_stmt->execute();
         $delete_cart_stmt->close();
 
-        // Commit the transaction
+        // Commit the transaction (Save it)
         $conn->commit();
 
-        //echo "Payment information saved successfully and cart items deleted.";
     } else {
         echo "Error: " . $stmt->error;
     }
 
-    // Close database connection
+    // Close the database connection
     $stmt->close();
     $conn->close();
 

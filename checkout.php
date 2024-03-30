@@ -1,25 +1,30 @@
+<!-- This is the payment checkout page after user click 'Proceed to Checkout' button in cart.php -->
+
 <?php
 include 'config/function.php';
-$order_id = $_GET['order_id'];
-require __DIR__ . "/vendor/autoload.php";
+$order_id = $_GET['order_id']; //Get the order_ID from the cart.php 
+//DIR - To get the absolute path to the directory containing the current script
+require __DIR__ . "/vendor/autoload.php"; //This is the file needed when we use 'Composer'
 
+//To avoid the discounted price is saved into payment when customer is purchasing for the next item
 unset($_SESSION['discounted_total_amount']);
 $_SESSION['promotional_code_applied'] = false;
 
 // Initialize promotional code applied flag in session if not set
-if (!isset ($_SESSION['promotional_code_applied'])) {
+if (!isset($_SESSION['promotional_code_applied'])) {
     $_SESSION['promotional_code_applied'] = false;
 }
 
 // Initialize total amount if not set or if needed
-if (!isset ($_SESSION['total_amount']) || empty ($_SESSION['total_amount'])) {
-    $_SESSION['total_amount'] = calculateTotalAmount($_SESSION['cart']); // Define a function to calculate total amount
+if (!isset($_SESSION['total_amount']) || empty($_SESSION['total_amount'])) {
+    $_SESSION['total_amount'] = calculateTotalAmount($_SESSION['cart']); 
 }
 
-// Stripe Secret Key
+// Stripe Secret Key (API Key achieve from Stripe)
+// By creating ur own secret key in Strip [Can refer to the PaymentModule_Guideline provided in the folder]
 $stripe_secret_key = "sk_test_51KA3yrDKdTwGg1g3k6jPrfkpvZ7P4QdfLoLQQrKbaHptXbr1mDIyTwt3eb9yHHPt6laaweaIQwTxrkTk3Mqex8al000djCqimv";
 
-\Stripe\Stripe::setApiKey($stripe_secret_key);
+\Stripe\Stripe::setApiKey($stripe_secret_key); //Script for setting the script API key that will be used for authentication when making requests to the Stripe API.
 
 // Initialize total amount
 $total_amount = 0;
@@ -27,7 +32,7 @@ $discount = 0;
 $discounted_total_amount = 0;
 
 // Check if the cart data is available in the session
-if (isset ($_SESSION['cart'])) {
+if (isset($_SESSION['cart'])) {
     $cart_data = $_SESSION['cart'];
 
     // Calculate total amount of items in the cart
@@ -36,53 +41,62 @@ if (isset ($_SESSION['cart'])) {
     // Store the original total amount in a session variable
     $_SESSION['total_amount'] = $total_amount;
 
-    // Check if the promotional code form is submitted
-   // Check if the promotional code form is submitted
-if (isset($_POST['apply_promo_code'])) {
-    // Retrieve the promotional code entered by the user
-    $promotional_code = $_POST['promotional_code'];
+    // Check if the promotional code form is submitted by the user
+    if (isset($_POST['apply_promo_code'])) {
+        // Retrieve the promotional code entered by the user
+        $promotional_code = $_POST['promotional_code'];
 
-    if (!empty($promotional_code)) {
-        // Promotional code is submitted, attempt to apply it
-        $sql = "SELECT * FROM promotion WHERE promotion_name = '$promotional_code' AND NOW() BETWEEN start_date AND end_date";
-        $result = $conn->query($sql);
+        //If the promotion code is not empty, check for if it is exist or not
+        if (!empty($promotional_code)) {
+            //Check the available of code in the SQL table
+            $sql = "SELECT * FROM promotion WHERE promotion_name = '$promotional_code' AND NOW() BETWEEN start_date AND end_date";
+            $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            // Promotional code is valid, fetch the discount amount
-            $row = $result->fetch_assoc();
-            $discount = $row['direct_discount'];
+            if ($result->num_rows > 0) {
+                // Promotional code is valid, fetch the discount amount
+                $row = $result->fetch_assoc();
+                $discount = $row['direct_discount'];
 
-            // Calculate the discounted total amount
-            $discounted_total_amount = $total_amount - $discount;
+                // Calculate the discounted total amount
+                $discounted_total_amount = $total_amount - $discount;
 
-            // Store the discounted total amount and flag in session variables
-            $_SESSION['discounted_total_amount'] = $discounted_total_amount;
-            $_SESSION['promotional_code_applied'] = true;
+                // Store the discounted total amount and the promotion flag in session variables
+                $_SESSION['discounted_total_amount'] = $discounted_total_amount;
+                $_SESSION['promotional_code_applied'] = true;
 
-            // Display the promotional information
-            ?>
-            <div class="container">
-                <div class="alert alert-success" role="alert">
-                    Your Promotion Code is successfully applied!
+                // Display the promotional information (successful message)
+                ?>
+                <div class="container">
+                    <div class="alert alert-success" role="alert">
+                        Your Promotion Code is successfully applied!
+                    </div>
                 </div>
-            </div>
-            <?php
+                <?php
+            } else {
+                // Invalid promotional code, display error message 
+                ?>
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+                        Invalid promotional code.
+                    </div>
+                </div>
+                <?php
+            }
+
         } else {
-            // Invalid promotional code, display error message
+            // If the promotional code form is submitted with an empty field, reset the discounted total amount and the flag 
+            // and displaying an message to alert users on it
+            unset($_SESSION['discounted_total_amount']);
+            $_SESSION['promotional_code_applied'] = false;
             ?>
             <div class="container">
                 <div class="alert alert-danger" role="alert">
-                    Invalid promotional code.
+                    Please enter a promotional code.
                 </div>
             </div>
             <?php
         }
-    } else {
-        // If the promotional code form is submitted with an empty field, reset the discounted total amount and the flag
-        unset($_SESSION['discounted_total_amount']);
-        $_SESSION['promotional_code_applied'] = false;
     }
-}
 }
 
 // Function to calculate total amount of items in the cart
@@ -95,11 +109,11 @@ function calculateTotalAmount($cart_data)
     return $total_amount;
 }
 
-// If the promotional code is not applied, use the original total amount
+// If the promotional code is not applied, just use the original total amount
 if (!$_SESSION['promotional_code_applied']) {
-    unset($_SESSION['discounted_total_amount']); // Unset the discounted total amount
-    $discounted_total_amount = $_SESSION['total_amount'];
-    $total_amount = $_SESSION['total_amount'];
+    unset($_SESSION['discounted_total_amount']); // Unset the discounted total amount (To avoid any discount price saved in the last payment to be applied in this session)
+    $discounted_total_amount = $_SESSION['total_amount']; //Set the original price to the discount_total_amount (Double Authentication for it)
+    $total_amount = $_SESSION['total_amount']; 
 }
 ?>
 
@@ -169,6 +183,19 @@ if (!$_SESSION['promotional_code_applied']) {
         .buttonApplyCode {
             color: white;
             background: #007bff;
+            border: 2px white solid;
+            padding: 4px;
+            margin: 4px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .buttonApplyCode:hover {
+            background-color: white;
+            color: #007bff;
+            border: 2px solid #007bff;
+            transform: scale(1.03);
         }
     </style>
 </head>
@@ -176,6 +203,7 @@ if (!$_SESSION['promotional_code_applied']) {
 <body>
     <!-- Cart display section -->
     <div class="container">
+        <h1>Payment Checkout </h1> <br>
         <div class="card">
             <!-- Cart table -->
             <div class="table-responsive">
@@ -251,7 +279,7 @@ if (!$_SESSION['promotional_code_applied']) {
             <!-- Promotional code form -->
             <form action="checkout.php?order_id=<?php echo $order_id; ?>" method="post">
                 <input type="text" name="promotional_code" placeholder="Enter Promotional Code">
-                <button type="submit" name="apply_promo_code" class="buttonApplyCode">Apply</button>
+                <button type="submit" name="apply_promo_code" class="buttonApplyCode">Apply Code</button>
             </form>
 
             <!-- Payment options -->
