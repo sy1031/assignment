@@ -347,10 +347,6 @@ if (isset($_POST['updateProduct'])) {
         $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
         $filename = time() . '.' . $image_ext;
 
-        //move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
-
-        //$finalImage = "images/" . $filename; //save product images here 
-
         if (move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename)) {
             $finalImage = "images/" . $filename;
             
@@ -359,10 +355,13 @@ if (isset($_POST['updateProduct'])) {
             redirect('product.php', "Failed to move uploaded file to destination directory."); 
         $finalImage = '';
         }
+
+    } elseif (isset($_POST['oldProductImage'])) {
+        // Use the old image if no new image was uploaded
+        $finalImage = $_POST['oldProductImage'];
+        
     } else {
 
-        // Debugging message for image upload only
-    //redirect('product.php', "No image uploaded"); 
     $finalImage = '';
     }
 

@@ -85,7 +85,9 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="">Image</label>
                                     <input type="file" name="productImage" class="form-control" />
-                                    <img src="../<?= $product['data']['productImage']; ?>" style="width=40px;height=40px;" alt="Image">
+                                    <?php if(empty($_FILES['productImage']['name'])): ?>
+                                        <input type="hidden" name="oldProductImage" value="<?= $product['data']['productImage']; ?>" />
+                                    <?php endif; ?>
                                 </div>
 
                                 <div class="col-md-6">
