@@ -28,13 +28,13 @@ if(isset($_SESSION['loggedInUser']['user_ID'])) {
                 <nav class="navbar navbar-expand-md bg-warning justify-content-end">
                     <ul class="navbar-nav">
                     <li class="nav-item search" style="margin-top: -4px;">
-                        <!-- <form action="search.php" method="GET" class="nav-link" style="display: flex;">
+                        <form action="search.php" method="GET" class="nav-link" style="display: flex;">
                             <input type="text" name="query" placeholder="Search products..." class="search-input" style="padding: 3px; border-radius: 5px 0 0 5px; border: 1px solid #ccc;">
                             <button type="submit" class="search-button" style="background-color: #fff; color: #000; border: none; border-radius: 0 5px 5px 0; padding: 3px 5px; width: 40px;">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #000; font-size: 1rem; transition: transform 0.3s;"></i>
                             </button>
                             <div id="searchResults" class="search-results" style="display: none;"></div>
-                        </form> -->
+                        </form>
                         <style>
                             .search-button:hover i {
                                 transform: scale(1.1); /* Enlarge the icon by 10% on hover */
