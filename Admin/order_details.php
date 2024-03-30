@@ -62,7 +62,7 @@ include('Includes/header.php');
                                 ?>
                                     <tr>
                                         <td><?= $product['productName'] ?></td>
-                                        <td><img style="width:100px" src="../images/<?php echo $product['productImage']; ?>" /></td>
+                                        <td><img style="width:100px" src="../<?php echo $product['productImage']; ?>" /></td>
                                         <td><?= $order['quantity'] ?></td>
                                         <td><?= $order['price'] ?></td>
                                         <td><?= $order['price']*$order['quantity'] ?></td>
