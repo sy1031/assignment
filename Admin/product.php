@@ -11,11 +11,13 @@
             <?php alertMessage(); ?>
 
             <?php
+            // Query to retrieve product details along with category name
             $query = "SELECT p.product_ID, p.productName, p.productImage, p.productDescription, p.productAvailability, p.productCreateDate, c.categoryName
                       FROM product p
                       JOIN category c ON p.category_ID = c.category_ID";
             $result = mysqli_query($conn, $query);
 
+             // Checking if the query was successful and if there are any records
             if (!$result || mysqli_num_rows($result) === 0) {
                 echo '<h4>No Records Found</h4>';
             } else {
@@ -35,6 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!--Show results--->
                             <?php while ($row = mysqli_fetch_assoc($result)) : ?>
                                 <tr>
                                     <td><?= $row['product_ID'] ?></td>

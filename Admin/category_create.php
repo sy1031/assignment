@@ -3,7 +3,7 @@
 <div class="container-fluid px-4">
     <div class="card mt-4 shadow-sm">
         <div class="card-header">
-            <h4 class="mb-0">Create Category
+            <h4 class="mb-0">Create Category <!--To Create Category-->
                 <a href="category.php" class="btn btn-primary float-end">Back</a>
             </h4>
         </div>
@@ -32,6 +32,7 @@
 
                 <div class="col-md-6 mb-3 text-end">
                     <br/>
+                    <!--Submit Button--->
                     <button type="submit" name="saveCategory" class="btn btn-primary">Save</button>
                 </div>
             </div>

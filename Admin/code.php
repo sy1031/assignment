@@ -226,17 +226,24 @@ if (isset($_POST['updateCustomer'])) {
     }
 }
 
+// Check if the 'saveCategory' form is submitted
 if (isset($_POST['saveCategory'])) {
+    // Validate and retrieve category name, description, and status from the form
     $name = validate($_POST['categoryName']);
     $description = validate($_POST['categoryDescription']);
     $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
 
+    // Prepare category data
     $data = [
         'categoryName' => $name,
         'categoryDescription' => $description,
         'categoryStatus' => $status
     ];
+
+    // Insert category data into the database
     $result = insert('category', $data);
+
+    // Redirect with success or error message
     if ($result) {
         redirect('category.php', 'Category Created Successfully!');
     } else {
@@ -244,18 +251,26 @@ if (isset($_POST['saveCategory'])) {
     }
 }
 
+// Check if the 'updateCategory' form is submitted
 if (isset($_POST['updateCategory'])) {
     
+     // Validate and retrieve category ID, name, description, and status from the form
     $categoryId = validate($_POST['category_ID']);
     $name = validate($_POST['categoryName']);
     $description = validate($_POST['categoryDescription']);
     $status = isset($_POST['categoryStatus']) == true ? 1 : 0;
+    
+     // Prepare updated category data
     $data = [
         'categoryName' => $name,
         'categoryDescription' => $description,
         'categoryStatus' => $status
     ];
+
+    // Update category data in the database
     $result = updateCategory('category', $categoryId, $data);
+    
+    // Redirect with success or error message
     if ($result) {
         redirect('category.php?category_ID=' . $categoryId, 'Category Updated Successfully!');
     } else {
@@ -263,7 +278,10 @@ if (isset($_POST['updateCategory'])) {
     }
 }
 
+// Check if the 'saveProduct' form is submitted
 if (isset($_POST['saveProduct'])) {
+
+    // Validate and retrieve product details from the form
     $category_id = validate($_POST['category_ID']);
     $name = validate($_POST['productName']);
     $description = validate($_POST['productDescription']);
@@ -277,14 +295,11 @@ if (isset($_POST['saveProduct'])) {
         $status = 1;
     }
 
+    // Upload product image and save image path
     if ($_FILES['productImage']['size'] > 0) {
         $path = "../images/";
         $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
         $filename = time() . '.' . $image_ext;
-
-        //move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename);
-
-        //$finalImage = "images/" . $filename; //save product images here 
 
         if (move_uploaded_file($_FILES['productImage']['tmp_name'], $path . "/" . $filename)) {
             $finalImage = "images/" . $filename;
@@ -295,14 +310,13 @@ if (isset($_POST['saveProduct'])) {
         $finalImage = '';
         }
     } else {
-
-        // Debugging message for image upload only
-    //redirect('product.php', "No image uploaded"); 
+    // No Product Image if no image is uploaded
     $finalImage = '';
     }
 
+    // Prepare product data
     $data = [
-        //'product_ID' => $product_id,
+
         'category_ID' => $category_id,
         'productName' => $name,
         'productDescription' => $description,
@@ -312,8 +326,11 @@ if (isset($_POST['saveProduct'])) {
         'productImage' => $finalImage,
         'productAvailability' => $status,
     ];
+
+     // Insert product data into the database
     $result = insert('product', $data);
 
+    // Redirect with success or error message
     if ($result) {
         redirect('product.php', 'Product Created Successfully!');
     } else {
@@ -321,8 +338,10 @@ if (isset($_POST['saveProduct'])) {
     }
 }
 
+// Check if the 'updateProduct' form is submitted
 if (isset($_POST['updateProduct'])) {
 
+    // Validate and retrieve product ID, category ID, name, description, price, quantity, status, and image from the form
     $product_ID = validate($_POST['product_ID']);
 
     $productData = getByProductId('product', $product_ID);
@@ -342,6 +361,8 @@ if (isset($_POST['updateProduct'])) {
         redirect('product.php'. $item[$product_ID], 'Unable to Display Product, Product is Out of Stock!');
         $status = 1;
     }
+
+    // Upload updated product image and save image path
     if ($_FILES['productImage']['size'] > 0) {
         $path = "../images/";
         $image_ext = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
@@ -365,6 +386,7 @@ if (isset($_POST['updateProduct'])) {
     $finalImage = '';
     }
 
+    // Prepare updated product data
     $data = [
         'category_ID' => $category_id,
         'productName' => $name,
@@ -375,8 +397,10 @@ if (isset($_POST['updateProduct'])) {
         'productAvailability' => $status
     ];
 
+    // Update product data in the database
     $result = updateProduct('product', $product_ID, $data);
 
+    // Redirect with success or error message
     if ($result) {
         redirect('product.php', 'Product Updated Successfully!');
     } else {

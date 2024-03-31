@@ -1,4 +1,5 @@
 <?php
+// Including necessary files
 include 'config/function.php';
 include 'config/dbcon.php';
 
@@ -58,6 +59,7 @@ if(isset($_POST['add_to_cart'])){
 
     <div class="container">
         <?php
+        // Displaying alert message if set
         if(isset($display_message)){
             echo "<div class='display_message'>
             <span>$display_message</span>
@@ -72,6 +74,8 @@ if(isset($_POST['add_to_cart'])){
             </div>
         </form>
         <?php
+
+        // Searching for products based on user input
         if(isset($_POST['searchProduct']))
         {
             $search = $_POST['search'];
@@ -106,11 +110,14 @@ if(isset($_POST['add_to_cart'])){
 
         ?>
         <?php
+        // Displaying all products if the flag is still true
         if($display_all_products){
             ?>
             <section class="products">
                 <div class="product_container" id="post_list">
                     <?php
+                    
+                    // Query to retrieve all products
                     $select_products=mysqli_query($conn, "SELECT p.*, c.categoryStatus FROM product p JOIN category c ON p.category_ID = c.category_ID");
                     if(mysqli_num_rows($select_products) > 0){
                         while ($fetch_product=mysqli_fetch_assoc($select_products)){

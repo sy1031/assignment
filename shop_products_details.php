@@ -1,4 +1,6 @@
 <?php
+
+// Including necessary files
 include 'config/function.php';
 
 // Check if product ID is provided in the URL
@@ -9,6 +11,7 @@ if(isset($_GET['product_id'])){
     $product_query = mysqli_query($conn, "SELECT * FROM product WHERE product_ID = '$product_id'");
     $product = mysqli_fetch_assoc($product_query);
 
+    // Check if product exists
     if(!$product){
         echo "Product not found.";
         exit();
@@ -18,6 +21,7 @@ if(isset($_GET['product_id'])){
     exit();
 }
 
+// Add product to cart
 if(isset($_POST['add_to_cart'])){
     $product_id = $_POST['product_id'];
     $product_price = $_POST['product_price'];
@@ -34,6 +38,7 @@ if(isset($_POST['add_to_cart'])){
 
         $update_query = mysqli_query($conn, "UPDATE cart SET quantity = '$new_quantity' WHERE user_ID = '$user_id' AND product_ID = '$product_id'");
 
+        //Prompt message
         if($update_query) {
             $display_message = "Quantity updated successfully.";
         } else {
@@ -95,6 +100,7 @@ if(isset($_POST['add_to_cart'])){
 
     <div class="container">
         <?php
+        // Displaying alert message if set
         if(isset($display_message)){
             echo "<div class='display_message'>
             <span>$display_message</span>

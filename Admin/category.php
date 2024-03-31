@@ -13,6 +13,7 @@
             <?php
             $category = getAll('category');
             if(!$category){
+                // Display an error message if no categories found
                 echo '<h4>Something Went Wrong!</h4>';
                 return false;
             }
@@ -33,7 +34,7 @@
                         </thead>
 
                         <tbody>
-
+                            <!-- Retrieve product details from database-->
                             <?php foreach ($category as $item) : ?>
                                 <tr>
                                     <td><?= $item['category_ID'] ?></td>
@@ -43,6 +44,7 @@
                                     </td>
                                     <td>
                                         <?php
+                                        // Determine the category status and display relevant message
                                             if($item['categoryStatus'] == 1){
                                                 echo '<span class="badge bg-danger">Hidden</span>';
                                             }else{
@@ -50,6 +52,7 @@
                                             }
                                         ?>
                                     </td>
+                                    <!-- Edit and delete buttons for each category -->
                                     <td>
                                         <a href="category_edit.php?category_ID=<?= $item['category_ID']; ?>" class="btn btn-success btn-sm">Edit</a>
                                         <a href="category_delete.php?category_ID=<?= $item['category_ID']; ?>" class="btn btn-danger btn-sm">Delete</a>
@@ -64,7 +67,9 @@
                 } 
                 else 
                 {
+                    // Display a message if no categories found
                     ?>
+                    
                         <h4 class="mb-0">No Record found</h4>
                     <?php
                 }
