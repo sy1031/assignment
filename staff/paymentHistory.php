@@ -196,3 +196,8 @@
 
 
 <?php include ('includes/footer.php'); ?>
+
+<style>
+* {
+    font-family: 'Montserrat', sans-serif;
+}

@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['endDate'];
 
     // Validate promotion name
-    if (empty ($promotionName)) {
+    if (empty($promotionName)) {
         $formValid = false;
         echo "<div class='alert alert-danger' role='alert'>Promotion name is required.</div>";
     }
@@ -75,6 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;

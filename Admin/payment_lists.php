@@ -71,7 +71,7 @@
         }
 
         .search-container {
-            padding:25px 0 0 20px;
+            padding: 25px 0 0 20px;
         }
 
         .search-container input[type=text] {
@@ -84,6 +84,9 @@
             font-size: 16px;
         }
 
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
     </style>
 </head>
 
@@ -93,7 +96,7 @@
 
         <?php
         // Check if a success message is set in the session
-        if (isset ($_SESSION['success_message'])) {
+        if (isset($_SESSION['success_message'])) {
             // Display the success message
             echo "<div class='alert alert-success' role='alert'>{$_SESSION['success_message']}</div>";
             // Unset the session variable to remove the message after displaying it
@@ -133,7 +136,7 @@
                 $result = $conn->query($sql);
 
                 if (!$result) {
-                    die ("SQL Error: " . $conn->error); // Output any SQL errors for debugging purposes
+                    die("SQL Error: " . $conn->error); // Output any SQL errors for debugging purposes
                 }
 
                 // Check if there are any payment records
